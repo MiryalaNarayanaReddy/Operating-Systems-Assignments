@@ -129,47 +129,24 @@ int main(int argc, char *argv[])
     int sz = lseek(input_fd, 0, SEEK_END); // size of input file
     int part_size = sz / num_parts;
     int part_pos = (part_to_reverse - 1) * part_size;
-    /////////////////////////////
-    int pointer = lseek(input_fd, 0, SEEK_SET);
+    /////////////////////////////---------
+    int pointer = lseek(input_fd, part_pos + part_size, SEEK_SET);
     ssize_t read_size;
-    while (pointer < part_pos - BUFFER_SIZE)
+    int o_indx = 0;
+
+    while (pointer - BUFFER_SIZE > part_pos) //there is BUFFER sized chunck that can be reversed
     {
-        lseek(input_fd, pointer, SEEK_SET);
-        read_size = read(input_fd, Buffer, BUFFER_SIZE);
-
-        lseek(output_fd, pointer, SEEK_SET);
-        write(output_fd, Buffer, read_size);
-        showprogress((((float)pointer / sz) * (100)));
-        pointer += BUFFER_SIZE;
-    }
-    // printf("%d %d\n",pointer, part_pos);
-    int chunck = part_pos - pointer;
-
-    lseek(input_fd, pointer, SEEK_SET);
-    read_size = read(input_fd, Buffer, chunck);
-
-    lseek(output_fd, pointer, SEEK_SET);
-    write(output_fd, Buffer, read_size);
-    showprogress((((float)pointer / sz) * (100)));
-
-    pointer = part_pos + part_size;
-    int o_indx = part_pos;
-
-    /////////////////------
-    while (pointer - BUFFER_SIZE > part_pos) //pointer should be greater then the part to be reversed
-    {
-        lseek(input_fd, pointer, SEEK_SET);
+        lseek(input_fd, pointer - BUFFER_SIZE, SEEK_SET);
         read_size = read(input_fd, Buffer, BUFFER_SIZE);
         reverse(Buffer, BUFFER_SIZE);
-        lseek(output_fd, part_pos, SEEK_SET);
+        lseek(output_fd, o_indx, SEEK_SET);
         write(output_fd, Buffer, read_size);
-
-        showprogress((((float)o_indx / sz) * (100)));
+        showprogress((((float)o_indx / part_size) * (100)));
         pointer -= BUFFER_SIZE;
         o_indx += BUFFER_SIZE;
     }
 
-    chunck = pointer - part_pos;
+    int chunck = pointer - part_pos; // left over chunck
     lseek(input_fd, part_pos, SEEK_SET);
     read_size = read(input_fd, Buffer, chunck);
     reverse(Buffer, chunck);
@@ -177,29 +154,9 @@ int main(int argc, char *argv[])
     lseek(output_fd, o_indx, SEEK_SET);
     write(output_fd, Buffer, read_size);
     o_indx += chunck;
-    showprogress((((float)o_indx / sz) * (100)));
+
+    showprogress((((float)o_indx / part_size) * (100)));
+
     //////////////-----------
-    pointer = part_pos + part_size;
-    while (pointer < sz)
-    {
-        lseek(input_fd, pointer, SEEK_SET);
-        read_size = read(input_fd, Buffer, BUFFER_SIZE);
-
-        lseek(output_fd, pointer, SEEK_SET);
-        write(output_fd, Buffer, read_size);
-        showprogress((((float)pointer / sz) * (100)));
-        pointer += BUFFER_SIZE;
-    }
-    pointer -= BUFFER_SIZE;
-    chunck = sz - pointer;
-
-    lseek(input_fd, pointer, SEEK_SET);
-    read_size = read(input_fd, Buffer, chunck);
-
-    lseek(output_fd, pointer, SEEK_SET);
-    write(output_fd, Buffer, read_size);
-    pointer += chunck;
-
-    showprogress((((float)pointer / sz) * (100)));
     print_to_console("\n");
 }
