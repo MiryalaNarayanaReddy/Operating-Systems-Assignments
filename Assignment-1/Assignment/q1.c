@@ -8,7 +8,7 @@
 #include <fcntl.h>
 
 char progress_bar[101];
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 128000
 #define MAX_PATH 1024
 // 1024 --> 1kB
 
@@ -33,7 +33,7 @@ void showprogress(float progress)
     print_to_console("\r");
 
     char temp[10];
-    sprintf(temp, "%5.2f %%", progress);
+    sprintf(temp, "%.2f %%", progress);
     print_to_console(temp);
 }
 
@@ -54,45 +54,74 @@ int main(int argc, char *argv[])
     char Buffer[BUFFER_SIZE]; //buffer to get some part of input file
     if (argc < 2)             // insufficient arguments
     {
-        perror("Invalid argument:\n.should be: /a.out <input_file_path>");
+        perror("Invalid argument:\nshould be: /a.out <input_file_path>\n");
         exit(EXIT_FAILURE);
     }
+
     char input_file_path[MAX_PATH]; //file path
     // adding back slashs if names have spaces in between
     input_file_path[0] = '\0';
-    char *temp = "\\ ";
+    char *temp = " ";
     if (argc > 2)
     {
         for (int i = 1; i < argc - 1; i++)
         {
             strcat(input_file_path, argv[i]);
             strcat(input_file_path, temp);
-            print_to_console(input_file_path);
+            // print_to_console(input_file_path);
         }
     }
 
     strcat(input_file_path, argv[argc - 1]);
-    print_to_console(input_file_path);
-    print_to_console("\n");
+    // print_to_console(input_file_path);
+    // print_to_console("\n");
 
-    input_fd = open(input_file_path, O_RDONLY);
+    input_fd = open(input_file_path, O_RDONLY); // open input file in read mode
 
     if (input_fd < 0)
     {
         perror("Could not open file\n");
         exit(EXIT_FAILURE);
     }
-    mkdir("assignment", S_IRUSR | S_IWUSR | S_IXUSR);
-    output_fd = open("assignment/o.txt", O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR | S_IXUSR);
+    mkdir("assignment", S_IRUSR | S_IWUSR | S_IXUSR); // make directory
+
+    // finding last forward slash
+    int i = -1, j = 0;
+    while (input_file_path[j] != '\0')
+    {
+        if (input_file_path[j] == '/')
+        {
+            i = j + 1;
+        }
+        j++;
+    }
+    if (i == -1) // no forward slash
+    {
+        i = 0;
+    }
+    char input_file_name[BUFFER_SIZE]; // to store input file name
+    int k = i;
+    for (; k <= j; k++)
+    {
+        input_file_name[k - i] = input_file_path[k];
+    }
+    input_file_name[k] = '\0';
+
+    // print_to_console(input_file_name);
+    // print_to_console("\n");
+
+    char output_file_name[BUFFER_SIZE + 100]; // output file
+    sprintf(output_file_name, "assignment/1_%s", input_file_name);
+    output_fd = open(output_file_name, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR | S_IXUSR);
     if (output_fd < 0)
     {
-        perror("failed to create file\n");
+        print_to_console("failed to create file\n");
         exit(EXIT_FAILURE);
     }
-
+    /////////////////////////////   main part   ////////////////////////////////////
     int pointer = BUFFER_SIZE;
     size_t read_size;
-    int sz = lseek(input_fd, 0, SEEK_END);
+    int sz = lseek(input_fd, 0, SEEK_END); // size of input file
     /////////////////////////////
     while (pointer < sz) //for every block
     {
@@ -103,8 +132,9 @@ int main(int argc, char *argv[])
 
         lseek(output_fd, pointer - BUFFER_SIZE, SEEK_SET);
         write(output_fd, Buffer, read_size); //from pointer-buffer_size write buffer into outfile
-        pointer += BUFFER_SIZE;
         showprogress((((float)pointer / sz) * (100)));
+        pointer += BUFFER_SIZE;
+        // sleep(1); //sleep to see the progress for small files
     }
 
     ////////////////////////////////
@@ -117,8 +147,7 @@ int main(int argc, char *argv[])
     lseek(output_fd, pointer - BUFFER_SIZE, SEEK_SET);
     write(output_fd, Buffer, read_size);
     pointer += BUFFER_SIZE;
-    showprogress((((float)pointer / sz) * (100)));
 
-    showprogress(100);
+    showprogress(100); //done
     print_to_console("\n");
 }
