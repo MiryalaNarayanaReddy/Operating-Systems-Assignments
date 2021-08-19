@@ -9,7 +9,7 @@
 
 char progress_bar[101];
 #define BUFFER_SIZE 10
-
+#define MAX_PATH 1024
 // 1024 1kB
 
 size_t length_of_string(char *s)
@@ -55,53 +55,63 @@ void reverse(char *s)
 
 int main(int argc, char *argv[])
 {
-    int input_fd, output_fd;
-    int open_flags, file_permissions;
+    int input_fd, output_fd; //file discrepters
+
     char Buffer[BUFFER_SIZE]; //buffer to get some part of input file
     if (argc < 2)             // insufficient arguments
     {
         perror("Invalid argument:\n.should be: /a.out <input_file_path>");
         exit(EXIT_FAILURE);
     }
-    char input_file_path[BUFFER_SIZE];
+    char input_file_path[MAX_PATH]; //file path
+    // adding back slashs if names have spaces in between
     input_file_path[0] = '\0';
     char *temp = "\\ ";
     if (argc > 2)
+    {
         for (int i = 1; i < argc - 1; i++)
         {
             strcat(input_file_path, argv[i]);
             strcat(input_file_path, temp);
             print_to_console(input_file_path);
         }
+    }
+
     strcat(input_file_path, argv[argc - 1]);
     print_to_console(input_file_path);
-
-    open_flags = O_CREAT | O_WRONLY | O_TRUNC;
-    file_permissions = S_IRUSR | S_IWUSR | S_IXUSR;
-    output_fd = open("o.txt", open_flags, file_permissions);
+    print_to_console("\n");
+    input_fd = open(input_file_path, O_RDONLY);
+    if (input_fd < 0)
+    {
+        perror("Could not open file\n");
+        exit(EXIT_FAILURE);
+    }
+    output_fd = open("o.txt", O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR | S_IXUSR);
     if (output_fd < 0)
     {
         perror("failed to create file\n");
         exit(EXIT_FAILURE);
     }
 
-    int current_pointer_to_inputfile = -BUFFER_SIZE;
+    int pointer = BUFFER_SIZE;
     size_t read_size;
-    lseek(input_fd, current_pointer_to_inputfile, SEEK_END);
-    read_size = read(input_fd, Buffer, BUFFER_SIZE);
-    reverse(Buffer);
-    if (write(output_fd, Buffer, read_size) != read_size)
+    int sz = lseek(input_fd, 0, SEEK_END);
+    /////////////////////////////
+    while (pointer < sz)
     {
-        perror("could not write\n");
-        exit(EXIT_FAILURE);
-    }
+        lseek(input_fd, -pointer, SEEK_END);
+        read_size = read(input_fd, Buffer, BUFFER_SIZE);
 
-    // float i = 0;
-    // for (; i < 100; i += 1)
-    // {
-    //     showprogress(i);
-    //     sleep(1);
-    // }
-    // showprogress(100);
-    // print_to_console("\n");
+        reverse(Buffer);
+
+        lseek(output_fd, pointer - BUFFER_SIZE, SEEK_SET);
+        write(output_fd, Buffer, read_size);
+        pointer += BUFFER_SIZE;
+        showprogress((float)pointer / sz);
+    }
+    ////////////////////////////////
+
+ 
+    showprogress(100);
+    print_to_console("\n");
 }
