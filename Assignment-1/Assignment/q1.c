@@ -8,9 +8,9 @@
 #include <fcntl.h>
 
 char progress_bar[101];
-#define BUFFER_SIZE 10
+#define BUFFER_SIZE 1024
 #define MAX_PATH 1024
-// 1024 1kB
+// 1024 --> 1kB
 
 size_t length_of_string(char *s)
 {
@@ -27,35 +27,29 @@ void print_to_console(char *s)
     write(1, s, length_of_string(s));
 }
 
-//100.00 % [####################################################################################################]
-
 void showprogress(float progress)
 {
     fflush(stdout);
     print_to_console("\r");
-    for (int i = 0; i < progress; i++)
-    {
-        progress_bar[i] = '#';
-    }
-    char temp[115];
 
-    sprintf(temp, "%5.2f %% [%-100s]", progress, progress_bar);
+    char temp[10];
+    sprintf(temp, "%5.2f %%", progress);
     print_to_console(temp);
 }
 
-void reverse(char *s)
+void reverse(char *s, int n)
 {
-    for (int i = 0; i < BUFFER_SIZE / 2; i++)
+    for (int i = 0; i < n / 2; i++)
     {
         char t = s[i];
-        s[i] = s[BUFFER_SIZE - 1 - i];
-        s[BUFFER_SIZE - 1 - i] = t;
+        s[i] = s[n - 1 - i];
+        s[n - 1 - i] = t;
     }
 }
 
 int main(int argc, char *argv[])
 {
-    int input_fd, output_fd; //file discrepters
+    int input_fd, output_fd; //file descripters
 
     char Buffer[BUFFER_SIZE]; //buffer to get some part of input file
     if (argc < 2)             // insufficient arguments
@@ -80,13 +74,16 @@ int main(int argc, char *argv[])
     strcat(input_file_path, argv[argc - 1]);
     print_to_console(input_file_path);
     print_to_console("\n");
+
     input_fd = open(input_file_path, O_RDONLY);
+
     if (input_fd < 0)
     {
         perror("Could not open file\n");
         exit(EXIT_FAILURE);
     }
-    output_fd = open("o.txt", O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR | S_IXUSR);
+    mkdir("assignment", S_IRUSR | S_IWUSR | S_IXUSR);
+    output_fd = open("assignment/o.txt", O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR | S_IXUSR);
     if (output_fd < 0)
     {
         perror("failed to create file\n");
@@ -97,21 +94,31 @@ int main(int argc, char *argv[])
     size_t read_size;
     int sz = lseek(input_fd, 0, SEEK_END);
     /////////////////////////////
-    while (pointer < sz)
+    while (pointer < sz) //for every block
     {
-        lseek(input_fd, -pointer, SEEK_END);
-        read_size = read(input_fd, Buffer, BUFFER_SIZE);
+        lseek(input_fd, -pointer, SEEK_END);             // put the pointer pointer bytes before end in inputfile
+        read_size = read(input_fd, Buffer, BUFFER_SIZE); // from pointer read 1024 bytes into buffer
 
-        reverse(Buffer);
+        reverse(Buffer, BUFFER_SIZE); //reverse the buffer
 
         lseek(output_fd, pointer - BUFFER_SIZE, SEEK_SET);
-        write(output_fd, Buffer, read_size);
+        write(output_fd, Buffer, read_size); //from pointer-buffer_size write buffer into outfile
         pointer += BUFFER_SIZE;
-        showprogress((float)pointer / sz);
+        showprogress((((float)pointer / sz) * (100)));
     }
-    ////////////////////////////////
 
- 
+    ////////////////////////////////
+    int leftover_chunck = sz - (pointer - BUFFER_SIZE);
+    lseek(input_fd, 0, SEEK_SET);
+    read_size = read(input_fd, Buffer, leftover_chunck);
+
+    reverse(Buffer, leftover_chunck);
+
+    lseek(output_fd, pointer - BUFFER_SIZE, SEEK_SET);
+    write(output_fd, Buffer, read_size);
+    pointer += BUFFER_SIZE;
+    showprogress((((float)pointer / sz) * (100)));
+
     showprogress(100);
     print_to_console("\n");
 }
