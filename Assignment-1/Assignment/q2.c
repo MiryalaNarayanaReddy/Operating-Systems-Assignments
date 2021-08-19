@@ -62,9 +62,9 @@ int main(int argc, char *argv[])
     // adding back slashs if names have spaces in between
     input_file_path[0] = '\0';
     char *temp = " ";
-    if (argc > 3)
+    if (argc > 3) // more than 3 args ==> there are spaces in path
     {
-        for (int i = 1; i < argc - 3; i++)
+        for (int i = 1; i < argc - 3; i++) 
         {
             strcat(input_file_path, argv[i]);
             strcat(input_file_path, temp);
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    strcat(input_file_path, argv[argc - 3]);
+    strcat(input_file_path, argv[argc - 3]); //joining 3rd argument from last
     // print_to_console(input_file_path);
     // print_to_console("\n");
     // print_to_console(argv[argc-2]);
@@ -87,8 +87,8 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
     mkdir("assignment", S_IRUSR | S_IWUSR | S_IXUSR); // make directory
-
-    // finding last forward slash
+   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Input file part ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // finding last forward slash and everything after that is file name
     int i = -1, j = 0;
     while (input_file_path[j] != '\0')
     {
@@ -113,7 +113,9 @@ int main(int argc, char *argv[])
     // print_to_console(input_file_name);
     // print_to_console("\n");
 
-    char output_file_name[MAX_PATH + 13]; // output file
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Output file part ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+   char output_file_name[MAX_PATH + 13]; // output file
     sprintf(output_file_name, "assignment/2_%s", input_file_name);
     output_fd = open(output_file_name, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
     if (output_fd < 0)
@@ -129,34 +131,34 @@ int main(int argc, char *argv[])
     int sz = lseek(input_fd, 0, SEEK_END); // size of input file
     int part_size = sz / num_parts;
     int part_pos = (part_to_reverse - 1) * part_size;
-    /////////////////////////////---------
+    
     int pointer = lseek(input_fd, part_pos + part_size, SEEK_SET);
     ssize_t read_size;
-    int o_indx = 0;
-
+    int out_index = 0;
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     while (pointer - BUFFER_SIZE > part_pos) //there is BUFFER sized chunck that can be reversed
     {
         lseek(input_fd, pointer - BUFFER_SIZE, SEEK_SET);
         read_size = read(input_fd, Buffer, BUFFER_SIZE);
         reverse(Buffer, BUFFER_SIZE);
-        lseek(output_fd, o_indx, SEEK_SET);
+        lseek(output_fd, out_index, SEEK_SET);
         write(output_fd, Buffer, read_size);
-        showprogress((((float)o_indx / part_size) * (100)));
+        showprogress((((float)out_index / part_size) * (100)));
         pointer -= BUFFER_SIZE;
-        o_indx += BUFFER_SIZE;
+        out_index += BUFFER_SIZE;
     }
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     int chunck = pointer - part_pos; // left over chunck
     lseek(input_fd, part_pos, SEEK_SET);
     read_size = read(input_fd, Buffer, chunck);
     reverse(Buffer, chunck);
 
-    lseek(output_fd, o_indx, SEEK_SET);
+    lseek(output_fd, out_index, SEEK_SET);
     write(output_fd, Buffer, read_size);
-    o_indx += chunck;
+    out_index += chunck;
 
-    showprogress((((float)o_indx / part_size) * (100)));
-
-    //////////////-----------
+    showprogress((((float)out_index / part_size) * (100)));
     print_to_console("\n");
 }
