@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 
     char output_file_name[MAX_PATH + 13]; // output file
     sprintf(output_file_name, "assignment/2_%s", input_file_name);
-    output_fd = open(output_file_name, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR | S_IXUSR);
+    output_fd = open(output_file_name, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
     if (output_fd < 0)
     {
         print_to_console("failed to create file\n");

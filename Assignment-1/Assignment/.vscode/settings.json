@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.html": "html",
+        "stdlib.h": "c",
+        "stat.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}
