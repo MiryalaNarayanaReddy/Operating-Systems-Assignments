@@ -7,8 +7,7 @@
 #include <errno.h>
 #include <fcntl.h>
 
-char progress_bar[101];
-#define BUFFER_SIZE 16
+#define BUFFER_SIZE 128000
 #define MAX_PATH 1024
 // 1024 --> 1kB
 
@@ -49,12 +48,13 @@ void reverse(char *s, int n)
 
 int main(int argc, char *argv[])
 {
+    printf("%d\n", argc);
     int input_fd, output_fd; //file descripters
 
     char Buffer[BUFFER_SIZE]; //buffer to get some part of input file
-    if (argc < 3)             // insufficient arguments
+    if (argc < 4)             // insufficient arguments
     {
-        perror("Invalid argument:\nshould be: /a.out <input_file_path>\n");
+        perror("Invalid argument:\nshould be: ./a.out <input_file_path> <number_of_parts> <index_of_part_to_be_reversed>\n");
         exit(EXIT_FAILURE);
     }
 
@@ -62,9 +62,9 @@ int main(int argc, char *argv[])
     // adding back slashs if names have spaces in between
     input_file_path[0] = '\0';
     char *temp = " ";
-    if (argc > 3) // more than 3 args ==> there are spaces in path
+    if (argc > 4) // more than 3 args ==> there are spaces in path
     {
-        for (int i = 1; i < argc - 3; i++) 
+        for (int i = 1; i < argc - 3; i++)
         {
             strcat(input_file_path, argv[i]);
             strcat(input_file_path, temp);
@@ -87,7 +87,8 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
     mkdir("assignment", S_IRUSR | S_IWUSR | S_IXUSR); // make directory
-   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Input file part ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Input file part ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // finding last forward slash and everything after that is file name
     int i = -1, j = 0;
     while (input_file_path[j] != '\0')
@@ -113,9 +114,9 @@ int main(int argc, char *argv[])
     // print_to_console(input_file_name);
     // print_to_console("\n");
 
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Output file part ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-   char output_file_name[MAX_PATH + 13]; // output file
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Output file part ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    char output_file_name[MAX_PATH + 13]; // output file
     sprintf(output_file_name, "assignment/2_%s", input_file_name);
     output_fd = open(output_file_name, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
     if (output_fd < 0)
@@ -123,27 +124,34 @@ int main(int argc, char *argv[])
         print_to_console("failed to create file\n");
         exit(EXIT_FAILURE);
     }
-    int num_parts = atoi(argv[argc - 2]);
-    int part_to_reverse = atoi(argv[argc - 1]);
+    int num_parts = (argv[argc - 2][0] - '0'); //assuming both are single digited numbers
+    int part_to_reverse = (argv[argc - 1][0] - '0');
 
     /////////////////////////////   main part   ////////////////////////////////////
 
     int sz = lseek(input_fd, 0, SEEK_END); // size of input file
     int part_size = sz / num_parts;
     int part_pos = (part_to_reverse - 1) * part_size;
-    
+
+    //place pointer at the end of part_sized part we need to reverse.
     int pointer = lseek(input_fd, part_pos + part_size, SEEK_SET);
+
     ssize_t read_size;
     int out_index = 0;
-    
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     while (pointer - BUFFER_SIZE > part_pos) //there is BUFFER sized chunck that can be reversed
     {
+        // read buffer from (pointer - BUFFER_SIZE) to (pointer)
         lseek(input_fd, pointer - BUFFER_SIZE, SEEK_SET);
         read_size = read(input_fd, Buffer, BUFFER_SIZE);
-        reverse(Buffer, BUFFER_SIZE);
+
+        reverse(Buffer, BUFFER_SIZE); //reverse buffer
+
+        //write that buffer from out_index to (out_index + size of buffer)
         lseek(output_fd, out_index, SEEK_SET);
         write(output_fd, Buffer, read_size);
+        //show progress
         showprogress((((float)out_index / part_size) * (100)));
         pointer -= BUFFER_SIZE;
         out_index += BUFFER_SIZE;
@@ -151,14 +159,18 @@ int main(int argc, char *argv[])
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     int chunck = pointer - part_pos; // left over chunck
+    // read buffer from ( part_pos ) to (part_pos + chunk)
     lseek(input_fd, part_pos, SEEK_SET);
     read_size = read(input_fd, Buffer, chunck);
-    reverse(Buffer, chunck);
 
+    reverse(Buffer, chunck); //reverse
+    // write to output
     lseek(output_fd, out_index, SEEK_SET);
     write(output_fd, Buffer, read_size);
-    out_index += chunck;
 
+    out_index += chunck;
+    //show progress
     showprogress((((float)out_index / part_size) * (100)));
     print_to_console("\n");
+    return 0;
 }

@@ -7,7 +7,6 @@
 #include <errno.h>
 #include <fcntl.h>
 
-char progress_bar[101];
 #define BUFFER_SIZE 128000
 #define MAX_PATH 1024
 // 1024 --> 1kB
@@ -132,7 +131,7 @@ int main(int argc, char *argv[])
     while (pointer < sz) //for every block
     {
         lseek(input_fd, -pointer, SEEK_END);             // put the pointer pointer bytes before end in inputfile
-        read_size = read(input_fd, Buffer, BUFFER_SIZE); // from pointer read 1024 bytes into buffer
+        read_size = read(input_fd, Buffer, BUFFER_SIZE); // from pointer read BUFFER_SIZE bytes into buffer
 
         reverse(Buffer, BUFFER_SIZE); //reverse the buffer
 
@@ -146,12 +145,13 @@ int main(int argc, char *argv[])
     
     pointer -= BUFFER_SIZE;             // subtracting added buffer size above which crossed the limit
     int leftover_chunck = sz - pointer; // size of left over part of file
-    lseek(input_fd, 0, SEEK_SET);
-    read_size = read(input_fd, Buffer, leftover_chunck);
 
-    reverse(Buffer, leftover_chunck);
+    lseek(input_fd, 0, SEEK_SET);//from start
+    read_size = read(input_fd, Buffer, leftover_chunck);// read chunck
 
-    lseek(output_fd, pointer, SEEK_SET);
+    reverse(Buffer, leftover_chunck);//reverse it
+
+    lseek(output_fd, pointer, SEEK_SET);//write it from pointer
     write(output_fd, Buffer, read_size);
     pointer += leftover_chunck;
 
