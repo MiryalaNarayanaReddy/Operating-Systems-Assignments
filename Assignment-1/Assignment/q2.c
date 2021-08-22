@@ -48,7 +48,7 @@ void reverse(char *s, int n)
 
 int main(int argc, char *argv[])
 {
-    printf("%d\n", argc);
+    // printf("%d\n", argc);
     int input_fd, output_fd; //file descripters
 
     char Buffer[BUFFER_SIZE]; //buffer to get some part of input file
