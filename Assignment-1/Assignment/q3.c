@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 
     struct stat dir_stat;
 
-    if ((stat("assignment", &dir_stat)) == -1)
+    if ((stat("Assignment", &dir_stat)) == -1)
     {
         perror("directory error\n");
         exit(EXIT_FAILURE);
@@ -126,14 +126,14 @@ int main(int argc, char *argv[])
 
     char temp2[MAX_PATH + 100];
 
-    sprintf(temp2, "assignment/1_%s", input_file_name);
+    sprintf(temp2, "Assignment/1_%s", input_file_name);
     permissions(temp2, "output_file_1");
     print_to_console("\n");
 
-    sprintf(temp2, "assignment/2_%s", input_file_name);
+    sprintf(temp2, "Assignment/2_%s", input_file_name);
     permissions(temp2, "output_file_2");
     print_to_console("\n");
 
-    permissions("assignment", "directory");
+    permissions("Assignment", "directory");
     print_to_console("\n");
 }

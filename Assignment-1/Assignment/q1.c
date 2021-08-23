@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    mkdir("assignment", S_IRUSR | S_IWUSR | S_IXUSR); // make directory
+    mkdir("Assignment", S_IRUSR | S_IWUSR | S_IXUSR); // make directory
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Input file part ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Output file part ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     char output_file_name[MAX_PATH + 100]; // output file
-    sprintf(output_file_name, "assignment/1_%s", input_file_name);
+    sprintf(output_file_name, "Assignment/1_%s", input_file_name);
     output_fd = open(output_file_name, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
 
     if (output_fd < 0)
