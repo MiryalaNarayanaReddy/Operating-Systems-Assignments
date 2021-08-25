@@ -36,9 +36,9 @@ void showprogress(float progress)
     print_to_console(temp);
 }
 
-void reverse(char *s, int n)
+void reverse(char *s, long long int n)
 {
-    for (int i = 0; i < n / 2; i++)
+    for (long long int i = 0; i < n / 2; i++)
     {
         char t = s[i];
         s[i] = s[n - 1 - i];
@@ -46,10 +46,10 @@ void reverse(char *s, int n)
     }
 }
 
-int main(int argc, char *argv[])
+int main(long long int argc, char *argv[])
 {
     // printf("%d\n", argc);
-    int input_fd, output_fd; //file descripters
+    long long int input_fd, output_fd; //file descripters
 
     char Buffer[BUFFER_SIZE]; //buffer to get some part of input file
     if (argc < 4)             // insufficient arguments
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
     char *temp = " ";
     if (argc > 4) // more than 3 args ==> there are spaces in path
     {
-        for (int i = 1; i < argc - 3; i++)
+        for (long long int i = 1; i < argc - 3; i++)
         {
             strcat(input_file_path, argv[i]);
             strcat(input_file_path, temp);
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Input file part ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // finding last forward slash and everything after that is file name
-    int i = -1, j = 0;
+    long long int i = -1, j = 0;
     while (input_file_path[j] != '\0')
     {
         if (input_file_path[j] == '/')
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
         i = 0;
     }
     char input_file_name[MAX_PATH]; // to store input file name
-    int k = i;
+    long long int k = i;
     for (; k <= j; k++)
     {
         input_file_name[k - i] = input_file_path[k];
@@ -124,20 +124,20 @@ int main(int argc, char *argv[])
         print_to_console("failed to create file\n");
         exit(EXIT_FAILURE);
     }
-    int num_parts = (argv[argc - 2][0] - '0'); //assuming both are single digited numbers
-    int part_to_reverse = (argv[argc - 1][0] - '0');
+    long long int num_parts = (argv[argc - 2][0] - '0'); //assuming both are single digited numbers
+    long long int part_to_reverse = (argv[argc - 1][0] - '0');
 
     /////////////////////////////   main part   ////////////////////////////////////
 
-    int sz = lseek(input_fd, 0, SEEK_END); // size of input file
-    int part_size = sz / num_parts;
-    int part_pos = (part_to_reverse - 1) * part_size;
+    long long int sz = lseek(input_fd, 0, SEEK_END); // size of input file
+    long long int part_size = sz / num_parts;
+    long long int part_pos = (part_to_reverse - 1) * part_size;
 
     //place pointer at the end of part_sized part we need to reverse.
-    int pointer = lseek(input_fd, part_pos + part_size, SEEK_SET);
+    long long int pointer = lseek(input_fd, part_pos + part_size, SEEK_SET);
 
     ssize_t read_size;
-    int out_index = 0;
+    long long int out_index = 0;
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     while (pointer - BUFFER_SIZE > part_pos) //there is BUFFER sized chunck that can be reversed
@@ -158,7 +158,7 @@ int main(int argc, char *argv[])
     }
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    int chunck = pointer - part_pos; // left over chunck
+    long long int chunck = pointer - part_pos; // left over chunck
     // read buffer from ( part_pos ) to (part_pos + chunk)
     lseek(input_fd, part_pos, SEEK_SET);
     read_size = read(input_fd, Buffer, chunck);

@@ -36,9 +36,9 @@ void showprogress(float progress)
     print_to_console(temp);
 }
 
-void reverse(char *s, int n)
+void reverse(char *s, long long int n)
 {
-    for (int i = 0; i < n / 2; i++)
+    for (long long int i = 0; i < n / 2; i++)
     {
         char t = s[i];
         s[i] = s[n - 1 - i];
@@ -46,9 +46,9 @@ void reverse(char *s, int n)
     }
 }
 
-int main(int argc, char *argv[])
+int main(long long int argc, char *argv[])
 {
-    int input_fd, output_fd; //file descripters
+    long long int input_fd, output_fd; //file descripters
 
     char Buffer[BUFFER_SIZE]; //buffer to get some part of input file
     if (argc < 2)             // insufficient arguments
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
     char *temp = " ";
     if (argc > 2) //more than 2 args ==> there are spaces in path
     {
-        for (int i = 1; i < argc - 1; i++)
+        for (long long int i = 1; i < argc - 1; i++)
         {
             strcat(input_file_path, argv[i]);
             strcat(input_file_path, temp);
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Input file part ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     // finding last forward slash and everything after that is file name
-    int i = -1, j = 0;
+    long long int i = -1, j = 0;
     while (input_file_path[j] != '\0')
     {
         if (input_file_path[j] == '/')
@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
         i = 0;
     }
     char input_file_name[MAX_PATH]; // to store input file name
-    int k = i;
+    long long int k = i;
     for (; k <= j; k++)
     {
         input_file_name[k - i] = input_file_path[k];
@@ -123,9 +123,9 @@ int main(int argc, char *argv[])
     }
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ main part ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    int pointer = BUFFER_SIZE;
+    long long int pointer = BUFFER_SIZE;
     size_t read_size;
-    int sz = lseek(input_fd, 0, SEEK_END); // size of input file
+    long long int sz = lseek(input_fd, 0, SEEK_END); // size of input file
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     while (pointer < sz) //for every block
@@ -142,16 +142,16 @@ int main(int argc, char *argv[])
         // sleep(1); //sleep to see the progress for small files of size greater than BUFFER_SIZE
     }
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-    pointer -= BUFFER_SIZE;             // subtracting added buffer size above which crossed the limit
-    int leftover_chunck = sz - pointer; // size of left over part of file
 
-    lseek(input_fd, 0, SEEK_SET);//from start
-    read_size = read(input_fd, Buffer, leftover_chunck);// read chunck
+    pointer -= BUFFER_SIZE;                       // subtracting added buffer size above which crossed the limit
+    long long int leftover_chunck = sz - pointer; // size of left over part of file
 
-    reverse(Buffer, leftover_chunck);//reverse it
+    lseek(input_fd, 0, SEEK_SET);                        //from start
+    read_size = read(input_fd, Buffer, leftover_chunck); // read chunck
 
-    lseek(output_fd, pointer, SEEK_SET);//write it from pointer
+    reverse(Buffer, leftover_chunck); //reverse it
+
+    lseek(output_fd, pointer, SEEK_SET); //write it from pointer
     write(output_fd, Buffer, read_size);
     pointer += leftover_chunck;
 
