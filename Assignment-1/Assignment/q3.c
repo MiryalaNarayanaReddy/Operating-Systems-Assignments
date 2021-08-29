@@ -35,11 +35,13 @@ void print_permission(char *who, char *what, char *filename, bool perm)
 void permissions(char *file_name, char *name_to_print)
 {
     struct stat file_stats;
-
+    char temp[100];
     if ((stat(file_name, &file_stats)) == -1)
     {
-        perror("file error\n");
-        exit(EXIT_FAILURE);
+        sprintf(temp,"%s file is missing\n\n",file_name);
+        perror(temp);
+       // exit(EXIT_FAILURE);
+       return;
     }
 
     print_permission("User", "read", name_to_print, file_stats.st_mode & S_IRUSR);
@@ -112,7 +114,7 @@ int main(int argc, char *argv[])
 
     if ((stat("Assignment", &dir_stat)) == -1)
     {
-        perror("directory error\n");
+        perror("Assignment directory is missing\n");
         exit(EXIT_FAILURE);
     }
     if ((dir_stat.st_mode & S_IFMT) == S_IFDIR)
