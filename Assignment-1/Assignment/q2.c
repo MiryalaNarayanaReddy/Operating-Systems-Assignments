@@ -78,7 +78,12 @@ int main(long long int argc, char *argv[])
     // print_to_console(argv[argc-2]);
     // print_to_console("\n");
     // print_to_console(argv[argc-1]);
-
+    if (length_of_string(argv[argc - 2]) != 1 || length_of_string(argv[argc - 1]) != 1)
+    {
+        perror("Invalid argument:\nshould be: ./a.out <input_file_path> <number_of_parts> <index_of_part_to_be_reversed>\n");
+        perror("one of the numbers or both is(are) missing\n");
+        exit(EXIT_FAILURE);
+    }
     input_fd = open(input_file_path, O_RDONLY); // open input file in read mode
 
     if (input_fd < 0)
