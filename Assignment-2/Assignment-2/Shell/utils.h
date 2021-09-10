@@ -4,8 +4,13 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
+
 #include <unistd.h>
 #include <sys/types.h>
+#include "user.h"
+#include "../builtin_commands/cd.h"
+#include "../builtin_commands/echo.h"
 
 #define BOLD true
 enum

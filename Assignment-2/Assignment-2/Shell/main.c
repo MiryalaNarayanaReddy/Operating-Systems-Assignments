@@ -1,6 +1,4 @@
 #include "utils.h"
-#include "../cd/cd.h"
-#include "user.h"
 
 #define MAX_ARGS 100
 int main()

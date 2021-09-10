@@ -10,9 +10,9 @@ Assignment-2
     |       |___ utils.c and utils.h
     |
     |
-    |___ cd
+    |___ builtin_commands
     |     |___cd.c and cd.h
-    |     |___
+    |     |___echo.c and echo.h
     |
     |
     |___ ls
@@ -47,4 +47,14 @@ Assignment-2
 - Color_Off
 - clean_input
 - get_string
-- AreSame ( char *a, char *b );
+- AreSame
+
+
+# builtin_commands
+
+**`echo.c`** 
+- echo
+
+**`cd.c`**
+- cd
+

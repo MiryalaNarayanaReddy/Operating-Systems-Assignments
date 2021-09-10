@@ -1,11 +1,5 @@
 #include "user.h"
-#include <stdio.h>
-#include <stdbool.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <string.h>
-#include "../cd/cd.h"
-#include <stdlib.h>
+#include "utils.h"
 
 void prompt()
 {
@@ -107,6 +101,10 @@ Command encode_command(char *command)
     {
         return __clear;
     }
+    else if (AreSame(command, "echo"))
+    {
+        return __echo;
+    }
     else
     {
         return __invalid_command;
@@ -133,6 +131,9 @@ void PerformAction(Command command, char *args)
         break;
     case __clear:
         printf("\e[1;1H\e[2J");
+        break;
+    case __echo:
+        echo(args);
         break;
     }
 }

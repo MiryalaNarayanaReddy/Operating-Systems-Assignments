@@ -1,6 +1,6 @@
 # linking
-a.out: main.o user.o utils.o cd.o
-	gcc main.o user.o utils.o cd.o -o a.out
+a.out: main.o user.o utils.o cd.o echo.o
+	gcc main.o user.o utils.o cd.o echo.o -o a.out
 
 ###  object files
 
@@ -15,9 +15,12 @@ user.o: Shell/user.c
 utils.o: Shell/utils.c
 	gcc -c Shell/utils.c
 
-## cd
-cd.o: cd/cd.c
-	gcc -c cd/cd.c
+## builtin_commands
+cd.o: builtin_commands/cd.c
+	gcc -c builtin_commands/cd.c
+
+echo.o: builtin_commands/echo.c
+	gcc -c builtin_commands/echo.c
 
 ## ls
 

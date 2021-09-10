@@ -16,6 +16,7 @@ enum
     __clear,
     __cd,
     __ls,
+    __echo,
 };
 
 
