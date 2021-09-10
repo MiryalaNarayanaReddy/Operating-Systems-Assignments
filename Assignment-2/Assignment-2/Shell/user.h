@@ -3,9 +3,13 @@
 #include "utils.h"
 
 #define MAX_PATH_LEN 1024
+#define MAX_ARGS 100
 
 char EXECUTABLE_PATH[MAX_PATH_LEN];
 char CURRENT_DIRECTORY_PATH[MAX_PATH_LEN];
+char USER_HOME_PATH[MAX_PATH_LEN];
+char SAVED_PATH[MAX_PATH_LEN];
+
 typedef int Command;
 
 enum
