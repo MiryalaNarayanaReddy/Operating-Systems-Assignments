@@ -5,53 +5,7 @@
 #include <sys/types.h>
 #include <string.h>
 #include "../cd/cd.h"
-
-//gets the whole string upto end of line leaving trailing white spaces.
-void get_string(char *s)
-{
-    char ch;
-    int i = 0;
-    while ((ch = getchar()) == ' ') // to remove spaces in the begining
-        ;
-    do
-    {
-        s[i++] = ch;
-    } while ((ch = getchar()) != '\n');
-    while (s[i - 1] == ' ') //to remove the spaces at the end
-    {
-        i--;
-    }
-    s[i] = '\0';
-}
-
-void clean_input()
-{
-    char ch;
-    while ((ch = getchar()) != '\n')
-        ;
-}
-
-void Color_On(int color)
-{
-    printf("\033[231;%dm", color);
-}
-
-void Bold(bool state)
-{
-    if (state)
-    {
-        printf("\e[1m");
-    }
-    else
-    {
-        printf("\e[0m");
-    }
-}
-
-void Color_Off()
-{
-    printf("\033[m");
-}
+#include <stdlib.h>
 
 void prompt()
 {
@@ -65,32 +19,37 @@ void prompt()
     printf("%s>", CURRENT_DIRECTORY_PATH);
 }
 
-bool AreSame(char *a, char *b)
+void Get_Command(char *arguments)
 {
-    if (strcmp(a, b) == 0)
-    {
-        return true;
-    }
-    else
-        return false;
+    get_string(arguments);
 }
 
-Command Get_Command()
+void process_command(char *arguments)
 {
-    char command[100];
-    int i = 0;
-    while ((command[i] = getchar())!=' ')
+    char *token;
+    Command command;
+    token = strtok(arguments, ";");
+
+    while (token != NULL)
     {
-        if (command[i] == '\n')
+        // printf("t =  %s\n", token);
+        int i = 0;
+        char comnd[MAX_PATH_LEN];
+        while (token[i] != '\0' && token[i] != ' ')
         {
-            break;
-        }
-        else
-        {
+            comnd[i] = token[i];
             i++;
         }
+        comnd[i] = '\0';
+        command = encode_command(comnd);
+        PerformAction(command, &token[i + 1]);
+
+        token = strtok(NULL, ";");
     }
-    command[i]='\0';
+}
+
+Command encode_command(char *command)
+{
     if (AreSame(command, "cd"))
     {
         return __cd;
@@ -99,23 +58,40 @@ Command Get_Command()
     {
         return __new_line;
     }
+    else if (AreSame(command, "exit"))
+    {
+        return __exit;
+    }
+    else if (AreSame(command, "clear"))
+    {
+        return __clear;
+    }
     else
     {
-        return -1;
+        return __invalid_command;
     }
 }
 
-void PerformAction(Command command)
+void PerformAction(Command command, char *args)
 {
-    char input_string[MAX_PATH_LEN];
-   
-
     switch (command)
     {
     case __cd:
-        get_string(input_string);
-        cd(input_string);
+        cd(args);
+        break;
     case __new_line:
-        return;
+        break;
+    case __exit:
+        exit(EXIT_SUCCESS);
+        break;
+    case __invalid_command:
+        Color_On(__RED);
+        printf("Invalid command:\n");
+        Color_Off();
+        printf("no such file or directory\n");
+        break;
+    case __clear:
+        printf("\e[1;1H\e[2J");
+        break;
     }
 }
