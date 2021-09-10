@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <string.h>
 #include "../cd/cd.h"
+
 //gets the whole string upto end of line leaving trailing white spaces.
 void get_string(char *s)
 {
@@ -30,11 +31,37 @@ void clean_input()
         ;
 }
 
+void Color_On(int color)
+{
+    printf("\033[231;%dm", color);
+}
+
+void Bold(bool state)
+{
+    if (state)
+    {
+        printf("\e[1m");
+    }
+    else
+    {
+        printf("\e[0m");
+    }
+}
+
+void Color_Off()
+{
+    printf("\033[m");
+}
+
 void prompt()
 {
     char buff[1024];
     gethostname(buff, 1024);
+    Color_On(__GREEN);
+    Bold(true);
     printf("<%s@%s:~", getlogin(), buff);
+    Color_Off();
+    Bold(false);
     printf("%s>", CURRENT_DIRECTORY_PATH);
 }
 
@@ -51,21 +78,44 @@ bool AreSame(char *a, char *b)
 Command Get_Command()
 {
     char command[100];
-    scanf("%s", command);
+    int i = 0;
+    while ((command[i] = getchar())!=' ')
+    {
+        if (command[i] == '\n')
+        {
+            break;
+        }
+        else
+        {
+            i++;
+        }
+    }
+    command[i]='\0';
     if (AreSame(command, "cd"))
     {
         return __cd;
+    }
+    else if (AreSame(command, "\n"))
+    {
+        return __new_line;
+    }
+    else
+    {
+        return -1;
     }
 }
 
 void PerformAction(Command command)
 {
     char input_string[MAX_PATH_LEN];
-    get_string(input_string);
+   
 
     switch (command)
     {
     case __cd:
+        get_string(input_string);
         cd(input_string);
+    case __new_line:
+        return;
     }
 }

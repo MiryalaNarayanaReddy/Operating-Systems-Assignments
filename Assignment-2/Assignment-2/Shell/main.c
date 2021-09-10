@@ -16,10 +16,5 @@ int main()
         prompt();
         command = Get_Command();
         PerformAction(command);
-      
     }
-
-    prompt();
-    cd("Shell");
-    prompt();
 }

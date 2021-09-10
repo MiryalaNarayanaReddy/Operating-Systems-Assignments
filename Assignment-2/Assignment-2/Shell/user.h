@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-
 #include <unistd.h>
 #include <sys/types.h>
 
@@ -16,9 +15,23 @@ typedef int Command;
 
 enum
 {
+    __RED = 31,
+    __GREEN = 32,
+    __YELLOW = 33,
+    __BLUE = 34,
+    __PINK = 35
+};
+
+enum
+{
+    __new_line,
     __cd,
     __ls,
 };
+
+void Bold(bool state);
+void Color_On(int color);
+void Color_Off();
 
 void prompt();
 void clean_input();
