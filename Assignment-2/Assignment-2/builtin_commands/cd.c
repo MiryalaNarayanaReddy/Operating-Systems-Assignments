@@ -24,14 +24,14 @@ void cd(char *path)
             }
             chdir(buff); //change to previously saved path now in buff.
         }
-        else if (AreSame(path, "~"))
+        else if (AreSame(path, "~") || AreSame(path, ""))
         {
             strcpy(SAVED_PATH, temp); // store the current path
-            chdir(USER_HOME_PATH);// change directory to home path
+            chdir(USER_HOME_PATH);    // change directory to home path
         }
         else
         {
-            printf("No such file or directory :(\n");
+            printf("%s:\nNo such file or directory :(\n", path);
             return;
         }
     }

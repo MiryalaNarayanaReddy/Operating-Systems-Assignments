@@ -64,7 +64,6 @@ void process_command(char *arguments)
     char *token;
     Command command;
     token = strtok(arg, ";");
-
     while (token != NULL)
     {
         // printf("t =  %s\n", token);
@@ -77,8 +76,15 @@ void process_command(char *arguments)
         }
         comnd[i] = '\0';
         command = encode_command(comnd);
-        PerformAction(command, &token[i + 1]);
-
+        if (token[i] == '\0') // a subtle bug ....if you don't check this the cd command with no args may give a seg fault
+        {                     // or take the same args as previous cd did.
+                              // I had to spend 10-20 minutes runing program again and again to figure it out :(
+            PerformAction(command, &token[i]);
+        }
+        else
+        {
+            PerformAction(command, &token[i + 1]);
+        }
         token = strtok(NULL, ";");
     }
 }
