@@ -33,6 +33,19 @@ void clean_input()
         ;
 }
 
+void Bold(bool status)
+{
+    if (status)
+    {
+
+        printf("\e[1m");
+    }
+    else
+    {
+        printf("\e[0m");
+    }
+}
+
 void Color_On(int color, bool bold)
 {
     if (bold)

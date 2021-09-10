@@ -12,8 +12,10 @@
 #include "../builtin_commands/cd.h"
 #include "../builtin_commands/echo.h"
 #include "../builtin_commands/pwd.h"
+#include "../ls/ls.h"
 
 #define BOLD true
+
 enum
 {
 
@@ -26,6 +28,7 @@ enum
 
 void Color_On(int color, bool bold);
 void Color_Off();
+void Bold(bool status);
 
 void clean_input();
 void get_string(char *s);
