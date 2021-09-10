@@ -19,6 +19,7 @@ enum
     __invalid_command,
     __clear,
     __cd,
+    __pwd,
     __ls,
     __echo,
 };

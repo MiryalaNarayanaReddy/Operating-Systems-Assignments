@@ -11,6 +11,7 @@
 #include "user.h"
 #include "../builtin_commands/cd.h"
 #include "../builtin_commands/echo.h"
+#include "../builtin_commands/pwd.h"
 
 #define BOLD true
 enum

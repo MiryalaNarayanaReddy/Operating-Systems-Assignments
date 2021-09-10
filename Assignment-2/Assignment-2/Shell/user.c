@@ -105,6 +105,10 @@ Command encode_command(char *command)
     {
         return __echo;
     }
+    else if (AreSame(command, "pwd"))
+    {
+        return __pwd;
+    }
     else
     {
         return __invalid_command;
@@ -134,6 +138,9 @@ void PerformAction(Command command, char *args)
         break;
     case __echo:
         echo(args);
+        break;
+    case __pwd:
+        pwd();
         break;
     }
 }
