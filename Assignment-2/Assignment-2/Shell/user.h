@@ -21,6 +21,7 @@ enum
 
 void prompt();
 void Get_Command(char *arguments);
+void tokenize(char *source, char *dest);
 void process_command(char *arguments);
 Command encode_command(char *command);
 void PerformAction(Command command, char *args);

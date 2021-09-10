@@ -11,12 +11,16 @@ void prompt()
 {
     char buff[1024];
     gethostname(buff, 1024);
-    Color_On(__GREEN);
-    Bold(true);
-    printf("<%s@%s:~", getlogin(), buff);
+
+    Color_On(__GREEN, BOLD);
+    printf("<%s@%s", getlogin(), buff);
     Color_Off();
-    Bold(false);
-    printf("%s>", CURRENT_DIRECTORY_PATH);
+
+    printf(":");
+
+    Color_On(__BLUE, BOLD);
+    printf("~%s>", CURRENT_DIRECTORY_PATH);
+    Color_Off();
 }
 
 void Get_Command(char *arguments)
@@ -24,11 +28,48 @@ void Get_Command(char *arguments)
     get_string(arguments);
 }
 
+void tokenize(char *source, char *dest)
+{
+    dest[0] = source[0];
+    int i = 1, j = 1;
+
+    while (source[i] != '\0')
+    {
+        if (dest[j - 1] == ' ' && source[i] == ' ')
+        {
+            i++;
+        }
+        else if (dest[j - 1] == ' ' && source[i] == ';')
+        {
+            dest[j - 1] = source[i];
+            i++;
+        }
+        else if (dest[j - 1] == ';' && source[i] == ' ')
+        {
+            i++;
+        }
+        else
+        {
+            dest[j] = source[i];
+            j++;
+            i++;
+        }
+    }
+    dest[j] = '\0';
+    // printf("Arg = %s->%s\n", arguments, arg);
+}
+
 void process_command(char *arguments)
 {
+
+    // remove extra spaces;
+    char arg[MAX_PATH_LEN];
+
+    tokenize(arguments, arg);
+
     char *token;
     Command command;
-    token = strtok(arguments, ";");
+    token = strtok(arg, ";");
 
     while (token != NULL)
     {
@@ -85,7 +126,7 @@ void PerformAction(Command command, char *args)
         exit(EXIT_SUCCESS);
         break;
     case __invalid_command:
-        Color_On(__RED);
+        Color_On(__RED, !BOLD);
         printf("Invalid command:\n");
         Color_Off();
         printf("no such file or directory\n");

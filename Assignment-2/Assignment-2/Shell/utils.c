@@ -7,15 +7,18 @@ void get_string(char *s)
     int i = 0;
     while ((ch = getchar()) == ' ') // to remove spaces in the begining
         ;
-    if(ch=='\n'){
+    if (ch == '\n')
+    {
         s[0] = '\n';
-        s[1]='\0';
+        s[1] = '\0';
         return;
     }
+
     do
     {
         s[i++] = ch;
     } while ((ch = getchar()) != '\n');
+
     while (s[i - 1] == ' ') //to remove the spaces at the end
     {
         i--;
@@ -30,20 +33,15 @@ void clean_input()
         ;
 }
 
-void Color_On(int color)
+void Color_On(int color, bool bold)
 {
-    printf("\033[231;%dm", color);
-}
-
-void Bold(bool state)
-{
-    if (state)
+    if (bold)
     {
-        printf("\e[1m");
+        printf("\033[231;%dm\e[1m", color);
     }
     else
     {
-        printf("\e[0m");
+        printf("\033[231;%dm", color);
     }
 }
 
@@ -51,7 +49,6 @@ void Color_Off()
 {
     printf("\033[m");
 }
-
 
 bool AreSame(char *a, char *b)
 {

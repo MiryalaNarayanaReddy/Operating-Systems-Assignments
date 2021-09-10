@@ -7,8 +7,10 @@
 #include <unistd.h>
 #include <sys/types.h>
 
+#define BOLD true
 enum
 {
+
     __RED = 31,
     __GREEN = 32,
     __YELLOW = 33,
@@ -16,8 +18,7 @@ enum
     __PINK = 35
 };
 
-void Bold(bool state);
-void Color_On(int color);
+void Color_On(int color, bool bold);
 void Color_Off();
 
 void clean_input();

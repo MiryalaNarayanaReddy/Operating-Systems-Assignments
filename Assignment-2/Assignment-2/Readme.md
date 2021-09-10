@@ -36,16 +36,15 @@ Assignment-2
 **`user.c`** has following functions
 - prompt
 - Get_Command
+- tokenize
 - process_command
 - encode_command
 - PerformAction
 
 **`utils.c`** has the following functions
 
-- Bold
 - Color_On
 - Color_Off
 - clean_input
 - get_string
 - AreSame ( char *a, char *b );
-

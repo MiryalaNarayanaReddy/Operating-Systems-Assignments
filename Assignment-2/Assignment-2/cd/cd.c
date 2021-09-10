@@ -16,21 +16,17 @@ void cd(char *path)
     }
     if (buff[j] == '\0')
     {
-        char temp[MAX_PATH_LEN];
-        strcpy(temp, "");
-
-        while (EXECUTABLE_PATH[i] != '\0')
+        if (EXECUTABLE_PATH[i] == '\0')
         {
-            if (EXECUTABLE_PATH[i] == '/')
-            {
-                strcat(temp, "../");
-            }
-            i++;
+            strcpy(CURRENT_DIRECTORY_PATH, ""); // we are in same directory as executable.
         }
-        strcpy(CURRENT_DIRECTORY_PATH, temp);
+        else
+        {
+            strcpy(CURRENT_DIRECTORY_PATH, buff); // we are in directory less otherthan executable from home
+        }
     }
     else
     {
-        strcpy(CURRENT_DIRECTORY_PATH, &buff[j]);
+        strcpy(CURRENT_DIRECTORY_PATH, &buff[j]); //path relative to executable directory
     }
 }
