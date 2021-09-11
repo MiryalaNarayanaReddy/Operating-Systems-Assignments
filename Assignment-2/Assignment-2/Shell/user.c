@@ -79,11 +79,26 @@ void process_command(char *arguments)
         if (token[i] == '\0') // a subtle bug ....if you don't check this the cd command with no args may give a seg fault
         {                     // or take the same args as previous cd did.
                               // I had to spend 10-20 minutes runing program again and again to figure it out :(
-            PerformAction(command, &token[i]);
+            if (command == __system_process)
+            {
+                process(comnd, &token[i]);
+            }
+            else
+            {
+                PerformAction(command, &token[i]);
+            }
         }
         else
         {
-            PerformAction(command, &token[i + 1]);
+            if (command == __system_process)
+            {
+                process(comnd, &token[i + 1]);
+            }
+            else
+            {
+
+                PerformAction(command, &token[i + 1]);
+            }
         }
         token = strtok(NULL, ";");
     }
@@ -121,7 +136,7 @@ Command encode_command(char *command)
     }
     else
     {
-        return __invalid_command;
+        return __system_process;
     }
 }
 
@@ -136,12 +151,6 @@ void PerformAction(Command command, char *args)
         break;
     case __exit:
         exit(EXIT_SUCCESS);
-        break;
-    case __invalid_command:
-        Color_On(__RED, !BOLD);
-        printf("Invalid command:\n");
-        Color_Off();
-        printf("no such file or directory\n");
         break;
     case __clear:
         printf("\e[1;1H\e[2J");

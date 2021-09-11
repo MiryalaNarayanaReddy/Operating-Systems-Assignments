@@ -11,20 +11,22 @@ Assignment-2
     |
     |
     |___ builtin_commands
-    |     |___cd.c and cd.h
-    |     |___echo.c and echo.h
-    |
+    |                  |___cd.c and cd.h
+    |                  |___echo.c and echo.h
+    |                  |___pwd.c and pwd.h
     |
     |___ ls
     |     |___ls.c and ls.h
-    |     |___
     |
     |
     |___Make file
     |
-    |
     |___ Readme.md
     |
+    |__ .gitignore
+    |
+    |___ LICENSE
+
 
 ```
 
@@ -52,9 +54,22 @@ Assignment-2
 
 # builtin_commands
 
-**`echo.c`** 
+**`echo.c`** has the following functions
 - echo
 
-**`cd.c`**
+**`cd.c`** has the following functions
 - cd
 
+**`pwd.c`** has the following functions
+- pwd
+
+# ls
+
+**`ls.c`** has the following functions
+
+- ls
+- process_ls
+- list_names
+- print_name
+- list_details
+- month_name

@@ -3,6 +3,9 @@
     "files.associations": {
         "*.html": "html",
         "stat.h": "c",
-        "utils.h": "c"
+        "utils.h": "c",
+        "echo.h": "c",
+        "unistd.h": "c",
+        "fcntl.h": "c"
     }
 }

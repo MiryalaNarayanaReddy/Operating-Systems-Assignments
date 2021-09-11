@@ -13,6 +13,8 @@
 #include "../builtin_commands/echo.h"
 #include "../builtin_commands/pwd.h"
 #include "../ls/ls.h"
+#include "../system_commands/process.h"
+
 
 #define BOLD true
 

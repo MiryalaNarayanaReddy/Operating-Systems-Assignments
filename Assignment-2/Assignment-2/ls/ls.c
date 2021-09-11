@@ -148,6 +148,7 @@ void list_names(char *path, bool include_hidden_files, bool details)
         }
         curr_dir = readdir(dir);
     }
+    closedir(dir); // good to close eventhough function ends without any problem.
 }
 
 void print_name(char *name, bool details, bool isdir)

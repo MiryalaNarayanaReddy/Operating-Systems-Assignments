@@ -16,12 +16,12 @@ enum
 {
     __new_line,
     __exit,
-    __invalid_command,
     __clear,
     __cd,
     __pwd,
     __ls,
     __echo,
+    __system_process
 };
 
 
