@@ -20,7 +20,7 @@ void process(char *command, char *args)
 
 int parse_cmd(char *command, char *args, char *argv[10])
 {
-    printf("%s\n%s\n", command, args);
+    // printf("%s\n%s\n", command, args);
     argv[0] = &command[0];
     char *token;
     char *strptr;
@@ -48,6 +48,7 @@ void forground_process(char **argv)
     else
     {
         wait(NULL);
+        // printf("%s with pid %d exited %s\n", argv[0], child_pid, id == child_pid ? "normally" : "abnormally");
     }
 }
 
@@ -56,12 +57,15 @@ void background_process(char **argv)
     pid_t child_pid = fork();
     if (child_pid == 0)
     {
+        printf("%d\n", getpid());
         execvp(argv[0], argv);
         printf("Command invalid :(\n");
         exit(EXIT_FAILURE);
     }
     else
     {
-        printf("%d\n", child_pid);
+        // int stat;
+        // pid_t id = wait(&stat);
+        // printf("%s with pid %d exited %s\n", argv[0], child_pid, id == child_pid ? "normally" : "abnormally");
     }
 }

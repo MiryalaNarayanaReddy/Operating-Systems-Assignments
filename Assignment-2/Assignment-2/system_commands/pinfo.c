@@ -29,8 +29,14 @@ void pinfo(char *pid)
     printf("process id     : %s\n", info);
     fscanf(fp, "%s", info); // command
     fscanf(fp, "%s", info); // state
-    printf("process status : %s\n", info);
-    for (int i = 1; i <= 22; i++)
+    printf("process status : %s", info);
+    int i = 1;
+    for (; i <= 5; i++)
+    {
+          fscanf(fp, "%s", info);
+    }
+    printf("%s\n", AreSame(info, "0") ? "+" : "");
+    for (; i <= 22; i++)
     {
         fscanf(fp, "%s", info);
     }
