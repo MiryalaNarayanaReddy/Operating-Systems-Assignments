@@ -134,6 +134,10 @@ Command encode_command(char *command)
     {
         return __ls;
     }
+    else if (AreSame(command, "pinfo"))
+    {
+        return __pinfo;
+    }
     else
     {
         return __system_process;
@@ -163,6 +167,9 @@ void PerformAction(Command command, char *args)
         break;
     case __ls:
         ls(args);
+        break;
+    case __pinfo:
+        pinfo(args);
         break;
     }
 }

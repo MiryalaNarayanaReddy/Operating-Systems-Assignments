@@ -21,6 +21,7 @@ enum
     __pwd,
     __ls,
     __echo,
+    __pinfo,
     __system_process
 };
 

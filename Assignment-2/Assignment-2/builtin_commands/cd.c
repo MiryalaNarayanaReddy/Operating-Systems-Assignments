@@ -27,7 +27,7 @@ void cd(char *path)
         else if (AreSame(path, "~") || AreSame(path, ""))
         {
             strcpy(SAVED_PATH, temp); // store the current path
-            chdir(USER_HOME_PATH);    // change directory to home path
+            chdir(EXECUTABLE_PATH);    // change directory to home path which is path where a.out is present.
         }
         else
         {

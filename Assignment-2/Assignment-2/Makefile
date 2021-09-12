@@ -1,6 +1,6 @@
 # linking
-a.out: main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o
-	gcc main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o -o a.out
+a.out: main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o pinfo.o
+	gcc main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o pinfo.o -o a.out
 
 ###  object files
 
@@ -35,6 +35,9 @@ ls.o: ls/ls.c
 
 process.o: system_commands/process.c
 	gcc -c system_commands/process.c
+
+pinfo.o: system_commands/pinfo.c
+	gcc -c system_commands/pinfo.c
 
 # clean all object files
 clean:

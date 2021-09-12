@@ -14,7 +14,7 @@
 #include "../builtin_commands/pwd.h"
 #include "../ls/ls.h"
 #include "../system_commands/process.h"
-
+#include "../system_commands/pinfo.h"
 
 #define BOLD true
 
