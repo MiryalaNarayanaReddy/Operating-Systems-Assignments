@@ -87,7 +87,7 @@ void ls(char *args)
                 if (AreSame(dir_paths[i], "~"))
                 {
                     chdir(USER_HOME_PATH);
-                    printf("%s:\n", ls_wd);
+                    printf("%s:\n", USER_HOME_PATH);
                     process_ls(USER_HOME_PATH, flags); // call for processing
                     chdir(cwd);                        // change back to original directory.
                     printf("\n");

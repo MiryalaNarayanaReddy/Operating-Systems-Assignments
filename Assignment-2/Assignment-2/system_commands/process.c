@@ -5,30 +5,63 @@
 
 void process(char *command, char *args)
 {
-    // pid_t parent = getpid();
-    pid_t pid = fork();
-    if (pid == 0)
+    char *argv[MAX_ARGS];
+    int num_args = parse_cmd(command, args, argv);
+    if (AreSame(argv[num_args - 1], "&"))
     {
-        char argv[10][MAX_ARGS];
-
-        char *token;
-        char *strptr;
-        int i = 0;
-        token = strtok_r(args, " ", &strptr);
-        while (token != NULL)
-        {
-            strcpy(argv[i], token);
-            i++;
-            token = strtok_r(NULL, " ", &strptr);
-        }
-        strcpy(argv[i], "\0");
-        execvp(command, argv);
-        exit(EXIT_SUCCESS);
+        argv[num_args - 1] = NULL;
+        background_process(argv);
     }
     else
     {
-        // split args
+        forground_process(argv);
+    }
+}
+
+int parse_cmd(char *command, char *args, char *argv[10])
+{
+    printf("%s\n%s\n", command, args);
+    argv[0] = &command[0];
+    char *token;
+    char *strptr;
+    int i = 1;
+    token = strtok_r(args, " ", &strptr);
+    while (token != NULL)
+    {
+        argv[i] = &token[0];
+        i++;
+        token = strtok_r(NULL, " ", &strptr);
+    }
+    argv[i] = NULL;
+    return i;
+}
+
+void forground_process(char **argv)
+{
+    pid_t child_pid = fork();
+    if (child_pid == 0)
+    {
+        execvp(argv[0], argv);
+        printf("Command invalid :(\n");
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
         wait(NULL);
-        // printf("Done\n");
+    }
+}
+
+void background_process(char **argv)
+{
+    pid_t child_pid = fork();
+    if (child_pid == 0)
+    {
+        execvp(argv[0], argv);
+        printf("Command invalid :(\n");
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        printf("%d\n", child_pid);
     }
 }
