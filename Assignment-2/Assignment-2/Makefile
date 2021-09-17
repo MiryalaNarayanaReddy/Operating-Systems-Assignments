@@ -1,6 +1,6 @@
 # linking
-a.out: main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o pinfo.o
-	gcc main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o pinfo.o -o a.out
+a.out: main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o pinfo.o signal_handler.o
+	gcc main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o pinfo.o signal_handler.o -o a.out
 
 ###  object files
 
@@ -14,6 +14,9 @@ user.o: Shell/user.c
 
 utils.o: Shell/utils.c
 	gcc -c Shell/utils.c
+
+signal_handler.o: Shell/signal_handler.c
+	gcc -c Shell/signal_handler.c
 
 ## builtin_commands
 

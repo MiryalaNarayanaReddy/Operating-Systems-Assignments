@@ -6,6 +6,9 @@
         "utils.h": "c",
         "echo.h": "c",
         "unistd.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "cd.h": "c",
+        "signal.h": "c",
+        "signal_handler.h": "c"
     }
 }

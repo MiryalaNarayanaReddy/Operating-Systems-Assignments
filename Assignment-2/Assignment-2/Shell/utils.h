@@ -9,10 +9,11 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include "user.h"
+#include "signal_handler.h"
+#include "../ls/ls.h"
 #include "../builtin_commands/cd.h"
 #include "../builtin_commands/echo.h"
 #include "../builtin_commands/pwd.h"
-#include "../ls/ls.h"
 #include "../system_commands/process.h"
 #include "../system_commands/pinfo.h"
 

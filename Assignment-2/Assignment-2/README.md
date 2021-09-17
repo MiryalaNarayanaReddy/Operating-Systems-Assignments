@@ -18,12 +18,17 @@ Assignment-2
     |___ ls
     |     |___ls.c and ls.h
     |
+    |___ system_commands
+    |                  |___ pinfo.c and pinfo.h
+    |                  |___ process.c and process.h
     |
-    |___Make file
+    |___ Makefile
     |
-    |___ Readme.md
+    |___ README.md
     |
-    |__ .gitignore
+    |___ .gitignore
+    |
+    |___ a.out
     |
     |___ LICENSE
 
@@ -34,8 +39,8 @@ Assignment-2
 
 **`main.c`** calls functions from user.c which use functions from all other files.
 
-
 **`user.c`** has following functions
+
 - prompt
 - Get_Command
 - tokenize
@@ -51,16 +56,18 @@ Assignment-2
 - get_string
 - AreSame
 
-
 # builtin_commands
 
 **`echo.c`** has the following functions
+
 - echo
 
 **`cd.c`** has the following functions
+
 - cd
 
 **`pwd.c`** has the following functions
+
 - pwd
 
 # ls
@@ -73,3 +80,9 @@ Assignment-2
 - print_name
 - list_details
 - month_name
+
+# system_commands
+
+**`pinfo.c`** has the following functions
+
+**`process.c`** has the following functions

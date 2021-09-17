@@ -9,7 +9,13 @@ void init()
 
     sprintf(USER_HOME_PATH, "/home/%s", getlogin());
 
+    // first time no cd is used
     changed_path = false;
+
+    // number of child process  = 0
+    child_process_number = 0;
+
+   signal(SIGINT, handel_signal);
 }
 
 int main()
@@ -17,7 +23,6 @@ int main()
     init();
     Command command;
     char argument[MAX_ARGS];
-
     while (true)
     {
         prompt();

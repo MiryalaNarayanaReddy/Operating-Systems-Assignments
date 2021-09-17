@@ -2,6 +2,7 @@
 #include <wait.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <signal.h>
 
 void process(char *command, char *args)
 {
@@ -41,13 +42,16 @@ void forground_process(char **argv)
     pid_t child_pid = fork();
     if (child_pid == 0)
     {
+        signal(SIGINT, SIG_DFL);// ctrl - c
+        signal(SIGTSTP,SIG_DFL);//ctrl - z
         execvp(argv[0], argv);
         printf("Command invalid :(\n");
         exit(EXIT_FAILURE);
     }
     else
     {
-        wait(NULL);
+        signal(SIGCHLD, SIG_DFL); // child exit
+
         // printf("%s with pid %d exited %s\n", argv[0], child_pid, id == child_pid ? "normally" : "abnormally");
     }
 }
