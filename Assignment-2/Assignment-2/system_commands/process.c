@@ -61,9 +61,11 @@ void forground_process(char **argv)
     }
     else
     {
+        child_processes[number_of_children] = child_pid;
+        number_of_children++;
         signal(SIGCHLD, process_status); // child exit
-
-        // printf("%s with pid %d exited %s\n", argv[0], child_pid, id == child_pid ? "normally" : "abnormally");
+       
+       // printf("[%d]+ %d\n", number_of_children, child_pid);
     }
 }
 
@@ -91,42 +93,40 @@ void background_process(char **argv)
     }
     else
     {
-
+        child_processes[number_of_children] = child_pid;
+        number_of_children++;
         signal(SIGCHLD, process_status); // child exit
-        child_processes[child_pid] = child_pid;
-        number_of_children ++;
-        // printf("%s with pid %d exited %s\n", argv[0], child_pid, id == child_pid ? "normally" : "abnormally");
+        printf("[%d]+ %d\n", number_of_children, child_pid);
     }
 }
 
-// int status;
-// pid_t result = waitpid(ChildPID, &status, WNOHANG);
-// if (result == 0) {
-//   // Child still alive
-// } else if (result == -1) {
-//   // Error
-// } else {
-//   // Child exited
-// }
-
 void process_status()
 {
-    pid_t process_pid;
+    pid_t result;
     int status;
-    process_pid = waitpid(-1, &status, WNOHANG);
-    if (process_pid == 0)
+    result = waitpid(-1, &status, WNOHANG);
+    if (result >= 0)
     {
-        // still alive
-    }
-    else if (process_pid = -1)
-    {
-
-        //error
-        printf("[%d]+ [%d] exited abnormally", process_pid, status);
+        //check all child process in the list
+        for (int i = 0; i <= number_of_children; i++)
+        {
+            if (child_processes[i] == result)
+            {
+                if (i != number_of_children && child_processes[i] != 0)
+                {
+                    if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_SUCCESS)
+                    {
+                        printf("[%d]+ [%d] exited normally", i, child_processes[i]);
+                    }
+                    else if (WIFSIGNALED(status))
+                    {
+                        printf("[%d]+ [%d] exited abnormally", i, child_processes[i]);
+                    }
+                }
+            }
+            child_processes[i] = 0;
+        }
     }
     else
-    {
-
-        printf("[%d]+ [%d] exited normally", process_pid, status);
-    }
+        return;
 }
