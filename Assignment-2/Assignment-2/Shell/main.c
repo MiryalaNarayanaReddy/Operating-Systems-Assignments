@@ -1,28 +1,11 @@
 #include "utils.h"
-
-void init()
-{
-    getcwd(EXECUTABLE_PATH, MAX_PATH_LEN);
-
-    strcpy(SAVED_PATH, EXECUTABLE_PATH);
-    strcpy(CURRENT_DIRECTORY_PATH, "");
-
-    sprintf(USER_HOME_PATH, "/home/%s", getlogin());
-
-    // first time no cd is used
-    changed_path = false;
-
-    // number of child process  = 0
-    child_process_number = 0;
-
-   signal(SIGINT, handel_signal);
-}
+#include "init.h"
 
 int main()
 {
-    init();
-    Command command;
     char argument[MAX_ARGS];
+    init();
+    
     while (true)
     {
         prompt();
