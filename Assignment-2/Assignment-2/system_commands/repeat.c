@@ -14,7 +14,7 @@ void repeat(char *command)
     {
         i++;
     }
-    while (command[i] != ' ')
+    while (command[i] != ' ' && command[i] != '\0')
     {
         n_times[j] = command[i];
         j++;
@@ -28,9 +28,11 @@ void repeat(char *command)
 
     int n = 0;
     n = atoi(n_times);
+
+    // check if integer
     char temp[11];
     sprintf(temp, "%d", n);
-    printf("-%s-\n-%s-\n", temp, n_times);
+    // printf("-%s-\n-%s-\n", temp, n_times);
     if (!AreSame(temp, n_times))
     {
         Color_On(__RED, BOLD);
@@ -41,8 +43,8 @@ void repeat(char *command)
 
     if (command[i] == '\0')
     {
-        Color_On(__YELLOW, !BOLD);
-        printf("sorry...can repeat nothing %d times :( \n", n);
+        Color_On(__YELLOW, BOLD);
+        printf("sorry...cann't repeat nothing %d times :( \n", n);
         Color_Off();
         return;
     }
