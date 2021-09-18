@@ -138,6 +138,10 @@ Command encode_command(char *command)
     {
         return __pinfo;
     }
+    else if(AreSame(command,"repeat"))
+    {
+        return __repeat;
+    }
     else
     {
         return __system_process;
@@ -170,6 +174,9 @@ void PerformAction(Command command, char *args)
         break;
     case __pinfo:
         pinfo(args);
+        break;
+    case __repeat:
+        repeat(args);
         break;
     }
 }

@@ -1,20 +1,20 @@
 #include "signal_handler.h"
 #include "utils.h"
 
-void handel_signal(int signal)
+void handle_signal(int signal)
 {
     switch (signal)
     {
     case SIGINT:
-        handel_ctrl_c_signal();
+        handle_ctrl_c_signal();
         break;
     case SIGTSTP:
-        handel_ctrl_z_signal();
+        handle_ctrl_z_signal();
         break;
     }
 }
 
-void handel_ctrl_c_signal()
+void handle_ctrl_c_signal()
 {
     // pid_t pid = getpid();
     // kill(pid, SIGSTOP);
@@ -24,7 +24,7 @@ void handel_ctrl_c_signal()
     return;
 }
 
-void handel_ctrl_z_signal()
+void handle_ctrl_z_signal()
 {
     printf("\n");
     prompt();

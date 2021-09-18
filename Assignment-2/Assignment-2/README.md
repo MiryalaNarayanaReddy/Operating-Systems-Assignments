@@ -6,8 +6,10 @@ Assignment-2
     |
     |___ Shell
     |       |___ main.c
+    |       |___ init.c and init.h
     |       |___ user.c and user.h
     |       |___ utils.c and utils.h
+    |       |___ signal_handler.c and signal_handler.h
     |
     |
     |___ builtin_commands
@@ -39,6 +41,13 @@ Assignment-2
 
 **`main.c`** calls functions from user.c which use functions from all other files.
 
+**`init.c`** has the following functions
+
+- init
+- init_cd
+- init_process
+- init_signal
+
 **`user.c`** has following functions
 
 - prompt
@@ -55,6 +64,12 @@ Assignment-2
 - clean_input
 - get_string
 - AreSame
+
+**`signal_handler.c`** has the following functions
+
+- handle_signal
+- handle_ctrl_c_signal
+- handle_ctrl_z_signal
 
 # builtin_commands
 

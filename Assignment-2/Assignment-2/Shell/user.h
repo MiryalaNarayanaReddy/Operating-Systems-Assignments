@@ -22,7 +22,8 @@ enum
     __ls,
     __echo,
     __pinfo,
-    __system_process
+    __system_process,
+    __repeat
 };
 
 

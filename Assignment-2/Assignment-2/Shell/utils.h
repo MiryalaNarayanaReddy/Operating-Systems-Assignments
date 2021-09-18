@@ -16,6 +16,7 @@
 #include "../builtin_commands/pwd.h"
 #include "../system_commands/process.h"
 #include "../system_commands/pinfo.h"
+#include "../system_commands/repeat.h"
 
 #define BOLD true
 

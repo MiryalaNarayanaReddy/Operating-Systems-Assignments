@@ -21,8 +21,8 @@ void init_process()
 
 void init_signal()
 {
-    signal(SIGINT, handel_signal);
-    signal(SIGTSTP, handel_signal);
+    signal(SIGINT, handle_signal);
+    signal(SIGTSTP, handle_signal);
 }
 
 void init()

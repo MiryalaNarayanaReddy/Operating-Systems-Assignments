@@ -75,11 +75,29 @@ void ls(char *args)
             // printf("%s\n",dir_paths[i]);
             bool failed = chdir(dir_paths[i]); //returns 1 if fails.
             if (!failed)
-            {                                // we changed into that directory now do ls as if we in that directory (of course we are in it)
+            {
+
+                // we changed into that directory now do ls as if we in that directory (of course we are in it)
+                Color_On(__PINK, BOLD);
+                printf("%s:\n", dir_paths[i]); // print directory name
+                Color_Off();
                 getcwd(ls_wd, MAX_PATH_LEN); // get working directory path after changing directory
-                printf("%s:\n", ls_wd);
+
+                int total_blocks = number_of_disk_blocks(ls_wd);
+                if (total_blocks != -1)
+                {
+                    Bold(true);
+                    printf("total %d\n", total_blocks);
+                    Bold(false);
+                }
+                else
+                {
+                    continue; // :(  nothing to do go on with the others
+                }
+
                 process_ls(ls_wd, flags); // call for processing
-                chdir(cwd);               // change back to original directory.
+
+                chdir(cwd); // change back to original directory.
                 printf("\n");
             }
             else
@@ -87,14 +105,18 @@ void ls(char *args)
                 if (AreSame(dir_paths[i], "~"))
                 {
                     chdir(USER_HOME_PATH);
+                    Color_On(__PINK, BOLD);
                     printf("%s:\n", USER_HOME_PATH);
+                    Color_Off();
                     process_ls(USER_HOME_PATH, flags); // call for processing
                     chdir(cwd);                        // change back to original directory.
                     printf("\n");
                 }
                 else
                 {
+                    Color_On(__RED, BOLD);
                     printf("%s\n: No such directory\n", dir_paths[i]);
+                    Color_Off();
                 }
             }
         }
@@ -121,7 +143,9 @@ void process_ls(char *cwd, char *flags)
     }
     else
     {
+        Color_On(__RED, BOLD);
         printf("%s\n No such directory", cwd);
+        Color_Off();
         // never happens as far as I see ... but just added it for completeness and neatness :)
     }
 }
@@ -167,9 +191,9 @@ void print_name(char *name, bool details, bool isdir)
     }
     else
     {
-        Bold(true);
+        // Bold(true);
         printf("%s\n", name);
-        Bold(false);
+        // Bold(false);
     }
 }
 
@@ -193,16 +217,70 @@ void list_details(char *name)
     printf((file_stats.st_mode & S_IWOTH) ? "w" : "-");
     printf((file_stats.st_mode & S_IXOTH) ? "x" : "-");
     printf(" ");
-    printf("%2d ", (unsigned int)file_stats.st_nlink);
+    printf("%5d ", (unsigned int)file_stats.st_nlink);
 
     struct passwd *pw = getpwuid(file_stats.st_uid);
     struct group *gr = getgrgid(file_stats.st_gid);
     printf("%s %s ", pw->pw_name, gr->gr_name);
 
-    printf("%8ld ", file_stats.st_size);
+    printf("%10ld ", file_stats.st_size);
+
     struct timespec last_modify_time = file_stats.st_mtim;
     struct tm *lmdate = localtime(&(last_modify_time.tv_sec));
-    printf("%s %2d %2d:%2d ", month_name(lmdate->tm_mon), lmdate->tm_mday, lmdate->tm_hour, lmdate->tm_min);
+    printf("%s %2d ", month_name(lmdate->tm_mon), lmdate->tm_mday); // month , date
+
+    int year, month, hour, minute; // stroing the lmdate values
+    year = lmdate->tm_year;
+    month = lmdate->tm_mon;
+    hour = lmdate->tm_hour;
+    minute = lmdate->tm_min;
+
+    struct tm *today;
+    time_t t;
+    t = time(NULL);
+    today = localtime(&t);
+
+    if (today->tm_year > year || today->tm_mon - 6 >= month)
+    {
+        printf("%5d ", 1900 + year); // year
+    }
+    else
+    {
+        printf("%2d:%2d ", hour, minute); // hour , minutes
+    }
+}
+
+int number_of_disk_blocks(char *path)
+{
+    struct dirent *curr_dir;
+    struct stat file_stats;
+    int total = 0;
+    char temp[MAX_PATH_LEN];
+    strcpy(temp, path);
+    int len = strlen(path);
+    DIR *dir = opendir(path);
+    curr_dir = readdir(dir);
+    while (curr_dir != NULL)
+    {
+        if (curr_dir->d_name[0] != '.')
+        {
+            temp[len] = '\0';
+            strcat(temp, "/");
+            strcat(temp, curr_dir->d_name); // path to the current file or folder.
+
+            if (stat(temp, &file_stats) >= 0)
+            {
+                total += file_stats.st_blocks / 2;
+            }
+            else
+            {
+                printf("counting number of blocks for \"%s\" error", curr_dir->d_name);
+                return -1;
+            }
+        }
+        curr_dir = readdir(dir);
+    }
+    return total;
 }
 
 char *month_name(int month)
