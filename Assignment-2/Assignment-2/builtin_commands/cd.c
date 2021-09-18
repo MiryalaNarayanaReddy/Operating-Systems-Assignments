@@ -2,6 +2,7 @@
 
 void cd(char *path)
 {
+    // printf("%s\n", path);
     char buff[MAX_PATH_LEN];
     char temp[MAX_PATH_LEN];
     getcwd(temp, MAX_PATH_LEN); // contains current working directory path
@@ -27,7 +28,7 @@ void cd(char *path)
         else if (AreSame(path, "~") || AreSame(path, ""))
         {
             strcpy(SAVED_PATH, temp); // store the current path
-            chdir(EXECUTABLE_PATH);    // change directory to home path which is path where a.out is present.
+            chdir(EXECUTABLE_PATH);   // change directory to home path which is path where a.out is present.
         }
         else
         {
@@ -36,15 +37,21 @@ void cd(char *path)
         }
     }
     getcwd(buff, MAX_PATH_LEN); // contains current working directory path
-    int i = 0, j = 0;
-
+    int i = 0, j = 0, k = 0;
+    // printf("%s\n",temp);
+    // printf("%s\n", buff);
     while (EXECUTABLE_PATH[i] != '\0' && buff[j] != '\0' && EXECUTABLE_PATH[i] == buff[j])
     {
+        if (buff[j] == '/')
+        {
+            k = j; // stores the last backslash
+        }
         i++;
         j++;
     }
     if (buff[j] == '\0') // buff ended first implies it is shorter than executable path
     {
+        // printf("debug-\n");
         if (EXECUTABLE_PATH[i] == '\0')
         {
             strcpy(CURRENT_DIRECTORY_PATH, ""); // we are in same directory as executable.
@@ -56,7 +63,14 @@ void cd(char *path)
     }
     else
     {
-        strcpy(CURRENT_DIRECTORY_PATH, &buff[j]); //path relative to executable directory
+        if (EXECUTABLE_PATH[i] == '\0') // stopped at the end of executable path
+        {
+            strcpy(CURRENT_DIRECTORY_PATH, &buff[k + 1]); // we are in directory greater than otherthan executable from home
+        }
+        else
+        {
+            strcpy(CURRENT_DIRECTORY_PATH, buff); // upto last backslash
+        }
     }
     strcpy(SAVED_PATH, temp); /* save the previous path.
     current path is in buff and if we need it we can get it using getcwd.

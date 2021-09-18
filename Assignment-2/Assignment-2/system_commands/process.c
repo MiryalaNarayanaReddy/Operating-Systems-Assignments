@@ -61,11 +61,7 @@ void forground_process(char **argv)
     }
     else
     {
-        child_processes[number_of_children] = child_pid;
-        number_of_children++;
-        signal(SIGCHLD, process_status); // child exit
-       
-       // printf("[%d]+ %d\n", number_of_children, child_pid);
+        wait(NULL);
     }
 }
 
@@ -88,12 +84,13 @@ void background_process(char **argv)
     else if (child_pid < 0)
     {
         Color_On(__YELLOW, BOLD);
-        printf("Forking failed\n");
+        printf("Forking failed \n");
         Color_Off();
     }
     else
     {
         child_processes[number_of_children] = child_pid;
+        strcpy(child_process_name[number_of_children], argv[0]);
         number_of_children++;
         signal(SIGCHLD, process_status); // child exit
         printf("[%d]+ %d\n", number_of_children, child_pid);
@@ -104,27 +101,36 @@ void process_status()
 {
     pid_t result;
     int status;
-    result = waitpid(-1, &status, WNOHANG);
+    result = waitpid(-1, &status, WNOHANG); // returns 0 if child is not already dead.
     if (result >= 0)
     {
         //check all child process in the list
-        for (int i = 0; i <= number_of_children; i++)
+        for (int i = 0; i < number_of_children; i++)
         {
-            if (child_processes[i] == result)
+            if (child_processes[i] == result) // our child process is in the list ...
             {
-                if (i != number_of_children && child_processes[i] != 0)
+                if (child_processes[i] != 0) // check child process id
                 {
-                    if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_SUCCESS)
+                    if (WIFEXITED(status) & WEXITSTATUS(status) == EXIT_SUCCESS) // WIFEXITED --> is exit normal  && WEXITSTATUS ---> did it exit with exit code 0.
                     {
-                        printf("[%d]+ [%d] exited normally", i, child_processes[i]);
+                        Color_On(__PINK, !BOLD);
+                        printf("\n[%d]+  \" %s \" with pid = [ %d ] exited normally\n", i, child_process_name[i], child_processes[i]);
+                        Color_Off();
+                        prompt();
+                        fflush(stdout);
                     }
-                    else if (WIFSIGNALED(status))
+                    else // if (WIFSIGNALED(status)) ---> this is always true
                     {
-                        printf("[%d]+ [%d] exited abnormally", i, child_processes[i]);
+                        Color_On(__PINK, !BOLD);
+                        printf("\n[%d]+  \" %s \" with pid = [ %d ] exited abnormally\n", i, child_process_name[i], child_processes[i]);
+                        Color_Off();
+                        prompt();
+                        fflush(stdout);
                     }
                 }
             }
-            child_processes[i] = 0;
+            child_processes[i] = 0; // its dead or exited
+            number_of_children--;   // decrease number of children by one.
         }
     }
     else
