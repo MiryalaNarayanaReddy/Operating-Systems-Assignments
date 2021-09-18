@@ -26,14 +26,9 @@ void repeat(char *command)
         i++;
     }
 
-    int n = 0;
-    n = atoi(n_times);
-
-    // check if integer
-    char temp[11];
-    sprintf(temp, "%d", n);
-    // printf("-%s-\n-%s-\n", temp, n_times);
-    if (!AreSame(temp, n_times))
+    int n = string_to_int(n_times);
+   // printf("-%s-\n", n_times);
+    if (n == -1)
     {
         Color_On(__RED, BOLD);
         printf("second argument for repeat is not a number...\n ");
@@ -53,4 +48,25 @@ void repeat(char *command)
     {
         process_command(&command[i]);
     }
+}
+
+int string_to_int(char *str)
+{
+    int n = 0;
+    int len = strlen(str);
+ //   printf("%d\n",len);
+    for (int i = len-1; i >= 0; i--)
+    {
+       // printf("%c\n",str[i]);
+        if (str[i] >= '0' && str[i] <= '9')
+        {
+            n *= 10;
+            n += str[i] - '0';
+        }
+        else
+        {
+            return -1;
+        }
+    }
+    return n;
 }

@@ -4,5 +4,6 @@
 #include "../Shell/utils.h"
 
 void repeat(char*command);
+int string_to_int(char *str);
 
 #endif
