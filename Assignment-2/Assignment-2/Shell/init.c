@@ -23,6 +23,7 @@ void init_signal()
 {
     signal(SIGINT, handle_signal);
     signal(SIGTSTP, handle_signal);
+    signal(SIGKILL, SIG_DFL);
 }
 
 void init()

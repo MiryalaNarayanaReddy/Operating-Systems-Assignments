@@ -1,6 +1,7 @@
 #include "signal_handler.h"
 #include "utils.h"
 
+// global signal handlers.
 void handle_signal(int signal)
 {
     switch (signal)

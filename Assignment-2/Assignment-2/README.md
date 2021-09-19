@@ -51,7 +51,6 @@ Assignment-2
 | *init_cd* | initializes some global paths |
 | *init_process* | initiallizes some global variables for proccess.c |
 | *init_signal*|  initializes signals|
-|||
 
 **`user.c`** has following functions
 
@@ -63,7 +62,7 @@ Assignment-2
 | *process_command* | gets the command word and uses both encode_command and PerformAction functions |
 | *encode_command* | encodes command to respective integer equivalent|
 | *PerformAction* | uses switch and it calls rspective command functions  |
-|||
+
 
 **`utils.c`** has the following functions
 
@@ -75,7 +74,7 @@ Assignment-2
 | *clean_input* | cleans the input upto newline |
 | *get_string* | scans the string upto newline excluding spaces in starting and ending |
 | *AreSame* | checks if two strings are same |
-|||
+
 
 **`signal_handler.c`** has the following functions
 
@@ -84,7 +83,6 @@ Assignment-2
 | *handle_signal* | handles signals uses following two functions |
 | *handle_ctrl_c_signal* | handles ctrl-c signal |
 | *handle_ctrl_z_signal* | handles ctrl-z signal |
-|||
 
 # builtin_commands
 
@@ -92,21 +90,21 @@ Assignment-2
 |**function**|**purpose**|
 |--------|-------|
 | *echo* | prints the args passed as input |
-|||
+
 
 **`cd.c`** has the following functions
 
 |**function**|**purpose**|
 |--------|-------|
 | *cd* | changes pwd based on arguments passed |
-|||
+
 
 **`pwd.c`** has the following functions
 
 |**function**|**purpose**|
 |--------|-------|
 | *pwd* | prints the present working directory path from home |
-|||
+
 
 # ls
 
@@ -121,7 +119,7 @@ Assignment-2
 | *list_details* | prints long format for ls |
 | *number_of_disk_blocks* | returs number of 512 byte blocks occupied by path|
 | *month_name* | converts int [ 0..11 ] to corresponding month |
-|||
+
 
 # system_commands
 
@@ -130,7 +128,7 @@ Assignment-2
 |**function**|**purpose**|
 |--------|------- |
 | *pinfo* | takes the pid and prints the process info |
-|||
+
 
 **`process.c`** has the following functions
 
@@ -141,7 +139,7 @@ Assignment-2
 | *forground_process* | runs forground process |
 | *background_process* | runs background process |
 | *process_status* | checks for background process status |
-|||
+
 
 **`repeat.c`** has the following functions
 
@@ -149,7 +147,6 @@ Assignment-2
 |--------|------- |
 | *repeat* |repeats the command n number of times using process_command |
 | *string_to_int* |converts a string to integer. if not possible returns -1|
-|||
 
 
 ## other files
