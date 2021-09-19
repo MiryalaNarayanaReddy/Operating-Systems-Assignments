@@ -65,6 +65,16 @@ void ls(char *args)
     // for each directory
     if (count == 0)
     {
+        if (AreSame(flags, "-al") || AreSame(flags, "-l"))
+        {
+            int total_blocks = number_of_disk_blocks(cwd);
+            if (total_blocks != -1)
+            {
+                Bold(true);
+                printf("total %d\n", total_blocks);
+                Bold(false);
+            }
+        }
         process_ls(cwd, flags); // call for processing
     }
     else

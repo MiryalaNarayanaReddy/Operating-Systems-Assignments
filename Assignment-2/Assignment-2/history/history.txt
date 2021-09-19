@@ -1,1 +1,21 @@
-0
+20
+ls -al
+exit
+history
+exit
+ls -l
+make clean
+ls -l
+ls -al
+ls -a
+ls -al history Shell ls
+ls -al history Shell ls .
+clear
+ls -al history Shell ls .
+ls .
+ls Shell
+clear
+make
+./a.out
+exit
+exit

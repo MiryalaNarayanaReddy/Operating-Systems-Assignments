@@ -63,11 +63,11 @@ void push_into_history(char *command)
     }
 
     FILE *fp = fopen(history_file_path, "w");
-    fprintf(fp, "%d", number_of_lines_in_history);
+    fprintf(fp, "%d\n", number_of_lines_in_history);
     int n = number_of_lines_in_history;
     for (int j = (n - 19 >= 0 ? n - 19 : 0); j <= n; j++)
     {
-        fprintf(fp, "\n%s", History[j]);
+        fprintf(fp, "%s\n", History[j]);
     }
     fclose(fp);
 }
