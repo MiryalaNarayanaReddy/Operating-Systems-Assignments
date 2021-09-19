@@ -25,7 +25,9 @@ void pinfo(char *pid)
         return;
     }
     char info[MAX_PATH_LEN];
+    char id[20] ;
     fscanf(fp, "%s", info); // pid
+    strcpy(id,info);
     printf("process id     : %s\n", info);
     fscanf(fp, "%s", info); // tcomm
     fscanf(fp, "%s", info); // state
@@ -35,8 +37,8 @@ void pinfo(char *pid)
     {
         fscanf(fp, "%s", info);
     }
-    // printf("%s\n", info);
-    printf("%s\n", parent_pid == atoi(info) ? "+" : ""); //prent id is same as 8th column of proc/pid/stat file then it is forground process
+    // printf("\n%s---%s\n",id, info);
+    printf("%s\n", (AreSame(info,id)) ? "+" : ""); //prent id is same as 8th column of proc/pid/stat file then it is forground process
     for (; i <= 23; i++)
     {
         fscanf(fp, "%s", info);
@@ -44,7 +46,7 @@ void pinfo(char *pid)
     printf("Virtual Memory : %s bytes\n", info);
 
     fclose(fp);
-
+    info[0]='\0';
     readlink(exe_path, info, MAX_PATH_LEN);
     printf("executable path : %s\n", info);
 }

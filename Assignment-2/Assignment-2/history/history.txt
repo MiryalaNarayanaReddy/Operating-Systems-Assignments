@@ -1,155 +1,48 @@
-weidilfu
-feioflr
-reifuler
-reforljf
-rfoirjf
-ofrjk
-gotgtrk
-ogrt
-edwef
-erfreg
-grtrt
-grtt
-rtgt
-gtgtr
-tgrtg
-exit
 
-
-
-
-
-
-
-
-deewfrf
-rfrfgrf
-tgtggrf
-bbythhf
-grtgthf
-exitthf
-exitthf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-rfrf
-
-
-
-
-
-
-
-
-
-
-
-exit
-
-
-exit
-exit
-
-
-
-ls
-exit
-exit
-
-
-
-
-
-exit
-
-
-ls
-ps
-exit
-
-
-
-
-
-
-exit
-
-
-
-
-
-
-
-
-ls
-
-
-
-
-
-exit
-
-
-
-
-rfrerff
-frerf
-rfr
-frr
-ffr
-ls
 ls
 ls -l
+ls -al
+pinfo
+gedit &
+pinfo 21280
+fg
+fg .
+man fg
+man ls
 ls
+ls -l
 exit
-
-
-
 exit
-
-
+pinfo
+gedit
+gedit &
+pinfo 22031
 exit
-
-
-
+pinfo
 exit
-
-
+pinfo
 exit
-
-
-
-
+pinfo
+gedit &
+gedit &
+pinfo 22659
 exit
-ls
-cd ..
-cd ~
-cd -
-cd .
-cd trdg
-fe
+gedit
+gedit README.md &
+pinfo 22901
+exit
+gedit README.md &
+gedit README.md &
+pinfo 23200
+pinfo
+exit
+pinfo
+exit
+pinfo
+gedit README.md &
+pinfo 23587
+exit
+pinfo
+pinfo &
+gedit Makefile &
 exit
