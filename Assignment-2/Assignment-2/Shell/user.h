@@ -23,7 +23,8 @@ enum
     __echo,
     __pinfo,
     __system_process,
-    __repeat
+    __repeat,
+    __history
 };
 
 

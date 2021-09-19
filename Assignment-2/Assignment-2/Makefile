@@ -1,6 +1,8 @@
 # linking
-a.out: main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o pinfo.o signal_handler.o init.o repeat.o
-	gcc main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o pinfo.o signal_handler.o init.o repeat.o -o a.out
+a.out: main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o pinfo.o signal_handler.o init.o repeat.o history.o
+	gcc main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o pinfo.o signal_handler.o init.o repeat.o history.o -o a.out 
+#	make clean
+#	clear
 
 ###  object files
 
@@ -18,7 +20,7 @@ utils.o: Shell/utils.c
 signal_handler.o: Shell/signal_handler.c
 	gcc -c Shell/signal_handler.c
 
-init.o:Shell/init.c
+init.o: Shell/init.c
 	gcc -c Shell/init.c
 
 ## builtin_commands
@@ -47,6 +49,10 @@ pinfo.o: system_commands/pinfo.c
 
 repeat.o: system_commands/repeat.c
 	gcc -c system_commands/repeat.c
+
+## history
+history.o: history/history.c
+	gcc -c history/history.c
 
 # clean all object files
 clean:

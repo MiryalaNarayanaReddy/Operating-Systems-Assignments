@@ -17,6 +17,7 @@
 #include "../system_commands/process.h"
 #include "../system_commands/pinfo.h"
 #include "../system_commands/repeat.h"
+#include "../history/history.h"
 
 #define BOLD true
 

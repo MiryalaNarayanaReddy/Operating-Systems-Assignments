@@ -23,6 +23,10 @@ Assignment-2
     |          |___ process.c and process.h
     |          |___ repeat.c and repeat.h
     |
+    |________ history
+    |          |___ history.c and history.h
+    |          |___ history.txt
+    |
     |________ Makefile
     |
     |________ README.md
@@ -51,6 +55,7 @@ Assignment-2
 | *init_cd* | initializes some global paths |
 | *init_process* | initiallizes some global variables for proccess.c |
 | *init_signal*|  initializes signals|
+| *init_history* | initializes the history file path from user home path|
 
 **`user.c`** has following functions
 
@@ -147,6 +152,15 @@ Assignment-2
 |--------|------- |
 | *repeat* |repeats the command n number of times using process_command |
 | *string_to_int* |converts a string to integer. if not possible returns -1|
+
+
+# history
+
+**`history.c`** has the following functions
+
+|**function**|**purpose**|
+|--------|------- |
+| *history* | prints all or n lines of history|
 
 
 ## other files

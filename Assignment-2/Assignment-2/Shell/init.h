@@ -7,5 +7,6 @@ void init();
 void init_cd();
 void init_process();
 void init_signal();
+void init_history();
 
 #endif

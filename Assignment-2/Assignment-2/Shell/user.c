@@ -20,6 +20,10 @@ void prompt()
 void Get_Command(char *arguments)
 {
     get_string(arguments);
+    if (!AreSame(arguments, "\n"))
+    {
+        push_into_history(arguments);
+    }
 }
 
 void tokenize(char *source, char *dest)
@@ -138,9 +142,13 @@ Command encode_command(char *command)
     {
         return __pinfo;
     }
-    else if(AreSame(command,"repeat"))
+    else if (AreSame(command, "repeat"))
     {
         return __repeat;
+    }
+    else if (AreSame(command, "history"))
+    {
+        return __history;
     }
     else
     {
@@ -177,6 +185,9 @@ void PerformAction(Command command, char *args)
         break;
     case __repeat:
         repeat(args);
+        break;
+    case __history:
+        history(args);
         break;
     }
 }
