@@ -27,20 +27,21 @@ void pinfo(char *pid)
     char info[MAX_PATH_LEN];
     fscanf(fp, "%s", info); // pid
     printf("process id     : %s\n", info);
-    fscanf(fp, "%s", info); // command
+    fscanf(fp, "%s", info); // tcomm
     fscanf(fp, "%s", info); // state
     printf("process status : %s", info);
-    int i = 1;
-    for (; i <= 5; i++)
-    {
-          fscanf(fp, "%s", info);
-    }
-    printf("%s\n", AreSame(info, "0") ? "+" : "");
-    for (; i <= 22; i++)
+    int i = 4;
+    for (; i <= 8; i++)
     {
         fscanf(fp, "%s", info);
     }
-    printf("Virtual Memory : %s\n", info);
+    // printf("%s\n", info);
+    printf("%s\n", parent_pid == atoi(info) ? "+" : ""); //prent id is same as 8th column of proc/pid/stat file then it is forground process
+    for (; i <= 23; i++)
+    {
+        fscanf(fp, "%s", info);
+    }
+    printf("Virtual Memory : %s bytes\n", info);
 
     fclose(fp);
 
