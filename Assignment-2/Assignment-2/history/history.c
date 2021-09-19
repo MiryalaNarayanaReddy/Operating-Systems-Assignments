@@ -1,66 +1,73 @@
 #include "history.h"
 
+void get_line(FILE *fp, char *buf)
+{
+    char ch;
+    int i = 0;
+    fscanf(fp, "%c", &ch);
+    while (ch != '\n' && !feof(fp))
+    {
+        buf[i++] = ch;
+        fscanf(fp, "%c", &ch);
+    }
+    buf[i] = '\0';
+}
+
 void history(char *num)
 {
-    // print whole history
+    int n = number_of_lines_in_history;
     if (AreSame(num, ""))
     {
-        FILE *fp = fopen(history_file_path, "r");
-        if (fp == NULL)
+        for (int j = ((n - 9) >= 0 ? n - 9 : 0); j <= n; j++)
         {
-            Color_On(__RED, !BOLD);
-            printf("Failed to access history.txt file\n");
-            Color_Off();
+            printf("%s\n", History[j]);
         }
-        char temp[100];
-        fscanf(fp, "%s", temp);
-        while (!feof(fp))
-        {
-            printf("%s\n", temp);
-            fscanf(fp, "%s", temp);
-        }
-        printf("%s\n", temp);
-        fclose(fp);
         return;
     }
-
-    // convert num to integer
-    int n = string_to_int(num);
-    if (n == -1)
+    else
     {
-        printf("%s is not a number\n", num);
-        return;
+        // convert num to integer
+        int m = string_to_int(num);
+        if (m == -1)
+        {
+            printf("%s is not a number\n", num);
+            return;
+        }
+        else
+        {
+            for (int j = (((n - m) + 1) >= 0 ? (n - m) + 1 : 0); j <= n; j++)
+            {
+                printf("%s\n", History[j]);
+            }
+            return;
+        }
     }
-
-    // print only n lines of history
-    FILE *fp = fopen(history_file_path, "r");
-    char temp[100];
-    int i = 0;
-    fscanf(fp, "%s", temp);
-    while (i < n && !feof(fp))
-    {
-        printf("%s\n", temp);
-        i++;
-        fscanf(fp, "%s", temp);
-    }
-    fclose(fp);
-    return;
 }
 
 void push_into_history(char *command)
 {
     if (number_of_lines_in_history != 20)
     {
-
-        FILE *fp = fopen(history_file_path, "a");
-        fprintf(fp, "\n%s", command);
-        fclose(fp);
-        return;
+        number_of_lines_in_history++;
+        strcpy(History[number_of_lines_in_history], command);
     }
     else
     {
-        //////// pending
+        int i = 0;
+        while (i != 20)
+        {
+            strcpy(History[i], History[i + 1]);
+            i++;
+        }
+        strcpy(History[i], command);
     }
+
+    FILE *fp = fopen(history_file_path, "w");
+    fprintf(fp, "%d", number_of_lines_in_history);
+    int n = number_of_lines_in_history;
+    for (int j = (n - 19 >= 0 ? n - 19 : 0); j <= n; j++)
+    {
+        fprintf(fp, "\n%s", History[j]);
+    }
+    fclose(fp);
 }
-
-

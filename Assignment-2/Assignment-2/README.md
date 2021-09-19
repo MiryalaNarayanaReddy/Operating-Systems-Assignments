@@ -39,6 +39,19 @@ Assignment-2
 
 
 ```
+# running
+
+run the following commands:
+
+```
+user@systemname:~$ make clean
+user@systemname:~$ make 
+user@systemname:~$ make clean
+user@systemname:~$ ./a.out
+```
+
+- make clean removes all .o files
+- make compiles all .c files to their respective object .o and links them to single executable file a.out
 
 # Shell
 
@@ -55,7 +68,7 @@ Assignment-2
 | *init_cd* | initializes some global paths |
 | *init_process* | initiallizes some global variables for proccess.c |
 | *init_signal*|  initializes signals|
-| *init_history* | initializes the history file path from user home path|
+| *init_history* | initializes the history file path from user home path and also gets the history into program|
 
 **`user.c`** has following functions
 
@@ -161,7 +174,8 @@ Assignment-2
 |**function**|**purpose**|
 |--------|------- |
 | *history* | prints all or n lines of history|
-
+|*get_line*| scans upto newline from a file |
+|*push_into_history*| adds present command to history |
 
 ## other files
 
@@ -171,19 +185,29 @@ Assignment-2
 
 `Makefile`
 
-run the following commands:
 
-```
-user@systemname:~$ make clean
-user@systemname:~$ make 
-user@systemname:~$ make clean
-user@systemname:~$ ./a.out
-```
-
-
-# some commands and their behaviour
+# IMPORTANT
+## some commands and their behaviour
 
 `ls ~` will print `ls /home/username` and not the  directory in which executable is present.
 
 `cd ~` will change current working directory to dirctory in which executable is present. Then you can type ls to see its contents.
+
+`background processes` allows you to run only different processes but not the same kind of processes
+
+```
+gedit f.txt &
+firefox &
+cheese &
+```
+these all print their respective pids 
+
+when they exit sometimes they do not print the confirmation of their exit. ( I am yet to find out why, though I think it is because some signals are not caught because parent is in ready state will child is executing. I am not sure. ( '_' ) 
+
+```
+The below one will kill one the two process.
+gedit f.txt &
+gedit i.txt &
+```
+
 

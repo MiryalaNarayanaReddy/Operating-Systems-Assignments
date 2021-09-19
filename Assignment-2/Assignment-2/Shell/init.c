@@ -32,14 +32,27 @@ void init_history()
     strcat(history_file_path, "/history/history.txt");
 
     FILE *fp = fopen(history_file_path, "r");
-    char temp[MAX_PATH_LEN];
+    if (fp == NULL)
+    {
+        Color_On(__RED, !BOLD);
+        printf("Failed to access history.txt file\n");
+        Color_Off();
+    }
+    fscanf(fp, "%d", &number_of_lines_in_history);
+    int n = number_of_lines_in_history;
     int i = 0;
+    get_line(fp, History[i]);
     while (!feof(fp))
     {
-        fscanf(fp, "%s", temp);
+        //  printf("%s\n", History[i]);
         i++;
+        get_line(fp, History[i]);
     }
-    number_of_lines_in_history = i;
+
+    //    printf("%s\n", History[i]);
+    fclose(fp);
+
+    //History
 }
 
 void init()
