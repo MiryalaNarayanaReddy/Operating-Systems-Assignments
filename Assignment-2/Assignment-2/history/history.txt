@@ -46,3 +46,105 @@ pinfo
 pinfo &
 gedit Makefile &
 exit
+ls
+gedit
+gedit Makefile
+gedit Makefile &
+gedit README.md &
+ps
+pinfo 30715
+pinfo 30403
+pinfo 30715
+pinfo 30715
+ps -a
+exit
+gedit README.md
+gedit README.md &
+gedit LICENSE &
+ps
+exit
+ls
+gedit Makefile &
+gedit Makefile &
+gedit LICENSE &
+exit
+gedit LICENSE
+gedit LICESNE &
+gedit Makefile &
+ps
+ps -al
+clear
+gedit LICENSE &
+gedit Makefile &
+ps
+ps -l
+exit'
+exit
+gedit LICENSE &
+gedit LICENSE &
+gedit Makefile &
+ps
+ps -al
+exit
+gedit LICENSE &
+gedit Makefile &
+exit
+gedit LICENSE &
+exit
+gedit LICENSE &
+ps -al
+gedit Makefile &
+ps -al
+ps
+exit
+exit
+gedit LINCENSE &
+gedit Makefile &
+ps -al
+exit
+gedit LINCENSE &
+gedit Makefile &
+gedit LINCENSE &
+gedit Makefile &
+cheese &
+firefox &
+chrome &
+firefox &
+ps -al
+ps -al
+gedit LICENSE &
+firefox &
+ps -al
+pinfo 41320
+ps -al
+clear
+exit
+firefox &
+gedit LICENSE &
+chrome &
+ps -al
+ps -al
+exit
+gedit LICENSE &
+firefox &
+ls
+exit
+pinfo
+firefox
+google
+man firefox
+libre
+man libre
+Arduino
+ls
+make clean
+firefox &
+pinfo 44887
+pinfo 44887
+ps -al
+kill firefox
+ps
+kill 44887
+ps -al
+pinfo
+kill 44187

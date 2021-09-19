@@ -179,3 +179,11 @@ user@systemname:~$ make
 user@systemname:~$ make clean
 user@systemname:~$ ./a.out
 ```
+
+
+# some commands and their behaviour
+
+`ls ~` will print `ls /home/username` and not the  directory in which executable is present.
+
+`cd ~` will change current working directory to dirctory in which executable is present. Then you can type ls to see its contents.
+

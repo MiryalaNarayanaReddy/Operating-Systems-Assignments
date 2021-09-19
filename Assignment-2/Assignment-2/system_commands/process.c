@@ -45,6 +45,7 @@ void forground_process(char **argv)
     {
         if (execvp(argv[0], argv) == -1)
         {
+            setpgid(0, 0);
             Color_On(__RED, BOLD);
             printf("Command invalid :(\n");
             Color_Off();
@@ -60,13 +61,21 @@ void forground_process(char **argv)
     }
     else
     {
-        signal(SIGCHLD, process_status);
-        wait(NULL);
+        signal(SIGTTIN, SIG_IGN);
+        signal(SIGTTOU, SIG_IGN);
+        setpgid(child_pid, 0);
+        tcsetpgrp(0, __getpgid(child_pid));
+        int status;
+        waitpid(child_pid, &status, WUNTRACED);
+        tcsetpgrp(0, getpgrp());
+        signal(SIGTTIN, SIG_DFL);
+        signal(SIGTTOU, SIG_DFL);
     }
 }
 
 void background_process(char **argv)
 {
+    int status;
     pid_t child_pid = fork();
     if (child_pid == 0)
     {
@@ -87,12 +96,13 @@ void background_process(char **argv)
     }
     else
     {
-        setpgid(child_pid, getpgid(parent_pid)); // set the child process group id to parent process group id
-        // setting this will help us select options in the waitpid function.
+        setpgid(child_pid, 0);
+        // setpgid(child_pid, getpgid(parent_pid)); // set the child process group id to parent process group id
+        // // setting this will help us select options in the waitpid function.
+        signal(SIGCHLD, process_status);
         child_processes[number_of_children] = child_pid;
         strcpy(child_process_name[number_of_children], argv[0]);
         number_of_children++;
-        signal(SIGCHLD, process_status); // child exit
         printf("pid = %d\n", child_pid);
     }
 }
@@ -101,8 +111,8 @@ void process_status()
 {
     pid_t result;
     int status;
-    result = waitpid(0, &status, 0); // returns 0 if child is not already dead.
-    if (result >= 0)
+    result = waitpid(-1, &status, WNOHANG); // returns 0 if child is not already dead.
+    if (result > 0)
     {
         //check all child process in the list
         for (int i = 0; i < number_of_children; i++)
