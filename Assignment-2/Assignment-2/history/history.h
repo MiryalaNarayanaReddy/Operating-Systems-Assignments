@@ -3,6 +3,8 @@
 
 #include "../Shell/utils.h"
 
+#define MAX_HISTORY  19
+
 char history_file_path[1024];
 int number_of_lines_in_history;
 

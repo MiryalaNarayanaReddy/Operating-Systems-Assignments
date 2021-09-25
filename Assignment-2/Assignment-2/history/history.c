@@ -18,7 +18,7 @@ void history(char *num)
     int n = number_of_lines_in_history;
     if (AreSame(num, ""))
     {
-        for (int j = ((n - 9) >= 0 ? n - 9 : 0); j <= n; j++)
+        for (int j = ((n - MAX_HISTORY) >= 0 ? n - MAX_HISTORY : 0); j <= n; j++)
         {
             printf("%s\n", History[j]);
         }
@@ -46,7 +46,7 @@ void history(char *num)
 
 void push_into_history(char *command)
 {
-    if (number_of_lines_in_history != 20)
+    if (number_of_lines_in_history != MAX_HISTORY)
     {
         number_of_lines_in_history++;
         strcpy(History[number_of_lines_in_history], command);
@@ -65,7 +65,7 @@ void push_into_history(char *command)
     FILE *fp = fopen(history_file_path, "w");
     fprintf(fp, "%d\n", number_of_lines_in_history);
     int n = number_of_lines_in_history;
-    for (int j = (n - 19 >= 0 ? n - 19 : 0); j <= n; j++)
+    for (int j = (n - MAX_HISTORY >= 0 ? n - MAX_HISTORY : 0); j <= n; j++)
     {
         fprintf(fp, "%s\n", History[j]);
     }

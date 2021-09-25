@@ -1,21 +1,21 @@
-20
-ls -al
-exit
+26
 history
-exit
-ls -l
-make clean
-ls -l
-ls -al
-ls -a
-ls -al history Shell ls
-ls -al history Shell ls .
-clear
-ls -al history Shell ls .
-ls .
-ls Shell
-clear
-make
-./a.out
-exit
-exit
+history
+ls
+cd ..
+/home/narayana/Downloads/IIITH/Second Year/OS/assignment/Assignment-2
+/home/narayana/Downloads/IIITH/Second Year/OS/assignment/Assignment-2
+/home/narayana/Downloads/IIITH/Second Year/OS/assignment/Assignment-2
+/home/narayana/Downloads/IIITH/Second Year/OS/assignment
+/home/narayana/Downloads/IIITH/Second Year/OS/assignment
+cd -
+/home/narayana/Downloads/IIITH/Second Year/OS/assignment/Assignment-2/Assignment-2
+/home/narayana/Downloads/IIITH/Second Year/OS/assignment/Assignment-2
+/home/narayana/Downloads/IIITH/Second Year/OS/assignment/Assignment-2
+/home/narayana/Downloads/IIITH/Second Year/OS/assignment
+cd ..
+cd ..
+cd -
+cd -
+cd -
+cd ..
