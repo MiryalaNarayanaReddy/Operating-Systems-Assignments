@@ -30,8 +30,8 @@ Assignment-3
     |
     |________ extended_shell_functionalities
     |          |___ redirect_io.c and redirect_io.h
-    |          |___ 
-    |
+    |          |___ pipe.c and pipe.h
+    |          |___ jobs.c and jobs.h
     |
     |
     |________ Makefile
@@ -168,6 +168,23 @@ Assignment-3
 |**function**|**purpose**|
 |--------|------- |
 | *history* | prints all or n lines of history|
+
+# extended_shell_functonalities
+
+**`redirect_io.c`** has the following functions
+
+|**function**|**purpose**|
+|--------|------- |
+
+**`pipe.c`** has the following functions
+
+|**function**|**purpose**|
+|--------|------- |
+
+**`jobs.c`** has the following functions
+
+|**function**|**purpose**|
+|--------|------- |
 
 
 ## other files

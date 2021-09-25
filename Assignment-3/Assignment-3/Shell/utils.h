@@ -19,6 +19,12 @@
 #include "../system_commands/repeat.h"
 #include "../history/history.h"
 
+
+#include "../extended_shell_functionalities/redirect_io.h"
+#include "../extended_shell_functionalities/pipe.h"
+#include "../extended_shell_functionalities/jobs.h"
+
+
 #define BOLD true
 
 enum
