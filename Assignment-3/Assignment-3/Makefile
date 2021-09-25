@@ -69,3 +69,4 @@ pipe.o: extended_shell_functionalities/pipe.c
 # clean all object files
 clean:
 	rm *.o
+# rm a.out

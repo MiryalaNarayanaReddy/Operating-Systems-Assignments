@@ -174,7 +174,10 @@ Assignment-3
 **`redirect_io.c`** has the following functions
 
 |**function**|**purpose**|
-|--------|------- |
+|------------|----------- |
+| *redirect_input* | points stdin to a file |
+| *redirect_output* | points stdout to a file |
+
 
 **`pipe.c`** has the following functions
 

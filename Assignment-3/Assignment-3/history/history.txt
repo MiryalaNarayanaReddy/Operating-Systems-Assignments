@@ -81,3 +81,69 @@ cd Documents
 ls
 ./a.out
 exit
+ls
+make clean
+clear
+ls
+echo "redirect" > 1.txt
+exit
+clear
+echo "hello" > 2.txt
+exit
+echo "hello" > 3.txt
+exit
+echo "hello" > 4.txt
+echo c > t.txt
+j
+exit
+echo "g" > h.txt
+echo "Ggg" > g.txt
+exit
+echo "hello" > test.txt
+echo h > i
+exit
+exho "ggg" > 1.txt
+echo "ddd" > 2.txt
+exit
+echo "hello" > 1.txt
+exit
+echo gg > h
+mkdir test
+rm -r test
+ls
+clear
+exit
+echo "Ggg" > g
+exit
+clear
+echo hello > 1.txt
+exit
+echo f > g
+make
+./a.out
+echo "Cc" > 1.txt
+exit
+exit
+echo fff > g.txt
+exit
+echo "fgg" > 2.txt
+exit
+exit
+echo "Fff" > t.xt
+exit
+echo gg > t
+exit
+echo "Gg" > h
+exi
+exit
+echo h > h
+exit
+echo "ggg" > g
+exit
+exit
+echo gggg > f
+echo "Hello World" > 1.txt
+exit
+echo "Gfg"
+echo "ggtrg > gtgt"
+exit
