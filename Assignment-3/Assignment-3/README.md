@@ -1,7 +1,7 @@
 This contains the following folder structure.
 
 ```
-Assignment-2
+Assignment-3
     |
     |________ Shell
     |          |___ main.c
@@ -26,6 +26,13 @@ Assignment-2
     |________ history
     |          |___ history.c and history.h
     |          |___ history.txt
+    |
+    |
+    |________ extended_shell_functionalities
+    |          |___ redirect_io.c and redirect_io.h
+    |          |___ 
+    |
+    |
     |
     |________ Makefile
     |
