@@ -85,23 +85,30 @@ void process_command(char *arguments)
                               // I had to spend 10-20 minutes runing program again and again to figure it out :(
             if (command == __system_process)
             {
-                process(comnd, &token[i]);
+                // process(comnd, &token[i]);
+                Redirection(command, comnd, &token[i]);
             }
             else
             {
-                PerformAction(command, &token[i]);
+                char temp[50];
+                strcpy(temp, &token[i]);
+                Redirection(command,"", temp);
+                // PerformAction(command, &token[i]);
             }
         }
         else
         {
             if (command == __system_process)
             {
-                process(comnd, &token[i + 1]);
+                // process(comnd, &token[i + 1]);
+               Redirection(command, comnd, &token[i+1]);
             }
             else
             {
-
-                PerformAction(command, &token[i + 1]);
+                char temp[50];
+                strcpy(temp, &token[i + 1]);
+                Redirection(command,"", temp);
+                // PerformAction(command, &token[i + 1]);
             }
         }
         token = strtok(NULL, ";");

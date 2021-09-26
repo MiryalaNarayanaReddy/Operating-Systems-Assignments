@@ -147,3 +147,101 @@ exit
 echo "Gfg"
 echo "ggtrg > gtgt"
 exit
+ls
+echo "f" > i.txt
+ls > y.txt
+exit
+ls
+exit
+ls
+ls > i.txt
+echo "Gg" > i.xtx
+exit
+exit
+ls
+ls > r
+echo "g" > ii
+echo < juj > hh
+exit
+echo gt > h
+exit
+echo "G" > k
+echo gggg > uuu < iii
+exit
+echo "hhh" > iii < iii
+echo < hhh > gggg
+ls < i.txt > o.txt
+ls regthy < ik > y
+exit
+echo "Ggg" > h
+exit
+exit
+clear
+echo "ggg" > jj < ii
+echo "hgh"   "Huj "   j > oo < ii
+exit
+echo "F"F  ggh"   "Hhhhh" > o < i
+exit
+echo "dd" >> i
+exit
+exit
+ls
+ls -l
+ls -l > ls.txt
+cat ls.txt
+exit
+sort ls.txt
+sort < ls.txt
+sort ls.txt > o.txt
+sort ls.txt
+exit
+sort ls.txt
+make
+exit
+make
+clear
+sort ls.txt
+sort ls.txt > o.txt
+exit
+gedit
+sort < ls.txt
+clear
+ls
+clear
+exit
+exit
+exit
+ls
+clear
+ls > 1.txt
+exit
+sort < 1.txt
+sort < i.txt > o.txt
+exit
+exit
+sort < i.txt > o.txt
+sort < 1.txt > o.txt
+ls
+exit
+exit
+ps -al
+exit
+exit
+exit
+xit
+exit
+exit
+exit
+exit
+exit
+exit
+ps -al
+kill 19707
+ps
+kill 19737
+sort < 1.txt > e.txt
+echo "hello world" > t.txt
+cat < Makefile
+cat Makefile
+sort > f.txt < i.txt
+sort > f.txt < 1.txt
