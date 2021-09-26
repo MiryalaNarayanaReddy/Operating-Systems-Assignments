@@ -8,6 +8,6 @@ typedef int Command;
 
 void Redirection(Command command, char *cmnd, char *args);
 void redirect_input(char *filename);
-void redirect_output(char *filename);
+void redirect_output(char *filename, bool append);
 
 #endif

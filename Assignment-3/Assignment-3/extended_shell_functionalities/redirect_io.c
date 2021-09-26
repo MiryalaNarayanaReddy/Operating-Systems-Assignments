@@ -18,9 +18,18 @@ void redirect_input(char *filename)
     close(fdi);
 }
 
-void redirect_output(char *filename)
+void redirect_output(char *filename, bool append)
 {
-    int fdi = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    int fdi;
+    if (append)
+    {
+        fdi = open(filename, O_RDWR | O_APPEND);
+    }
+    else
+    {
+        fdi = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    }
+
     if (fdi < 0)
     {
         printf("%s doesnot exist\n", filename);
@@ -70,6 +79,8 @@ void Redirection(Command command, char *cmnd, char *args)
         else if (AreSame(token, ">>"))
         {
             append = true;
+            token = strtok_r(NULL, " ", &strptr);
+            strcpy(output_file, token);
         }
         if (!(input | output | append))
         {
@@ -86,131 +97,46 @@ void Redirection(Command command, char *cmnd, char *args)
         token = strtok_r(NULL, " ", &strptr);
     }
 
-    printf("%s\n", left_over_args);
-    if (input)
-    {
-        printf("input = %s\n", input_file);
-    }
-    if (output)
-    {
-        printf("output = %s\n", output_file);
-    }
-    if (append)
-    {
-        printf("appending\n");
-    }
+    // redirecting stdout and stdin
 
-    printf("cmnd = %s\n", cmnd);
-    if (!input & output & !append)
+    if (!input & output & !append) // only >
     {
-
-        pid_t chd = fork();
-        redirect_output(output_file);
-        if (chd == 0)
-        {
-            if (command == __system_process)
-            {
-                process(cmnd, left_over_args);
-            }
-            else
-            {
-                PerformAction(command, left_over_args);
-                exit(EXIT_SUCCESS);
-            }
-        }
-        else if (chd < 0)
-        {
-            perror("internal error: failed to fork ..\n");
-        }
-        else
-        {
-            waitpid(chd, &stat, WNOHANG);
-        }
+        redirect_output(output_file, append);
     }
-    else if (input & !output & !append)
+    else if (input & !output & !append) // only <
     {
-
-        pid_t chd = fork();
-        if (chd == 0)
-        {
-            redirect_input(input_file);
-            if (command == __system_process)
-            {
-                process(cmnd, left_over_args);
-            }
-            else
-            {
-                PerformAction(command, left_over_args);
-                exit(EXIT_SUCCESS);
-            }
-            exit(EXIT_SUCCESS);
-        }
-        else if (chd < 0)
-        {
-            perror("internal error: failed to fork ..\n");
-        }
-        else
-        {
-            waitpid(chd, &stat, WNOHANG);
-        }
+        redirect_input(input_file);
     }
-    else if (input & output & !append)
+    else if (input & output & !append) // both > and <
     {
-
-        pid_t chd = fork();
-        if (chd == 0)
-        {
-            redirect_input(input_file);
-            redirect_output(output_file);
-            if (command == __system_process)
-            {
-                process(cmnd, left_over_args);
-            }
-            else
-            {
-                PerformAction(command, left_over_args);
-            }
-            exit(EXIT_SUCCESS);
-        }
-        else if (chd < 0)
-        {
-            perror("internal error: failed to fork ..\n");
-        }
-        else
-        {
-            waitpid(chd, &stat, WNOHANG);
-        }
+        redirect_input(input_file);
+        redirect_output(output_file, append);
     }
-    else if (!(input | output | append))
+    else if (!input & !output & append) // only >>
     {
-
-        printf("comming soon..\n");
-        pid_t chd = fork();
-        if (chd == 0)
-        {
-            if (command == __system_process)
-            {
-                process(cmnd, left_over_args);
-            }
-            else
-            {
-                PerformAction(command, left_over_args);
-                exit(EXIT_SUCCESS);
-            }
-            exit(EXIT_SUCCESS);
-        }
-        else if (chd < 0)
-        {
-            perror("internal error: failed to fork ..\n");
-        }
-        else
-        {
-            waitpid(chd, &stat, WNOHANG);
-        }
+        redirect_output(output_file, append);
+    }
+    else if (input & !output & append) // both < and >>
+    {
+        redirect_output(output_file, append);
     }
     else
     {
-        printf("yet to fiigure\n");
+        // nothing
+        // printf("yet to figure\n");
+
+        //invalid cases
+        // both > and >>
+        // all < > >>
+    }
+
+    if (command == __system_process)
+    {
+        process(cmnd, left_over_args);
+    }
+    else
+    {
+        PerformAction(command, left_over_args);
     }
     dup2(sfdi, STDIN_FILENO);
     dup2(sfdo, STDOUT_FILENO);

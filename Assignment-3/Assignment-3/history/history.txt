@@ -245,3 +245,48 @@ cat < Makefile
 cat Makefile
 sort > f.txt < i.txt
 sort > f.txt < 1.txt
+make clean
+ps -l
+ps -l > i.txt
+ls > i.txt
+cat < i.txt
+sort < i.txt
+sort i.txt
+sort < i.txt
+sort -i < i.txt
+sort -n < i.txt
+sort -n < i.txt > o.txt
+exit
+ls
+clear
+cat i.txt
+sort -n i.txt >> t.txt
+sort -n i.txt > t.txt
+ls > r.txt
+make
+./a.out
+ls > e.txt
+cat < e.txt
+echo "hello world "   "--yahooo..." > hello.txt
+echo "new line" >> hello.txt
+make
+exit
+ps
+clear
+echo "ggg" >> hello.txt
+exit
+echo "new line" >> hello.txt
+exit
+echo "thank you" >> hello.txt
+#!/bin/bash
+mkdir -p testing/dir1/dir2
+mkdir -p testing/dir3
+touch testing/dir1/a.txt testing/dir1/b.c testing/dir1/.hidden.txt
+echo "ww" > i.txt
+echo "hmm" >> i.txt
+exit
+echo "fff" >> i.txt
+exit
+exit
+echo "thank you " >> i.txt
+exit
