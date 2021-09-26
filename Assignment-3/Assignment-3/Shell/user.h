@@ -24,7 +24,8 @@ enum
     __pinfo,
     __system_process,
     __repeat,
-    __history
+    __history,
+    __pipe
 };
 
 

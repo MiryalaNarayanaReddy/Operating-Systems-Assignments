@@ -92,7 +92,7 @@ void process_command(char *arguments)
             {
                 char temp[50];
                 strcpy(temp, &token[i]);
-                Redirection(command,"", temp);
+                Redirection(command, "", temp);
                 // PerformAction(command, &token[i]);
             }
         }
@@ -101,13 +101,13 @@ void process_command(char *arguments)
             if (command == __system_process)
             {
                 // process(comnd, &token[i + 1]);
-               Redirection(command, comnd, &token[i+1]);
+                Redirection(command, comnd, &token[i + 1]);
             }
             else
             {
                 char temp[50];
                 strcpy(temp, &token[i + 1]);
-                Redirection(command,"", temp);
+                Redirection(command, "", temp);
                 // PerformAction(command, &token[i + 1]);
             }
         }
@@ -157,6 +157,10 @@ Command encode_command(char *command)
     {
         return __history;
     }
+    else if (AreSame(command, "pipe"))
+    {
+        return __pipe;
+    }
     else
     {
         return __system_process;
@@ -195,6 +199,9 @@ void PerformAction(Command command, char *args)
         break;
     case __history:
         history(args);
+        break;
+    case __pipe:
+        check_for_pipes(args);
         break;
     }
 }

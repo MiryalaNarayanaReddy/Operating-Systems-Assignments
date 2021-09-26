@@ -290,3 +290,32 @@ exit
 exit
 echo "thank you " >> i.txt
 exit
+pipe
+ps
+ps -al
+clear
+ps -fea
+exit
+pipe
+exit
+pipe
+exit
+ls
+clear
+pipe ls | sort
+exit
+pipe ls | sort
+make
+clear
+exit
+pipe ls | sort
+pipe ls | sort | uniq
+ls
+clear
+exit
+pipe grep "t" | sort -r
+pipe ls | sort
+clear
+exit
+pipe sort
+exit
