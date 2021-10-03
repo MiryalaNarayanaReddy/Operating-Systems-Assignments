@@ -960,3 +960,139 @@ jobs
 jobs
 jobs
 exit
+ls
+clear
+gedit &
+jobs
+jobs
+exit
+exit
+ps
+ps -al
+clear
+exit
+jobs
+gedit &
+jobs
+make
+clear
+exit
+exit
+exit
+exit
+gedit &
+jobs
+ps
+firefox &
+jobs
+jobs
+exit
+gedit &
+jobs
+exit
+jobs
+gedit &
+jobs
+exit
+gedit &
+jobs
+cat temp_XXXX.txt
+exit
+gedit &
+jobs
+exit
+clear
+gedit &
+jobs
+firefox &
+jobs
+emacs &
+jobs
+exit
+gedit &
+jobs
+firefox &
+jobs
+emacs 7
+emacs &
+jobs
+exit
+exit
+gedit &
+emacs &
+firefox &
+cheese &
+jobs
+exit
+gedit &
+firefox &
+jobs
+jobs
+exit
+gedit *
+gedit &
+jobs
+gedit &
+jobs
+jobs
+exit
+gedit &
+gedit *
+gedit &
+jobs
+firefox 7
+firefox &
+gedit &
+jobs
+emacs &
+emacs &
+jobs
+ps
+ls
+jobs -s
+jobs
+gedit &
+ps -al
+emacs LICENSE &
+jobs
+ls
+exit
+cleaar
+clear
+gedit &
+firefox
+firefox &
+emacs &
+vi &
+jobs
+jobs
+firefox &
+jobs
+jobs -s
+jobs -r
+jobs -t
+cheeae &
+cheese &
+jobs
+jobbs
+jobs
+jobs
+jobs
+exit
+gedit &
+gedit &
+jobs
+jobs -r
+jobs -s
+exit
+gedit 7
+geit &
+gedit &
+gedit &
+jobs
+jobs -r
+jobs -s
+firefox &
+jobs
+jobs -s
+exit
