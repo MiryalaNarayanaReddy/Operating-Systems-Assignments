@@ -841,3 +841,122 @@ ls | wc -l
 ls
 cat LICENSE | wc
 exit
+ls
+ls | sort
+ls | sort > i.txt
+cat i.txt
+exit
+ls
+gedit
+gedit &
+ps
+exit
+jobs
+gedit
+jobs
+exit
+ls
+ls | sort
+gedit
+gedit &
+jobs
+firefox &
+firefox
+firefox
+jobs
+ps -al
+exit
+gedit &
+firefox
+vi
+vi &
+clear
+vi &
+ps -al
+exit
+ls
+clear
+gedit
+jobs
+gedit
+jobs
+gedit
+jobs
+exit
+jobs
+gedit
+jobs
+pinfo
+pinfo
+pinfo
+gedit &
+firefox &
+jobs
+jobs
+firefox &
+jobs
+gedit &
+jobs
+jobs
+gedit &
+gedit
+firefox
+jobs
+exit
+gedit
+gedit &
+ps
+jobs
+jobs
+exit
+gedit &
+jobs
+jobs
+ls
+gedit &
+jobs
+jobs
+exit
+gedit &
+ps
+jobs
+jobs
+ps &
+jobs
+kill 31706
+jobs
+clear
+firefox
+ps
+jobs
+jobs -r
+jobs -s
+clear
+exit
+gedit &
+jobs
+gedit &
+firefox &
+vi &
+jobs
+jobs
+gedit
+jobs
+exit
+gedit &
+jobs
+ls | sort
+exit
+gedit
+jobs
+gedit &
+jobs
+firefox
+jobs
+ps
+jobs
+firefox &
+jobs
+jobs
+jobs
+exit

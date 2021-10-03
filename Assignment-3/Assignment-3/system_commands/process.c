@@ -60,8 +60,20 @@ void forground_process(char **argv)
     }
     else
     {
-        signal(SIGCHLD, process_status);
-        wait(NULL);
+        // push_into_jobs(argv[0], child_pid);
+        current_fg = child_pid;
+        signal(SIGTTIN, SIG_IGN);
+        signal(SIGTTOU, SIG_IGN);
+        setpgid(child_pid, 0);
+        tcsetpgrp(0, __getpgid(child_pid));
+
+        int status;
+        waitpid(child_pid, &status, WUNTRACED);
+
+        // exit_code = status;
+        tcsetpgrp(0, getpgrp());
+        signal(SIGTTIN, SIG_DFL);
+        signal(SIGTTOU, SIG_DFL);
     }
 }
 
@@ -75,7 +87,7 @@ void background_process(char **argv)
             Color_On(__RED, BOLD);
             printf("Command invalid :(\n");
             Color_Off();
-            exit(EXIT_FAILURE); // not valid and verified
+            exit(EXIT_FAILURE);
         }
         exit(EXIT_SUCCESS);
     }
@@ -87,56 +99,25 @@ void background_process(char **argv)
     }
     else
     {
-        setpgid(child_pid, getpgid(parent_pid)); // set the child process group id to parent process group id
-        // setting this will help us select options in the waitpid function.
-        child_processes[number_of_children] = child_pid;
-        strcpy(child_process_name[number_of_children], argv[0]);
-        number_of_children++;
-        signal(SIGCHLD, process_status); // child exit
-        printf("pid = %d\n", child_pid);
+        push_into_jobs(argv[0], child_pid);
+        printf("[%d] pid = %d\n",num_jobs,child_pid);
+        setpgid(child_pid, 0);
+        tcsetpgrp(0, getpgrp());
     }
 }
 
-void process_status()
+void setup_exit()
 {
-    pid_t result;
-    int status;
-    result = waitpid(0, &status, 0); // returns 0 if child is not already dead.
-    if (result >= 0)
-    {
-        //check all child process in the list
-        for (int i = 0; i < number_of_children; i++)
-        {
-            if (child_processes[i] == result) // our child process is in the list ...
-            {
-                if (child_processes[i] != 0) // check child process id
-                {
-                    if (WIFEXITED(status) & WEXITSTATUS(status) == EXIT_SUCCESS) // WIFEXITED --> is exit normal  && WEXITSTATUS ---> did it exit with exit code 0.
-                    {
-                        Color_On(__PINK, !BOLD);
-                        printf("\n\" %s \" with pid = %d exited normally\n", child_process_name[i], child_processes[i]);
-                        Color_Off();
-                        printf("continue with your command or press enter to continue...\n");
-                        // prompt();
-                        // fflush(stdin);
-                        return;
-                    }
-                    else // if (WIFSIGNALED(status)) ---> this is always true
-                    {
-                        Color_On(__PINK, !BOLD);
-                        printf("\n\" %s \" with pid = %d exited abnormally\n", child_process_name[i], child_processes[i]);
-                        Color_Off();
-                        printf("continue with your command or press enter to continue...\n");
-                        // prompt();
-                        // fflush(stdout);
-                        return;
-                    }
-                }
-            }
-            child_processes[i] = 0; // its dead or exited
-            // number_of_children--;   // decrease number of children by one.
-        }
-    }
-    else
+    signal(SIGCHLD, exit_status);
+}
+
+void exit_status()
+{
+    int proc_stat, proc_id = waitpid(-1, &proc_stat, WNOHANG);
+    if (proc_id <= 0)
         return;
+    WIFEXITED(proc_stat) && WEXITSTATUS(proc_stat) == EXIT_SUCCESS
+        ? printf("\n%s with pid %d exited normally ", jobs[process_no].name, proc_id)
+        : printf("\n%s with pid %d exited with error code %d ", jobs[process_no].name, proc_id, WEXITSTATUS(proc_stat));
+    fflush(stdout);
 }

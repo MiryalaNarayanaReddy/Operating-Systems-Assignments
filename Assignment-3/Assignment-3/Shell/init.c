@@ -16,7 +16,7 @@ void init_cd()
 void init_process()
 {
     parent_pid = getpid();
-    number_of_children = 0;
+    num_jobs = 0;
 }
 
 void init_signal()
@@ -42,10 +42,13 @@ void init_history()
     number_of_lines_in_history = i;
 }
 
+
+
 void init()
 {
     init_cd();
     init_process();
     init_signal();
     init_history();
+    setup_exit();
 }

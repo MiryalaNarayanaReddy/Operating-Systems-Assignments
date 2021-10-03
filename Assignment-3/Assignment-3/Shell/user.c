@@ -157,6 +157,10 @@ Command encode_command(char *command)
     {
         return __history;
     }
+    else if (AreSame(command, "jobs"))
+    {
+        return __jobs;
+    }
     else
     {
         return __system_process;
@@ -197,8 +201,8 @@ void PerformAction(Command command, char *args)
     case __history:
         history(args);
         break;
-        // case __pipe:
-        //     check_for_pipes(args);
+    case __jobs:
+       list_jobs(args);
         break;
     }
 }
