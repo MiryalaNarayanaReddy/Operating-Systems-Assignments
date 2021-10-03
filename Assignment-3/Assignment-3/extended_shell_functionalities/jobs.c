@@ -83,7 +83,7 @@ void list_jobs(char *args)
     if (pid == 0)
     {
         // dup2(STDOUT_FILENO,STDOUT_FILENO);
-        execl("/bin/sort", "sort", "-k3,3","-k5,5n" ,"temp_XXXX.txt", NULL);
+        execl("/bin/sort", "sort", "-k3,3", "-k5,5n", "temp_XXXX.txt", NULL);
         exit(0);
     }
     else if (pid < 0)
@@ -96,4 +96,55 @@ void list_jobs(char *args)
     }
 
     remove("temp_XXXX.txt");
+}
+
+void kill_job(char *args)
+{
+    int id, signal;
+    char *token;
+    char *strptr;
+    token = strtok_r(args, " ", &strptr);
+    if (token != NULL)
+    {
+        id = string_to_int(token);
+        if (id == -1)
+        {
+            perror("pid is not a number\n");
+            return;
+        }
+    }
+    token = strtok_r(NULL, " ", &strptr);
+    if (token != NULL)
+    {
+        signal = string_to_int(token);
+        if (signal == -1)
+        {
+            perror("signal is not a number\n");
+            return;
+        }
+    }
+    // printf("%d %d\n",id,signal);
+    if (id > num_jobs)
+    {
+        perror("Invalid pid or process is not created by this shell \n");
+        return;
+    }
+    kill(jobs[id - 1].pid, signal);
+}
+
+void fg(char *args)
+{
+    int id = string_to_int(args);
+    if (id == -1)
+    {
+        perror("pid is not a number\n");
+        return;
+    }
+    printf("%d\n", id);
+    if (id > num_jobs)
+    {
+        perror("Invalid pid or process is not created by this shell \n");
+        return;
+    }
+    // pending;
 }

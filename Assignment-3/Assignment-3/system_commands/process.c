@@ -100,7 +100,7 @@ void background_process(char **argv)
     else
     {
         push_into_jobs(argv[0], child_pid);
-        printf("[%d] pid = %d\n",num_jobs,child_pid);
+        printf("[%d] pid = %d\n", num_jobs, child_pid);
         setpgid(child_pid, 0);
         tcsetpgrp(0, getpgrp());
     }

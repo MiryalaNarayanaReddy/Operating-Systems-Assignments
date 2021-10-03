@@ -161,6 +161,14 @@ Command encode_command(char *command)
     {
         return __jobs;
     }
+    else if (AreSame(command, "sig"))
+    {
+        return __sig;
+    }
+    else if (AreSame(command, "fg"))
+    {
+        return __fg;
+    }
     else
     {
         return __system_process;
@@ -202,7 +210,13 @@ void PerformAction(Command command, char *args)
         history(args);
         break;
     case __jobs:
-       list_jobs(args);
+        list_jobs(args);
+        break;
+    case __sig:
+        kill_job(args);
+        break;
+    case __fg:
+        fg(args);
         break;
     }
 }

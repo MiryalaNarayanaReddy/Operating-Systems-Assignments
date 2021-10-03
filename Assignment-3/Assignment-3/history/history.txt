@@ -1096,3 +1096,60 @@ firefox &
 jobs
 jobs -s
 exit
+clear
+gedit &
+sig 10273 9
+man signal
+man sig
+jobs
+exit
+clear
+gedit &
+jobs
+sig 1 9
+exit
+gedit &
+gedit &
+jobs
+sig 2 9
+make
+./a.out
+gedit  &
+gedit &
+jobs
+sig 2 9
+jobs
+exit
+exit
+gedit &
+gedit &
+jobs
+sig 2 12021
+exit
+gedit &
+gedit &
+sig 2 9
+jobs
+firefox &
+jobs
+sig 3 9
+jobs
+exit
+exit
+clear
+gedit &
+jobs
+fg 1
+sig 1 9
+exit
+clear
+gedit &
+fg 1
+make
+make clean
+make
+clear
+exit
+gedit &
+fg 1
+exit

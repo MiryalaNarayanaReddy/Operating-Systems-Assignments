@@ -16,5 +16,7 @@ struct  processes jobs[30];
 
 void list_jobs(char *args);
 void push_into_jobs(char *p, int pid);
+void kill_job(char *args);
+void fg(char *args);
 
 #endif

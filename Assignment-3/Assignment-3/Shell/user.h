@@ -25,7 +25,9 @@ enum
     __system_process,
     __repeat,
     __history,
-    __jobs
+    __jobs,
+    __sig,
+    __fg
 };
 
 
