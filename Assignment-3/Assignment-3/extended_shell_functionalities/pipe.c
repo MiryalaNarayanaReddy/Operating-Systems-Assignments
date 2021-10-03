@@ -1,54 +1,41 @@
 #include "pipe.h"
 #include <wait.h>
 
-void mypipe(char *args)
+static void
+pipeline(char **cmd)
 {
-    int buffer_pipe[2];
-    if (pipe(buffer_pipe))
+    int fd[2];
+    pid_t pid;
+    int fdd = 0; /* Backup */
+    while (*cmd != NULL)
     {
-        perror("Could not pipe. :(\n");
-        return;
-    }
-    // buffer_pipe[0]  for reading end;
-    // buffer_pipe[1]  for writing end;
-
-    pid_t chd1 = fork();
-    pid_t chd2;
-    if (chd1 == 0)
-    {
-        // dup2(buffer_pipe[READ], STDIN_FILENO);
-        close(buffer_pipe[READ]);
-        dup2(buffer_pipe[WRITE], STDOUT_FILENO);
-        execlp("ls", "ls", NULL);
-    }
-    else
-    {
-        chd2 = fork();
-        if (chd2 == 0)
+        pipe(fd); /* Sharing bidiflow */
+        if ((pid = fork()) == -1)
         {
-            close(buffer_pipe[WRITE]);
-            dup2(buffer_pipe[READ], STDIN_FILENO);
-
-            execlp("sort", "sort", NULL);
+            perror("fork");
+            exit(1);
+        }
+        else if (pid == 0)
+        {
+            dup2(fdd, 0);
+            if (*(cmd + 1) != NULL)
+            {
+                dup2(fd[1], 1);
+            }
+            close(fd[0]);
+            // execvp((*cmd)[0], *cmd);
+            // process_command(cmd[0]);
+            system(cmd[0]);
+            exit(1);
+        }
+        else
+        {
+            wait(NULL); /* Collect childs */
+            close(fd[1]);
+            fdd = fd[0];
+            cmd++;
         }
     }
-    waitpid(chd1, NULL, 0);
-    close(buffer_pipe[WRITE]);
-    // close(buffer_pipe[READ]);
-    waitpid(chd2, NULL, 0);
-}
-
-void parse_cmd_for_execvp(char *args, char dest[0][100])
-{
-    char *token, *strptr;
-    token = strtok_r(args, " ", &strptr);
-    int i = 0;
-    while (token != NULL)
-    {
-        strcpy(dest[i], token);
-        token = strtok_r(NULL, "| ", &strptr);
-    }
-    dest[i][0] = '\0';
 }
 
 void check_for_pipes(char *args)
@@ -56,26 +43,32 @@ void check_for_pipes(char *args)
     char list[10][100];
     char parsed_comnd[10][100];
     char *token, *strptr;
-    token = strtok_r(args, "| ", &strptr);
-    int i = 0;
+    token = strtok_r(args, "|", &strptr);
+    int n = 0;
     while (token != NULL)
     {
-        strcpy(list[i++], token);
-        token = strtok_r(NULL, "| ", &strptr);
+        strcpy(list[n++], token);
+        token = strtok_r(NULL, "|", &strptr);
     }
+    // printf("n = %d\n", n);
 
-    for (int j = 0; j < i; j++)
+    // char *ls[] = {"ls", "-al", NULL};
+    // char *rev[] = {"rev", NULL};
+    // char *nl[] = {"nl", NULL};
+    // char *cat[] = {"cat", "-e", NULL};
+    // char *cmd[] = {"ls", "sort", "uniq", NULL};
+    if (n == 1)
     {
-        printf("%s\n", list[j]);
-        parse_cmd_for_execvp(list[j], parsed_comnd);
-        int k = 0;
-        printf("----\n");
-        while (parsed_comnd[k][0] != '\0')
-        {
-            // do work here
-            printf("%s\n",parsed_comnd[k]);
-            k++;
-        }
-
+        process_command(list[0]);
+        return;
     }
+
+    // piping part =============================
+    char *cmd[10];
+    for (int i = 0; i < n; i++)
+    {
+        cmd[i] = list[i];
+    }
+    cmd[n] = NULL;
+    pipeline(cmd);
 }

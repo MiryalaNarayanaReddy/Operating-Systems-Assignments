@@ -8,5 +8,4 @@
 
 void check_for_pipes(char *args);
 
-
 #endif

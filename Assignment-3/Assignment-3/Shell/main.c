@@ -10,6 +10,7 @@ int main()
     {
         prompt();
         Get_Command(argument);
-        process_command(argument);
+        // process_command(argument);
+        check_for_pipes(argument);
     }
 }

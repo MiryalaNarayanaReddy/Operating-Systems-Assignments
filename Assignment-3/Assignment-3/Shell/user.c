@@ -157,10 +157,6 @@ Command encode_command(char *command)
     {
         return __history;
     }
-    else if (AreSame(command, "pipe"))
-    {
-        return __pipe;
-    }
     else
     {
         return __system_process;
@@ -178,6 +174,7 @@ void PerformAction(Command command, char *args)
         break;
     case __exit:
         exit(EXIT_SUCCESS);
+        // kill(parent_pid, SIGKILL);
         break;
     case __clear:
         printf("\e[1;1H\e[2J");
@@ -200,8 +197,8 @@ void PerformAction(Command command, char *args)
     case __history:
         history(args);
         break;
-    case __pipe:
-        check_for_pipes(args);
+        // case __pipe:
+        //     check_for_pipes(args);
         break;
     }
 }

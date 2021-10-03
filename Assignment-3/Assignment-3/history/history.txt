@@ -319,3 +319,525 @@ clear
 exit
 pipe sort
 exit
+exit
+ls
+clear
+sort < test_case/redirect.txt
+sort test_cases/redirect.txt
+sort < test_cases/redirect.txt > o.txt
+clear
+sort < test_cases/redirect.txt >> o.txt
+sort < test_vaes/redirect.txt
+sort < test_cases/redirect.txt >> o.txt
+sort < test_cases/redirect.txt
+exit
+pipe ls | sort
+exit
+clear
+pipe ls | sort
+ps -al
+vi
+ls
+ls -l
+ls -al
+ls -a -l
+ls .
+clear
+ls
+cd Shell
+clear
+
+ls | sort
+ls -al | sort
+ls
+exit
+exit
+
+ls
+ls | sort
+exit
+ls
+ls | sort | grep r
+ls -al
+ps -al
+exit
+ls
+ls | sort
+exit
+exit
+exit
+ps -al
+kill 10852
+kill 10657
+exit
+exit
+exit
+clear
+sort < tcs/i.txt
+sort tcs/i.txt
+exit
+exit
+exit
+ls
+ls -al
+exit
+ls
+ls -al
+ls | sort
+exit
+exit
+ls
+ls | sort
+exit
+exit
+ls
+ls | sort
+ls | grep "R"
+make clean
+clear
+clear
+exit
+ls
+ls > o.txt
+sort o.txt
+exit
+ls
+ls | sort
+ls > o.txt
+sort o.txt
+sort < o.txt
+sort o.txt
+sort < o.txt
+exit
+ls | sort
+ls
+exit
+ls
+ls | sort
+exit
+ls
+ls | sot
+ls | sort
+exit
+ls | sort
+ls
+exit
+ls
+ls | sort
+ls > o.txt
+sort o.txt
+sort < o.txt
+sort h j k u t
+ls
+ls | sort
+ls | grep ".o"
+exit
+ls | grep ".o"
+make
+exit
+ls -l
+ls -al .
+ls | grep "r"
+exit
+ls | grep "w"
+ls | grep "O"
+ls | sort
+exit
+ls
+exit
+ls
+ls -al
+pinfo
+ls | grep 'o'
+find .o
+find .
+ls | sort
+exit
+ls | sort
+exit
+ls | sort
+exit
+ls | grep 'o'
+ls | sort
+exit
+ls | sort
+exit
+ls
+ls
+exit
+ls
+ls | sort
+ls
+ls | sort
+ls -al
+ls | grep "o"
+ls > i.txt
+sort < i.txt
+ls | sort
+exit
+ls
+ls | sort
+exit
+ls
+ls | sort
+exit
+ls
+ls | sort
+exit
+ls | uniq
+pinfo
+ls | sort
+exit
+ls | sort
+exit
+ls | sort
+make
+exit
+clear
+ls
+ls | sor
+ls | sort
+ls | sort > t.txt
+exit
+ls
+ls > i.txt
+sort i.txt
+gedit
+gedit &
+gedit &
+firefox &
+ls
+cat i.txt
+cat i.txt | sort
+sort < i.txt
+ls | sort -a
+exit
+ls | sort
+exit
+ls | sort
+ls
+ls |
+d
+efe
+geg
+gg
+ggeferf
+yhujndmckx ,z.zs.;la,kdcejhuhggtjfdsk'l;a;psldoek,fjmgvhutmfk';sxp/'[A
+]a[ZPSDLOWE
+
+
+[D[A[B[C[B[D[A[C[D[C[A[B[D[C[A[B[D[C[A[B[D[C[A[B[D[C[A[B[D[C[A[B[D[C[A[B[D[C[A[B[D[C[A[B[D[C[A[B[D[C[A[B[D[C[A[B[D[C[A[B[D[C[A[B[D[C[A[B[D[A[B[D[C[A[D[B[C[A[D[B[A[C[D[B
+[A[D[B[C[D[C[A[B[D[C[A[B[D[C[A[B[D[C[D[A[B[D[C[A[C[B[A[D[C[A[D[D[A[D[C[C[D[B[D[C[D[B[D[C[D[B[C[D[C[A[B[D[D[D[C[A[C[D[A[C[D[D[D[C[D[B[D[C[D[C[B[B[C[B[B[C[C[B[B[B[C[C[B[D[C[B[A[D[B[C[A[D[B[C[D[A[C[C[B[D[B[C[D[A[B[C[D[B[D[A[B[C[D[C[B[D[B[D[A[D[C[B[D[B[C[D[A[C[B[D[A[C[B[D[B[B[B[B
+[A
+LS
+ls
+exit
+ls | sort
+exit
+ls
+exit
+ls
+ls | sort
+builtin_commands
+echo.o
+repeat.o
+cd.o
+history.o
+system_commands
+LICENSE
+jobs.o
+a.out
+history
+ls | sort
+builtin_commands
+echo.o
+repeat.o
+cd.o
+history.o
+system_commands
+LICENSE
+jobs.o
+a.out
+history
+ls | sort
+builtin_commands
+echo.o
+repeat.o
+cd.o
+history.o
+system_commands
+LICENSE
+jobs.o
+a.out
+history
+ls | sort
+builtin_commands
+echo.o
+repeat.o
+cd.o
+history.o
+system_commands
+LICENSE
+jobs.o
+a.out
+history
+ls | sort
+builtin_commands
+echo.o
+repeat.o
+cd.o
+history.o
+system_commands
+LICENSE
+jobs.o
+a.out
+history
+ls | sort
+builtin_commands
+echo.o
+repeat.o
+cd.o
+history.o
+system_commands
+LICENSE
+jobs.o
+a.out
+history
+ls | sort
+<narayana@narayana-Inspiron-15-5510:~>
+ls | find
+builtin_commands
+echo.o
+repeat.o
+cd.o
+history.o
+system_commands
+LICENSE
+jobs.o
+a.out
+history
+ls | sort
+ls
+ls | sort
+exit
+ls | sort
+exit
+ps a-l
+ps -al
+ls
+exit
+exit
+ls
+ggv
+ls | sort
+exit
+clear
+exit
+ls
+ls | sort
+ls | uniq
+ls
+cat i.txt | uniq
+cat i.txt
+exit
+cat i.txt | uniq
+exit
+ls | sort
+exit
+ls
+ls
+exit
+ls
+exit
+exit
+ls
+ls | sort
+ls | sort | uniq
+clear
+exit
+ls
+ls | sort
+exit
+exit
+ps -al
+exit
+ls
+ls | sort
+exit
+ls
+exit
+ls
+exit
+ls
+exit
+ls
+exit
+ls
+exit
+ls
+ls | sort
+exit
+ls
+exit
+ls
+exit
+ls
+exit
+ls
+exit
+ls
+ls -al
+exit
+ls
+exit
+cat i.txt | sort | uniq
+exit
+ls
+ls | sort
+sort i.txt
+clear
+exit
+ls | sort
+exit
+cat i.txt | grep 'r'
+exit
+ls | sort
+cat i.txt
+ls
+exit
+ls
+ls | sort
+cat i.txt | sort
+cat i.txt
+clear
+exit
+ls | sort
+exit
+ls
+exit
+ls
+ls | sort
+exit
+ls
+ls | sort
+exit
+cat i.txt | sort | uniq
+cat i.txt | sort | uniq
+exit
+ls | sort | uniq
+exit
+ls
+ls | wc
+exit
+ls | wc | uniq
+exit
+wc
+ls | sort | uniq
+exit
+ls
+ls | sort
+ls
+
+ls
+ls | uniq
+ls | sort
+exit
+echo "Hhh"
+pinfo
+pinfo > p.txt
+pinfo >> p.txt
+pinfo
+pinfo
+exit
+pinfo
+pinfo
+ps
+ps -al
+pinfo
+ps
+pinfo
+pinfo
+ps -al
+pinfo
+pinfo &
+pinfo 8846
+pinfo
+ps
+kill 9021
+ls
+ps
+ps
+exit
+ls | uniq
+ps
+exit
+ls
+ls | uniq
+ls
+ls | uniq
+ls
+echo bgg nyhy
+exit
+ls | uniq
+exit
+ls
+ls | sort
+exit
+ls | uniq
+exit
+ls
+ls | sort
+exit
+exit
+exit
+ls
+ls | uniq
+cat i.txt
+cat > i.txt
+cat i.txt
+cat i.txt | sort | uniq
+cat i.txt | sort
+exit
+ps
+kill 13330
+ls
+exit
+ls
+ls | sort
+ls | sort | head -5
+pinfo | wc
+exit
+ls > i.txt
+cat i.txt
+sort < i.txt > o.txt
+cat o.txt
+clear
+exit
+ls
+ls | sort
+exit
+ls
+ls | sort
+ls
+ls | sort
+ls exit
+exit
+ls
+exit
+cat i.txt | sort
+ps
+make
+make clean
+make
+clear
+pinfo
+pinfo
+ps -al
+clear
+ls | wc
+ls | wc -c
+ls | wc -w
+ls | wc -l
+ls
+cat LICENSE | wc
+exit
