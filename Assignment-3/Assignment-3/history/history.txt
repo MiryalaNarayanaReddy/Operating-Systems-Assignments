@@ -1293,3 +1293,87 @@ firefox
 firfox
 firefox
 exit
+gedit
+ps
+ps -al
+jobs
+jobs
+clear
+ps
+gedit
+clear
+clear
+exit
+gedit
+ps -al
+fg 39649
+exit
+gedit
+gedit &
+exit
+gedit &
+firefox &
+exit
+gedit &
+exit
+gedit &
+exit
+gedit &
+gedit LICENSE &
+jobs
+fg 2
+exit
+gedit
+exit
+gedit
+clear
+gedit
+gedit &
+exit
+gedit
+gedit
+exit
+gedit
+gedit
+ps
+ps -al
+gedit
+gedit
+exit
+gedit
+gedit
+exit
+gedit
+ps -al
+firfox
+firefox
+chrome
+ping google.com
+ps -al
+man ping
+exit
+gedit
+gedit &
+ps
+ls
+man help
+man --help
+exit
+exit
+gedit &
+jobs
+bg 1
+jobs
+sig 1 9
+jobs
+exit
+gedit &
+jobs
+firefox
+firefox &
+jobs
+bg 2
+jobs
+sig 1 9 ; sig 2 9
+jobs
+exit

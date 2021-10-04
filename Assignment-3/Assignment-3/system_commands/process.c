@@ -7,10 +7,15 @@
 void process(char *command, char *args)
 {
     char *argv[MAX_ARGS];
+
+    sprintf(temp_process_name, "%s %s", command, args);
+
     int num_args = parse_cmd(command, args, argv);
+
     if (AreSame(argv[num_args - 1], "&"))
     {
         argv[num_args - 1] = NULL;
+        temp_process_name[strlen(temp_process_name) - 2] = '\0';
         background_process(argv);
     }
     else
@@ -62,6 +67,7 @@ void forground_process(char **argv)
     {
         // push_into_jobs(argv[0], child_pid);
         current_fg.pid = child_pid;
+        strcpy(current_fg.name, temp_process_name);
         strcpy(current_fg.name, argv[0]);
         signal(SIGTTIN, SIG_IGN);
         signal(SIGTTOU, SIG_IGN);
@@ -100,7 +106,7 @@ void background_process(char **argv)
     }
     else
     {
-        push_into_jobs(argv[0], child_pid);
+        push_into_jobs(temp_process_name, child_pid);
         printf("[%d] pid = %d\n", num_jobs, child_pid);
         setpgid(child_pid, 0);
         tcsetpgrp(0, getpgrp());
@@ -120,11 +126,13 @@ void background_process_exit_message()
         return;
     if (WIFEXITED(p_stat) && WEXITSTATUS(p_stat) == EXIT_SUCCESS)
     {
-        printf("\n%s with pid %d exited normally ", jobs[get_id_of_bg_process(p_id)].name, p_id);
+        printf("\n%s with pid %d exited normally\n", jobs[get_id_of_bg_process(p_id)].name, p_id);
+        prompt();
     }
     else
     {
-        printf("\n%s with pid %d exited with error code %d ", jobs[get_id_of_bg_process(p_id)].name, p_id, WEXITSTATUS(p_stat));
+        printf("\n%s with pid %d exited with error code %d\n", jobs[get_id_of_bg_process(p_id)].name, p_id, WEXITSTATUS(p_stat));
+        prompt();
     }
     fflush(stdout);
 }

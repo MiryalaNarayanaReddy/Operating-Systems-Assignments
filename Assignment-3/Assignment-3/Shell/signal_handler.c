@@ -10,7 +10,7 @@ void handle_signal(int signal)
         handle_ctrl_c_signal();
         break;
     case SIGTSTP:
-        handle_ctrl_z_signal();
+        // handle_ctrl_z_signal();
         break;
     }
 }
