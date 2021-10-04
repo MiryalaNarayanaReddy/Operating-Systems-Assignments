@@ -1377,3 +1377,42 @@ jobs
 sig 1 9 ; sig 2 9
 jobs
 exit
+gedit
+gedit &
+sig 1 9
+exit
+gedit &
+gedit &
+~>-al
+ls -al
+clear
+gedit &
+dd
+dd
+gedit &
+ls
+gedit &
+ls-al
+gedit &
+lsls
+exit
+exit
+gedit &
+ls
+exit
+gedit &
+ls -al
+clear
+exit
+gedit &
+jobs
+ls
+gedit &
+jobs
+firefox &
+jobs
+bg 2
+jobs
+fg 2
+jobs
+exit

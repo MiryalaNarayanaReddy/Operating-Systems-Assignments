@@ -127,12 +127,10 @@ void background_process_exit_message()
     if (WIFEXITED(p_stat) && WEXITSTATUS(p_stat) == EXIT_SUCCESS)
     {
         printf("\n%s with pid %d exited normally\n", jobs[get_id_of_bg_process(p_id)].name, p_id);
-        prompt();
     }
     else
     {
         printf("\n%s with pid %d exited with error code %d\n", jobs[get_id_of_bg_process(p_id)].name, p_id, WEXITSTATUS(p_stat));
-        prompt();
     }
     fflush(stdout);
 }
