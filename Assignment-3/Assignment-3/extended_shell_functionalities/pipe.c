@@ -1,16 +1,39 @@
 #include "pipe.h"
 #include <wait.h>
 
-static void
-pipeline(char **cmd)
+void strip_spaces(char *str)
 {
-    int fd[2];
+    char temp[MAX_ARGS];
+    int i = 0;
+    while (str[i] == ' ' && str[i] != '\0')
+    {
+        i++;
+    }
+    int j = 0;
+    while (str[i] != '\0')
+    {
+        temp[j++] = str[i];
+        i++;
+    }
+    j--;
+    while (temp[j] == ' ')
+    {
+        j--;
+    }
+    temp[j + 1] = '\0';
+    strcpy(str, temp);
+}
+
+void pipeline(char **cmd)
+{
+    int fd[2], st;
     pid_t pid;
     int fdd = 0; /* Backup */
     while (*cmd != NULL)
     {
         pipe(fd); /* Sharing bidiflow */
-        if ((pid = fork()) == -1)
+        pid = fork();
+        if (pid < -1)
         {
             perror("fork");
             exit(1);
@@ -23,9 +46,11 @@ pipeline(char **cmd)
                 dup2(fd[1], 1);
             }
             close(fd[0]);
-            // execvp((*cmd)[0], *cmd);
-            // process_command(cmd[0]);
-            system(cmd[0]);
+            // execvp(cmd[0], cmd);
+            // printf("%s\n", cmd[0]);
+
+            process_command(cmd[0]);
+            // system(cmd[0]);
             exit(1);
         }
         else
@@ -59,6 +84,7 @@ void check_for_pipes(char *args)
     // char *cmd[] = {"ls", "sort", "uniq", NULL};
     if (n == 1)
     {
+        // printf("%s\n",list[0]);
         process_command(list[0]);
         return;
     }
@@ -67,7 +93,9 @@ void check_for_pipes(char *args)
     char *cmd[10];
     for (int i = 0; i < n; i++)
     {
+        strip_spaces(list[i]);
         cmd[i] = list[i];
+        // printf("- %s\n", cmd[i]);
     }
     cmd[n] = NULL;
     pipeline(cmd);

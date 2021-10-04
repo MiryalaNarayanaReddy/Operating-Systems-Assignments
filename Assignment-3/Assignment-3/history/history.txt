@@ -1416,3 +1416,102 @@ jobs
 fg 2
 jobs
 exit
+gedit &
+ls
+ls | sort
+exit
+ls | sort
+ls | sort | unniq
+exit
+ls | sort
+exit
+ls | sort
+exit
+ls | sort
+exit
+ls | sort
+ls|sort
+ls | sort
+ls | sort
+ls|sort
+ls|sort
+exit
+ls | sort
+clear
+make
+clear
+exit
+ls | sort
+ls
+make clean
+clear
+ls | sort
+ls
+ls |     sort   |   uniq
+ls | sort | uniq
+ls | sort | uniq | grep 'l'
+ls | sort | grep -l
+pinfo
+pinfo | head -2
+ps
+ps | head -5
+ls | sort | grep -l "l"
+ls | sort
+ls  | sort | grep "ls"
+ls | sort | grep -w \"ls\"
+ls | sort | grep *.out
+ls |grep *.out
+ls | grep *.out
+exit
+ls | sort
+exit
+clear
+ls
+ls | sort
+ls | sort > i.txt
+grep -w "ls" < i.txt
+grep -i 'ls' < i.txt
+cat i.txt | grep -i 'ls'
+grep -i 'ls' i.txt
+exit
+grep -i 'ls' i.txt
+exit
+ls | grep .o
+make clean
+clear
+ls
+ls | grep .txt
+ls | grep .out
+make
+clear
+ls | sort | grep .o
+exi
+exit
+cat i.txt | wc
+cat i.txt | head -7 | tail -5
+exit
+cat i.txt | head -7 | tail -5
+ls | sort | head -7 | tail -5
+exit
+ls
+ls | sort
+ls | sort | head -7
+ls | sort | head -7 | tail -5
+ls | sort | head -7 | tail -4
+exit
+cat i.txt  | head -7 | tail -5
+exit
+ls
+gedit
+gedit
+ls
+ls | sort
+ls | sort | grep .o
+cat i.txt | head -7 | tail -5
+exit
+exit
+cat i.txt | wc
+cat i.txt | head -7 | head -5
+cat i.txt | head -10 | tail -5
+cat i.txt | grep f
+exit

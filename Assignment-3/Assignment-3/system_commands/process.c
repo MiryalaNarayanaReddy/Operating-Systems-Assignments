@@ -22,7 +22,7 @@ void process(char *command, char *args)
     {
         forground_process(argv);
     }
-    printf("\r"); // just to remove the first prompt being printed by the signal interrupt.
+ //   printf("\r"); // just to remove the first prompt being printed by the signal interrupt.
 }
 
 int parse_cmd(char *command, char *args, char *argv[10])
