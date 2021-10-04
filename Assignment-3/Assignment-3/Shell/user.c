@@ -190,7 +190,6 @@ void PerformAction(Command command, char *args)
         break;
     case __exit:
         exit(EXIT_SUCCESS);
-        // kill(parent_pid, SIGKILL);
         break;
     case __clear:
         printf("\e[1;1H\e[2J");

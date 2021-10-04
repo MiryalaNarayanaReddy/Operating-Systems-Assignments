@@ -6,7 +6,6 @@ void push_into_jobs(char *p, int pid)
 {
     strcpy(jobs[num_jobs].name, p);
     jobs[num_jobs].pid = pid;
-    process_no = num_jobs;
     num_jobs++;
 }
 
@@ -24,7 +23,7 @@ char pstatus(int pid)
     fscanf(fp, "%s", temp);
     fscanf(fp, "%s", temp);
     fclose(fp);
-    return temp[0];
+    return (temp[0] == 'S' ? 'R' : temp[0]);
 }
 
 char *expand_status(char ch)
@@ -141,13 +140,26 @@ void fg(char *args)
         perror("job number is not a number\n");
         return;
     }
-    printf("%d\n", id);
-    if (id > num_jobs)
+    // printf("%d\n", id);
+    id--; // since ids are printed by adding 1
+    if (id >= num_jobs || id < 0)
     {
         perror("Invalid job number or process is not created by this shell \n");
         return;
     }
     // pending;
+    signal(SIGTTIN, SIG_IGN);
+    signal(SIGTTOU, SIG_IGN);
+    tcsetpgrp(0, jobs[id].pid); //set foreground process grp
+    kill(jobs[id].pid, SIGCONT);
+
+    int st;
+    current_fg = jobs[id];
+    waitpid(jobs[id].pid, &st, WUNTRACED);
+
+    tcsetpgrp(0, getpgrp());
+    signal(SIGTTIN, SIG_DFL);
+    signal(SIGTTOU, SIG_DFL);
 }
 
 void bg(char *args)
@@ -159,7 +171,14 @@ void bg(char *args)
         perror("Job number is not a number\n");
         return;
     }
-    printf("%d\n", id);
+    id--;
+    // printf("%d\n", id);
+    if (id >= num_jobs || id < 0)
+    {
+        perror("Invalid job number or process is not created by this shell \n");
+        return;
+    }
+    // pending;
     kill(jobs[id].pid, SIGTTIN);
     kill(jobs[id].pid, SIGCONT);
 }

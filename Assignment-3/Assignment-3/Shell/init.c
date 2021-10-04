@@ -15,8 +15,10 @@ void init_cd()
 
 void init_process()
 {
-    parent_pid = getpid();
+    strcpy(parent_process.name, "./a.out");
+    parent_process.pid = getpid();
     num_jobs = 0;
+    current_fg = parent_process;
 }
 
 void init_signal()
@@ -24,6 +26,7 @@ void init_signal()
     signal(SIGINT, handle_signal);
     signal(SIGTSTP, handle_signal);
     signal(SIGKILL, SIG_DFL);
+    Handel_background_process_exit();
 }
 
 void init_history()
@@ -42,13 +45,10 @@ void init_history()
     number_of_lines_in_history = i;
 }
 
-
-
 void init()
 {
     init_cd();
     init_process();
     init_signal();
     init_history();
-    setup_exit();
 }

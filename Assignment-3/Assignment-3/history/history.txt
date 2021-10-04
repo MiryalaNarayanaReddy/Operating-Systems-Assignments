@@ -1219,3 +1219,77 @@ exit
 firefox
 gedit
 exit
+gedit &
+fg 1
+gedit &
+fg 2
+fg 1
+exit
+gedit &
+fg 1
+fg 1
+gedit &
+fg 2
+bg 2
+bg 1
+exit
+gedit &
+jobs
+jobs
+exit
+clear
+exit
+gedit &
+firefox &
+exit
+ls
+clear
+clear
+gedit
+jobs
+gedit &
+jobs
+ps -al
+exit
+gedit &
+jobs
+gedit &
+job
+sjos
+jobs
+exit
+gedit &
+clear
+gedit
+jobs
+bg 1
+jobs
+fg 1
+fg 1
+exit
+clear
+gedit
+jobs
+exit
+gedit
+jobs
+ps -al
+exit
+clear
+jobs
+'
+gedit
+gedit &
+jobs
+firefox &
+jobs
+fg 1
+jobs
+bg 1
+jobs
+bg 2
+firefox
+firefox
+firfox
+firefox
+exit

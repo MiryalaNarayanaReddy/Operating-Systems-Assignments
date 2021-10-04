@@ -4,7 +4,6 @@
 #include "../Shell/utils.h"
 
 int num_jobs;
-int current_fg;
 
 struct processes
 {
@@ -12,7 +11,9 @@ struct processes
     pid_t pid;
 };
 
-struct  processes jobs[30];
+struct processes current_fg;
+struct processes parent_process;
+struct processes jobs[30];
 
 void list_jobs(char *args);
 void push_into_jobs(char *p, int pid);
