@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <wait.h>
+
 #include "init.h"
 #include "user.h"
 #include "signal_handler.h"

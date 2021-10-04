@@ -1538,3 +1538,27 @@ cat < i.txt | sort
 ls | sort
 cat < i.txt | sort > o.txt
 exit
+gedit
+exit
+clear
+gedit
+jobs
+gedit
+jobs
+exit
+exit
+exit
+gedit
+jobs
+exit
+gedit
+exit
+exit
+gedit
+ps -al
+bg 0
+exit
+gedt
+gedit
+gedit
+exit

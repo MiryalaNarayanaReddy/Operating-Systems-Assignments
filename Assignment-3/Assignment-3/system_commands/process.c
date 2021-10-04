@@ -15,7 +15,7 @@ void process(char *command, char *args)
     if (AreSame(argv[num_args - 1], "&"))
     {
         argv[num_args - 1] = NULL;
-        temp_process_name[strlen(temp_process_name) - 2] = '\0';
+        temp_process_name[strlen(temp_process_name) - 2] = '\0'; // remove the & symbol
         background_process(argv);
     }
     else
@@ -77,7 +77,6 @@ void forground_process(char **argv)
         int status;
         waitpid(child_pid, &status, WUNTRACED);
 
-        // exit_code = status;
         tcsetpgrp(0, getpgrp());
         signal(SIGTTIN, SIG_DFL);
         signal(SIGTTOU, SIG_DFL);
