@@ -65,7 +65,7 @@ void cd(char *path)
     {
         if (EXECUTABLE_PATH[i] == '\0') // stopped at the end of executable path
         {
-            strcpy(CURRENT_DIRECTORY_PATH, &buff[k + 1]); // we are in directory greater than otherthan executable from home
+            strcpy(CURRENT_DIRECTORY_PATH, &buff[j]); // we are in directory greater than other than executable from home
         }
         else
         {

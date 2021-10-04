@@ -1153,3 +1153,69 @@ exit
 gedit &
 fg 1
 exit
+firefox
+ps
+firfox
+firefox
+ps
+kill 4876
+ps
+kill 4876
+kill 4595
+ls
+clear
+firefox &
+jobs
+firefox &
+jobs
+bg 2
+jobs
+bg 2
+fg 1
+exit
+clear
+gedit    &
+jobs
+bg 1
+exit
+exit
+exit
+exit
+exit
+ls
+clear
+exit
+exit
+exit
+hrt
+ls
+exit
+exit
+exit
+exit
+ls
+cd Shell
+exit
+cd Shell
+exit
+cd Shell
+cd ..
+cd ..
+cd ..
+cd ~
+cd Shell
+ls
+ls | sort
+ls | sort | grep *.o
+ls | sort | grep 'o'
+ls | sort
+ls | sort | head -3
+exit
+exit
+firefox
+ps
+ps -al
+exit
+firefox
+gedit
+exit

@@ -109,7 +109,7 @@ void kill_job(char *args)
         id = string_to_int(token);
         if (id == -1)
         {
-            perror("pid is not a number\n");
+            perror("job number is not a number\n");
             return;
         }
     }
@@ -134,17 +134,32 @@ void kill_job(char *args)
 
 void fg(char *args)
 {
+    // background to foreground
     int id = string_to_int(args);
     if (id == -1)
     {
-        perror("pid is not a number\n");
+        perror("job number is not a number\n");
         return;
     }
     printf("%d\n", id);
     if (id > num_jobs)
     {
-        perror("Invalid pid or process is not created by this shell \n");
+        perror("Invalid job number or process is not created by this shell \n");
         return;
     }
     // pending;
+}
+
+void bg(char *args)
+{
+    // stopped background to running
+    int id = string_to_int(args);
+    if (id == -1)
+    {
+        perror("Job number is not a number\n");
+        return;
+    }
+    printf("%d\n", id);
+    kill(jobs[id].pid, SIGTTIN);
+    kill(jobs[id].pid, SIGCONT);
 }

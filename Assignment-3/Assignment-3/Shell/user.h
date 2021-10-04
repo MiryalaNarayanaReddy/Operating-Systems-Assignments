@@ -27,7 +27,8 @@ enum
     __history,
     __jobs,
     __sig,
-    __fg
+    __fg,
+    __bg
 };
 
 

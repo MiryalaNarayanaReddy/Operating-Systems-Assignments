@@ -109,19 +109,27 @@ void get_string(char *s)
 {
     char ch;
     int i = 0;
-    while ((ch = getchar()) == ' ') // to remove spaces in the begining
-        ;
+    ch = getchar();
+    if (ch == EOF) // handeling ctrl -D
+    {
+        printf("\n");
+        strcpy(s, "exit");
+        return;
+    }
+
+    while (ch == ' ') // to remove spaces in the begining
+        ch = getchar();
     if (ch == '\n')
     {
         s[0] = '\n';
         s[1] = '\0';
         return;
     }
-
     do
     {
         s[i++] = ch;
-    } while ((ch = getchar()) != '\n');
+        ch = getchar();
+    } while (ch != '\n');
 
     while (s[i - 1] == ' ') //to remove the spaces at the end
     {

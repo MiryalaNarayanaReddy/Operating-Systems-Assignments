@@ -169,6 +169,10 @@ Command encode_command(char *command)
     {
         return __fg;
     }
+    else if (AreSame(command, "bg"))
+    {
+        return __bg;
+    }
     else
     {
         return __system_process;
@@ -217,6 +221,9 @@ void PerformAction(Command command, char *args)
         break;
     case __fg:
         fg(args);
+        break;
+    case __bg:
+        bg(args);
         break;
     }
 }
