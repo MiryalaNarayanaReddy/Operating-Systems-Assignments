@@ -181,44 +181,46 @@ void bg(char *args)
     }
     // main part
 
-    char *temp[MAX_ARGS];
-    char name[1000];
-    strcpy(name, jobs[id].name);
-    int i = 0;
-    char *token;
-    char *strptr;
-    token = strtok_r(name, " ", &strptr);
-    while (token != NULL)
-    {
-        temp[i] = &token[0];
-        i++;
-        token = strtok_r(NULL, " ", &strptr);
-    }
-    temp[i] = NULL;
-    pid_t ch_pid = fork();
-    if (ch_pid == 0)
-    {
-        if (execvp(temp[0], temp) == -1)
-        {
-            Color_On(__RED, BOLD);
-            printf("Command invalid :(\n");
-            Color_Off();
-            exit(EXIT_FAILURE);
-        }
-        exit(EXIT_SUCCESS);
-    }
-    else if (ch_pid < 0)
-    {
-        Color_On(__YELLOW, BOLD);
-        printf("Forking failed \n");
-        Color_Off();
-    }
-    else
-    {
-        // push_into_jobs(temp_process_name, child_pid);
-        jobs[id].pid = ch_pid;
-        printf("[%d] pid = %d\n", id + 1, ch_pid);
-        setpgid(ch_pid, 0);
-        tcsetpgrp(0, getpgrp());
-    }
+    // char *temp[MAX_ARGS];
+    // char name[1000];
+    // strcpy(name, jobs[id].name);
+    // int i = 0;
+    // char *token;
+    // char *strptr;
+    // token = strtok_r(name, " ", &strptr);
+    // while (token != NULL)
+    // {
+    //     temp[i] = &token[0];
+    //     i++;
+    //     token = strtok_r(NULL, " ", &strptr);
+    // }
+    // temp[i] = NULL;
+    // pid_t ch_pid = fork();
+    // if (ch_pid == 0)
+    // {
+    //     if (execvp(temp[0], temp) == -1)
+    //     {
+    //         Color_On(__RED, BOLD);
+    //         printf("Command invalid :(\n");
+    //         Color_Off();
+    //         exit(EXIT_FAILURE);
+    //     }
+    //     exit(EXIT_SUCCESS);
+    // }
+    // else if (ch_pid < 0)
+    // {
+    //     Color_On(__YELLOW, BOLD);
+    //     printf("Forking failed \n");
+    //     Color_Off();
+    // }
+    // else
+    // {
+    //     // push_into_jobs(temp_process_name, child_pid);
+    //     jobs[id].pid = ch_pid;
+    //     printf("[%d] pid = %d\n", id + 1, ch_pid);
+    //     setpgid(ch_pid, 0);
+    //     tcsetpgrp(0, getpgrp());
+    // }
+
+    kill(jobs[id].pid, SIGCONT);
 }

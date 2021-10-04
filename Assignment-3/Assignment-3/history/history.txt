@@ -1562,3 +1562,68 @@ gedt
 gedit
 gedit
 exit
+gedit
+jobs
+ps -al
+exit
+gedit
+jobs
+exit
+clear
+gedit
+jobs
+ps -al
+bg 1
+bg 0
+eit
+exit
+gedit
+ps -al
+firefox &
+firefox
+ps -al
+bg 2
+ls
+jobs
+bg 4
+bg 3
+job
+jobs
+clear
+exit
+gedit
+ps -al
+exit
+gedit
+gedit
+jobs
+gedit
+jobs
+gedit
+exit
+gedit
+exit
+clear
+gedit
+jobs
+bg 1
+jobs
+clear
+firefox
+jobs
+bg 2
+jobs
+clear
+jobs
+sig 2 9
+clear
+ps -al
+exit
+clear
+gedit
+jobs
+bg 1
+jobs
+ps -al
+fg 1
+exit

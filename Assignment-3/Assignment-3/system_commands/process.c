@@ -20,6 +20,7 @@ void process(char *command, char *args)
     }
     else
     {
+
         forground_process(argv);
     }
     //   printf("\r"); // just to remove the first prompt being printed by the signal interrupt.
@@ -62,10 +63,11 @@ void forground_process(char **argv)
         Color_On(__YELLOW, BOLD);
         printf("Forking failed\n");
         Color_Off();
+        return;
     }
     else
     {
-        // push_into_jobs(argv[0], child_pid);
+        push_into_jobs(temp_process_name, child_pid);
         current_fg.pid = child_pid;
         strcpy(current_fg.name, temp_process_name);
         strcpy(current_fg.name, argv[0]);
@@ -76,10 +78,21 @@ void forground_process(char **argv)
 
         int status;
         waitpid(child_pid, &status, WUNTRACED);
-
+        // pause();
         tcsetpgrp(0, getpgrp());
         signal(SIGTTIN, SIG_DFL);
         signal(SIGTTOU, SIG_DFL);
+    }
+    char temp[100];
+    sprintf(temp, "/proc/%d/stat", child_pid);
+    FILE *fp = fopen(temp, "r");
+    if (fp == NULL)
+    {
+        num_jobs--;
+    }
+    else
+    {
+        printf("\n[ %d ] pid = %d   %s\n", num_jobs - 1, current_fg.pid, current_fg.name);
     }
 }
 
