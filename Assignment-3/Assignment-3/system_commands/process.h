@@ -10,8 +10,6 @@ void process(char *command, char *args);
 int parse_cmd(char *command, char *args, char *argv[10]);
 void forground_process(char **argv);
 void background_process(char **argv);
-void process_status();
-
 
 void Handel_background_process_exit();
 void background_process_exit_message();

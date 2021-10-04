@@ -24,40 +24,44 @@ void strip_spaces(char *str)
     strcpy(str, temp);
 }
 
-void pipeline(char **cmd)
+void pipe_all(char **cmd)
 {
-    int fd[2], st;
+    int fd[2];
     pid_t pid;
-    int fdd = 0; /* Backup */
+    int save_fd = 0;
+
     while (*cmd != NULL)
     {
-        pipe(fd); /* Sharing bidiflow */
+        if (pipe(fd) < 0)
+        {
+            perror("piping failed\n");
+            return;
+        }
         pid = fork();
         if (pid < -1)
         {
-            perror("fork");
-            exit(1);
+            perror("forking in pipe failed\n");
+            return;
         }
         else if (pid == 0)
         {
-            dup2(fdd, 0);
-            if (*(cmd + 1) != NULL)
+            dup2(save_fd, STDIN_FILENO);
+            if (*(cmd + 1) != NULL) // if next command is exits
             {
-                dup2(fd[1], 1);
+                dup2(fd[WRITE_END], STDOUT_FILENO);
             }
-            close(fd[0]);
+            close(fd[READ_END]);
             // execvp(cmd[0], cmd);
             // printf("%s\n", cmd[0]);
-
             process_command(cmd[0]);
             // system(cmd[0]);
-            exit(1);
+            exit(EXIT_SUCCESS);
         }
         else
         {
-            wait(NULL); /* Collect childs */
-            close(fd[1]);
-            fdd = fd[0];
+            wait(NULL); // wait for child
+            close(fd[WRITE_END]);
+            save_fd = fd[READ_END];
             cmd++;
         }
     }
@@ -75,16 +79,9 @@ void check_for_pipes(char *args)
         strcpy(list[n++], token);
         token = strtok_r(NULL, "|", &strptr);
     }
-    // printf("n = %d\n", n);
 
-    // char *ls[] = {"ls", "-al", NULL};
-    // char *rev[] = {"rev", NULL};
-    // char *nl[] = {"nl", NULL};
-    // char *cat[] = {"cat", "-e", NULL};
-    // char *cmd[] = {"ls", "sort", "uniq", NULL};
-    if (n == 1)
+    if (n == 1) // only one command and no pipes
     {
-        // printf("%s\n",list[0]);
         process_command(list[0]);
         return;
     }
@@ -93,10 +90,10 @@ void check_for_pipes(char *args)
     char *cmd[10];
     for (int i = 0; i < n; i++)
     {
-        strip_spaces(list[i]);
+        strip_spaces(list[i]); // remove extra spaces at ends
         cmd[i] = list[i];
         // printf("- %s\n", cmd[i]);
     }
     cmd[n] = NULL;
-    pipeline(cmd);
+    pipe_all(cmd);
 }

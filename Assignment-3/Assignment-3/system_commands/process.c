@@ -22,7 +22,7 @@ void process(char *command, char *args)
     {
         forground_process(argv);
     }
- //   printf("\r"); // just to remove the first prompt being printed by the signal interrupt.
+    //   printf("\r"); // just to remove the first prompt being printed by the signal interrupt.
 }
 
 int parse_cmd(char *command, char *args, char *argv[10])
@@ -130,7 +130,7 @@ void background_process_exit_message()
     }
     else
     {
-        printf("\n%s with pid %d exited with error code %d\n", jobs[get_id_of_bg_process(p_id)].name, p_id, WEXITSTATUS(p_stat));
+        printf("\n%s with pid %d exited abnormally \n", jobs[get_id_of_bg_process(p_id)].name, p_id);
     }
     fflush(stdout);
 }

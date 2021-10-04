@@ -1515,3 +1515,26 @@ cat i.txt | head -7 | head -5
 cat i.txt | head -10 | tail -5
 cat i.txt | grep f
 exit
+ls | sort
+ls | sort | head -4
+ls | grep f
+exit
+ls
+cd ..
+cd /home
+ls
+ls .
+ls ..
+cd ~
+ls
+make clean
+clear
+ls | wc -l
+ls
+clear
+ls > i.txt
+cat < i.txt
+cat < i.txt | sort
+ls | sort
+cat < i.txt | sort > o.txt
+exit

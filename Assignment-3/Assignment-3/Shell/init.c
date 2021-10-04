@@ -15,7 +15,7 @@ void init_cd()
 
 void init_process()
 {
-    strcpy(parent_process.name, "./a.out");
+    strcpy(parent_process.name, "Narshell");
     parent_process.pid = getpid();
     num_jobs = 0;
     current_fg = parent_process;

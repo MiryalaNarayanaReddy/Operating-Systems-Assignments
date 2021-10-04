@@ -150,7 +150,9 @@ Assignment-3
 | *parse_cmd* | tokenizes commands with " " as delimiter |
 | *forground_process* | runs forground process |
 | *background_process* | runs background process |
-| *process_status* | checks for background process status |
+|*Handel_background_process_exit*|detects SIGCHLD signal and calls handler "background_process_exit_message" |
+|*background_process_exit_message*| prints the child exit message having name of process, id and exit status . Uses "get_id_of_bg_process" to get id of the process.|
+|*get_id_of_bg_process*|returns process id or number in jobs' list for corresponding pid |
 
 
 **`repeat.c`** has the following functions
@@ -177,22 +179,32 @@ Assignment-3
 |------------|----------- |
 | *redirect_input* | points stdin to a file |
 | *redirect_output* | points stdout to a file |
-
+| *void Redirection* |checks for neccessary redirections and use above functions . This function is called by process_command function |
 
 **`pipe.c`** has the following functions
 
 |**function**|**purpose**|
 |--------|------- |
+| *check_for_pipes* | this is called by main.c .This checks for pipes and pipes them all using pipe_all if there are no pipes then it calls process command directly.
+| *pipe_all* |pipes all command and executes each using process_command function |
+| *strip_spaces* | removes extra spaces at both ends of a string |
+
 
 **`jobs.c`** has the following functions
 
 |**function**|**purpose**|
 |--------|------- |
-
+| *push_into_jobs* | pushes a background process command into the jobs list|
+| *list_jobs* |prints all background process ( stopped or running ) and their status' using both pstatus and expand_status functions |
+| *pstatus* |returns the status of a background process reading /proc/pid/stat file ( Here if the status is S then it returns R implying that it is running in background but when the current processs is running the background proces was sleeping. ) The same thing happens with **ps** command unlike **jobs** command in linux terminal|
+| *expand_status* |JUst gives the full status name like 'Running' for 'R' etc.,|
+| *kill_job*|This funcion is called when **sig** command is used |
+| *fg* | Brings a background running process to forground |
+| *bg* | changes the state of stopped process in background to running in background |
 
 ## other files
 
-`README .md`
+`README.md`
 
 `LICENSE`
 
