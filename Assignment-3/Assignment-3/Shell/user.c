@@ -173,6 +173,10 @@ Command encode_command(char *command)
     {
         return __bg;
     }
+    else if (AreSame(command, "replay"))
+    {
+        return __replay;
+    }
     else
     {
         return __system_process;
@@ -223,6 +227,9 @@ void PerformAction(Command command, char *args)
         break;
     case __bg:
         bg(args);
+        break;
+    case __replay:
+        replay(args);
         break;
     }
 }

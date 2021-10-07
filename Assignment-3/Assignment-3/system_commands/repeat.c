@@ -27,7 +27,7 @@ void repeat(char *command)
     }
 
     int n = string_to_int(n_times);
-   // printf("-%s-\n", n_times);
+    // printf("-%s-\n", n_times);
     if (n == -1)
     {
         Color_On(__RED, BOLD);
@@ -54,10 +54,10 @@ int string_to_int(char *str)
 {
     int n = 0;
     int len = strlen(str);
- //   printf("%d\n",len);
-    for (int i = len-1; i >= 0; i--)
+    //   printf("%d\n",len);
+    for (int i = len - 1; i >= 0; i--)
     {
-       // printf("%c\n",str[i]);
+        // printf("%c\n",str[i]);
         if (str[i] >= '0' && str[i] <= '9')
         {
             n *= 10;

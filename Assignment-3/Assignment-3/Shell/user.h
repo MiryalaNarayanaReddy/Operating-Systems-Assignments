@@ -28,7 +28,8 @@ enum
     __jobs,
     __sig,
     __fg,
-    __bg
+    __bg,
+    __replay
 };
 
 

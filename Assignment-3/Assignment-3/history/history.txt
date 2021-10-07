@@ -1627,3 +1627,58 @@ jobs
 ps -al
 fg 1
 exit
+cd /home
+cd /narayana
+cd narayana
+cd Desktop
+cd rough
+ls
+ls | grep .txt
+ls | grep *.txt
+ls | grep .*.txt
+grep *.txt
+exit
+replay -command "hello" -interval 3 -period 6
+exit
+replay -command "hello" -interval 3 -period 6
+exit
+replay -command "hello" -interval 3 -period 6
+exit
+replay -command "hello" -interval 3 -period 6
+replay -command echo "hello"
+replay -command echo "hello" -interval 3 -period 6
+replay -command echo "hello" -interval 3 -period 6
+[A
+exit
+replay echo "h" -interval 1 -period 6
+replay -command echo "h" -interval 1 -period 6
+replay -command echo "h" -interval 3 -period 6
+make
+clear
+./a.out
+replay -command "hello" -interval 3 -period 6
+replay -command echo "hello" -interval 3 -period 6
+exit
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+printf("%s\n",temp);exit
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 9
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 9
+replay -command echo "hello world" -interval 3 -period 6
+replay -command echo "hello world" -interval 2 -period 6
+replay -command echo "hello" -interval 2 -period 6
+replay -command echo "hello" -interval 2 -period 6
+replay -command echo "hello" -interval 2 -period 6
+replay -command echo "hello" -interval 2 -period 6
+replay -command echo "hello" -interval 2 -period 6

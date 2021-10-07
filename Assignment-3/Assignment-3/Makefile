@@ -1,6 +1,6 @@
 # linking
-a.out: main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o pinfo.o signal_handler.o init.o repeat.o history.o redirect_io.o jobs.o pipe.o
-	gcc main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o pinfo.o signal_handler.o init.o repeat.o history.o redirect_io.o jobs.o pipe.o -o a.out 
+a.out: main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o pinfo.o signal_handler.o init.o repeat.o history.o redirect_io.o jobs.o pipe.o replay.o
+	gcc main.o user.o utils.o cd.o echo.o pwd.o ls.o process.o pinfo.o signal_handler.o init.o repeat.o history.o redirect_io.o jobs.o pipe.o replay.o -o a.out 
 #	make clean
 #	clear
 
@@ -65,6 +65,9 @@ jobs.o: extended_shell_functionalities/jobs.c
 
 pipe.o: extended_shell_functionalities/pipe.c
 	gcc -c extended_shell_functionalities/pipe.c 
+
+replay.o: extended_shell_functionalities/replay.c
+	gcc -c extended_shell_functionalities/replay.c
 
 # clean all object files
 clean:
