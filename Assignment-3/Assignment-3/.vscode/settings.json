@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "redirect_io.h": "c"
+        "redirect_io.h": "c",
+        "termios.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

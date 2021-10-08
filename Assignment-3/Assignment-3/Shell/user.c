@@ -178,6 +178,10 @@ Command encode_command(char *command)
     {
         return __replay;
     }
+    else if (AreSame(command, "baywatch"))
+    {
+        return __baywatch;
+    }
     else
     {
         return __system_process;
@@ -231,6 +235,9 @@ void PerformAction(Command command, char *args)
         break;
     case __replay:
         replay(args);
+        break;
+    case __baywatch:
+        baywatch(args);
         break;
     }
 }

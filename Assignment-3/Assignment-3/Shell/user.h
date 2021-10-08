@@ -29,7 +29,8 @@ enum
     __sig,
     __fg,
     __bg,
-    __replay
+    __replay,
+    __baywatch
 };
 
 

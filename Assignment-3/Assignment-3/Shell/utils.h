@@ -25,6 +25,7 @@
 #include "../extended_shell_functionalities/pipe.h"
 #include "../extended_shell_functionalities/jobs.h"
 #include "../extended_shell_functionalities/replay.h"
+#include "../extended_shell_functionalities/baywatch.h"
 
 #define BOLD true
 

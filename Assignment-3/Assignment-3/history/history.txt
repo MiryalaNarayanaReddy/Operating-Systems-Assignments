@@ -1871,3 +1871,40 @@ grep .o < i.txt | wc -l
 ls | head -5 | tail -3
 cat i.txt | head -5 | tail -3
 exit
+baywatch -n 4 interrupt
+exit
+exit
+baywatch -n 1 interrupt
+baywatch -n 1 interrupt
+ls
+exit
+exit
+baywatch -n 1 interrupt
+baywatch -n 1 interrupt
+baywatch -n 1 interrupt
+baywatch -n 1 interrupt
+baywatch -n 1 interrupt
+baywatch -n 1 interrupt
+baywatch -n 1 interrupt
+exit
+baywatch -n 1 interrupt
+exit
+fp = fopen("/proc/interrupts", "r");
+if (fp == NULL)
+{
+perror("Failed to read /proc/interrupts");
+return;
+}
+fgets(temp, 2048, fp);
+fgets(temp, 2048, fp);
+fgets(temp, 2048, fp);
+fclose(fp);
+printf("%s\n", temp);
+baywatch -n 1 interrupt
+qexit'
+exit
+baywatch -n 1 interrupt
+baywatch -n 1 interrupt
+exit
+baywatch -n 1 interrupt
+exit
