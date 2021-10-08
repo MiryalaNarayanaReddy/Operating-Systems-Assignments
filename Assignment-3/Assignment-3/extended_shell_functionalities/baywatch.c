@@ -21,7 +21,7 @@ char scan_char()
 
     if (buffer_count == 0)
     {
-        return '\0'
+        return '\0';
     }
     else
     {

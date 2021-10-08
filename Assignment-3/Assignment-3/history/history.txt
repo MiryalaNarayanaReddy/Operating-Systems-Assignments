@@ -1908,3 +1908,32 @@ baywatch -n 1 interrupt
 exit
 baywatch -n 1 interrupt
 exit
+gedit &
+firefox &
+jobs
+sig 1 9
+jobs
+clear
+ojobs
+jobs
+jobs
+fg 2
+gedit
+jobs
+bg 3
+jobs
+fg 3
+exit
+gedit
+jobs
+bg 1
+fg 1
+jobs
+vi &
+jobs
+bg 2
+jobs
+fg 2
+jobs
+fg 2
+exit

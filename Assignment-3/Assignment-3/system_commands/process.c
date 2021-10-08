@@ -92,7 +92,7 @@ void forground_process(char **argv)
     }
     else
     {
-        printf("\n[ %d ] pid = %d   %s\n", num_jobs - 1, current_fg.pid, current_fg.name);
+        printf("\n[ %d ] pid = %d   %s\n", num_jobs, current_fg.pid, current_fg.name);
     }
 }
 
