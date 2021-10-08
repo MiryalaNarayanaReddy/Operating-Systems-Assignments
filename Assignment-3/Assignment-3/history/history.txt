@@ -1682,3 +1682,192 @@ replay -command echo "hello" -interval 2 -period 6
 replay -command echo "hello" -interval 2 -period 6
 replay -command echo "hello" -interval 2 -period 6
 replay -command echo "hello" -interval 2 -period 6
+replay echo "hello " -interval 3 -period 6
+exit
+replay echo "hello " -interval 3 -period 6
+exit
+replay echo "hello " -interval 3 -period 6
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello" -interval 2 -period 6
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "Wait for me!!!" -interval 2 -period 6
+replay -command echo "Wait for me!!!" -interval 2 -period 16
+replay -command echo "Wait for me!!!" -interval 2 -period 12
+replay -command echo "Wait for me!!!" -interval 2 -period 6
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello" -interval 1 -period 5
+ls > i.txt
+ls | wc -l
+ls | sort > o.txt
+ls -l | sort | grep xxx
+ls -l | grep xxx
+ls -l | grep x
+sort < i.txt > t.txt
+ls -l | sort >> t.txt
+ls
+gedit &
+jobs
+firefox &
+jobs
+sig 2
+sig 2 9
+jobs
+pinfo 11687
+pinfo 11572
+jobs -r
+jobs -s
+fg 1
+
+clear
+exit
+gedit &
+fg 1
+jobs
+bg 1
+jobs
+jobs
+exit
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello" -interval 2 -period 6
+replay -command
+exit
+replay dddd
+exit
+replay b
+exit
+replay -command echo "hello" -interval 2 -period 6
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "ggg" -interval 3 -period 4
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+exit
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+exit
+exit
+ls
+ls |sort
+replay echo ggg -interval 3 -period 5
+make
+./a.out
+replay echo ggg -interval 3 -period 5
+replay -command echo "hello world" -interval 2 -period 10
+jobs
+exit
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+replay -command echo "hello world" -interval 2 -period 10
+exit
+replay -command echo "hello world" -interval 2 -period 10
+replay -comf
+replay -command ""
+replay ech "Ffdffgtrg " bfgb gfbgbyg -interval 1 -period 4
+replay -command ech "Ffdffgtrg " bfgb gfbgbyg -interval 1 -period 4
+exit
+make clean
+clear
+replay -command ls -al -interval 3 -period 6
+exit
+replay -command echo "hello world" -interval 3 -period 10
+exit
+replay -command echo "hello world" -interval 3 -period 10
+exit
+replay -command echo "hello world" -interval 3 -period 10
+exit
+replay -command echo "hello" -interval 3 -period 6
+replay -command echo "hello" -interval 3 -period 10
+exit
+replay -command echo "hello world" -interval 3 -period 10
+replay -command echo "hello" -interval 3 -period 6
+make clean
+replay ls -al -interval 1 -period 15
+replay -command ls -al -interval 1 -period 15
+exit
+replay -comand evfv
+exit
+gedit &
+jobs
+firefox &
+jobs
+sig 1 9
+exit
+ls > i.txt
+ls -al >> i.txt
+ls | wc
+ls | wc -l
+ls
+clear
+jobs
+jobs
+gedit &
+firfox &
+clear
+firfox &
+jobs
+bg 2
+job
+sjobs
+jobs
+clear
+jobs
+sig 1 9
+ls
+clear
+jobs
+gedit
+jobs
+bg 4
+jobs
+fg 4
+jobs
+exit
+firfox &
+exit
+gedit &
+sig 1 9
+gedit
+firefox
+jobs
+ps -al
+bg 3
+jobs
+bg 2
+jobs -r
+jobs -s
+bg 1
+jobs
+fg 3
+fg 2
+firfox
+firefox
+ls | sort | grep .o > i.txt
+cat < i.txt
+ls | sort | grep *.*.o > i.txt
+cat < i.txt
+ls | sort | grep .o > i.txt
+grep .o
+grep .o < i.txt
+grep .o < o.txt | wc -l
+grep .o < i.txt | wc -l
+ls | head -5 | tail -3
+cat i.txt | head -5 | tail -3
+exit

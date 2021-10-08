@@ -54,10 +54,9 @@ int string_to_int(char *str)
 {
     int n = 0;
     int len = strlen(str);
-    //   printf("%d\n",len);
-    for (int i = len - 1; i >= 0; i--)
+    // printf("%d\n", len);
+    for (int i = 0; i < len; i++)
     {
-        // printf("%c\n",str[i]);
         if (str[i] >= '0' && str[i] <= '9')
         {
             n *= 10;
@@ -68,5 +67,6 @@ int string_to_int(char *str)
             return -1;
         }
     }
+    // printf("%d\n",n);
     return n;
 }

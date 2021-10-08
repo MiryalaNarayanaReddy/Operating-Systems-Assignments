@@ -1,67 +1,108 @@
 #include "replay.h"
 #include <time.h>
-// replay -command echo "hello" -interval 2 -period 6
-void replay(char *command)
+
+// replay -command echo "hello" -interval 3 -period 6
+// perror("usage: replay -command <command> -interval <interval> -period <period>\n");
+// replay -command echo "hello world" -interval 3 -period 10
+
+void replay(char *str)
 {
-    char temp[100];
+    char command[MAX_PATH_LEN];
+    command[0] = '\0';
+    char temp[MAX_PATH_LEN];
     char period[10];
     char interval[10];
-    char *token;
-    char *strptr;
-    printf("%s\n", command);
-    token = strtok_r(command, " ", &strptr);
-    while (token != NULL)
+    // -command  -> 8
+    // -interval -> 9
+    // -period   -> 7
+
+    int i = 0, j = 0;
+    while (str[i] != ' ')
     {
-        if (AreSame(token, "-command"))
+        temp[j++] = str[i++];
+    }
+    temp[j] = '\0';
+    if (!AreSame(temp, "-command"))
+    {
+        printf("usage: replay -command <command> -interval <interval> -period <period>\nHint: look at the -command\n");
+        return;
+    }
+    else
+    {
+        int k = strlen(str) - 1;
+        int c = 0;
+        while (str[k] != ' ')
         {
-            token = strtok_r(NULL, " ", &strptr);
-            strcpy(temp, token);
-            token = strtok_r(NULL, " ", &strptr);
-            while (token != NULL && !AreSame(token, "-interval") && !AreSame(token, "-period"))
-            {
-                strcat(temp, " ");
-                strcat(temp, token);
-                token = strtok_r(NULL, " ", &strptr);
-            }
-            // printf("%s\n",temp);
+            k--;
         }
-        if (AreSame(token, "-interval"))
-        {
-            token = strtok_r(NULL, " ", &strptr);
-            strcpy(interval, token);
+        strcpy(period, &str[k + 1]);
+        str[k] = '\0';
+        k--;
 
-            // token = strtok_r(NULL, " ", &strptr);// token = "-period"
-            // token = strtok_r(NULL, " ", &strptr);
-            // strcpy(period, token);
-            // break;
-        }
-       
-        if (AreSame(token, "-period"))
+        while (str[k] != ' ')
         {
-            token = strtok_r(NULL, " ", &strptr);
-            strcpy(period, token);
-            // break;
+            k--;
         }
+        strcpy(temp, &str[k + 1]);
+        str[k] = '\0';
+        k--;
+        if (!AreSame(temp, "-period"))
+        {
+            printf("usage: replay -command <command> -interval <interval> -period <period>\nHint: look at -period\n");
+            return;
+        }
+        while (str[k] != ' ')
+        {
+            k--;
+        }
+        strcpy(interval, &str[k + 1]);
+        str[k] = '\0';
+        k--;
+        while (str[k] != ' ')
+        {
+            k--;
+        }
+        strcpy(temp, &str[k + 1]);
+        str[k] = '\0';
+        k--;
 
-        token = strtok_r(NULL, " ", &strptr);
+        if (!AreSame(temp, "-interval"))
+        {
+            printf("usage: replay -command <command> -interval <interval> -period <period>\nHint: look at -interval\n");
+            return;
+        }
     }
 
-    // int interval_t = string_to_int(interval);
-    // int period_t = string_to_int(period);
+    strcpy(command, &str[j + 1]);
 
-    // // time_t current_t = time(NULL);
-    // // int end_time = current_t + period_t;
-    // int n = period_t / interval_t;
-    // printf("%s %d %d  n = %d\n", temp, interval_t, period_t, n);
+    // printf("-%s-%s-%s-\n", command, interval, period);
+    int interval_t = string_to_int(interval);
+    int period_t = string_to_int(period);
 
-    // for (int i = 0; i < n; i++)
-    // {
-    //     // printf("%s\n", temp);
-    //     sleep(interval_t);
-    //     process_command(temp);
-    // }
-    // return;
-    // printf("end\n");
-    // // process_command(temp);
+    // printf("%s %d %d \n", temp, interval_t, period_t);
+
+    char temp2[MAX_PATH_LEN];
+
+    time_t present = time(NULL);
+    time_t future = present + period_t;
+
+    while (present < future)
+    {
+        present = time(NULL);
+        if (interval_t <= future - present)
+        {
+            sleep(interval_t);
+            present += interval_t;
+        }
+        else
+        {
+            sleep(future - present);
+            present = future;
+            break;
+        }
+        strcpy(temp2, command);
+        process_command(temp2);
+    }
+
+    return;
 }
-// replay -command echo "hello world" -interval 2 -period 10

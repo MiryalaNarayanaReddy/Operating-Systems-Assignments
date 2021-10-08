@@ -69,8 +69,8 @@ void pipe_all(char **cmd)
 
 void check_for_pipes(char *args)
 {
-    char list[10][100];
-    char parsed_comnd[10][100];
+    char list[10][MAX_PATH_LEN];
+    char parsed_comnd[10][MAX_PATH_LEN];
     char *token, *strptr;
     token = strtok_r(args, "|", &strptr);
     int n = 0;
@@ -79,10 +79,11 @@ void check_for_pipes(char *args)
         strcpy(list[n++], token);
         token = strtok_r(NULL, "|", &strptr);
     }
-
     if (n == 1) // only one command and no pipes
     {
+        // printf("pipe\n");
         process_command(list[0]);
+        // printf("pipe\n");
         return;
     }
 

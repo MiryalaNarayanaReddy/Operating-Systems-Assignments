@@ -3,7 +3,7 @@
 
 int main()
 {
-    char argument[MAX_ARGS];
+    char argument[MAX_PATH_LEN];
     init();
     
     while (true)

@@ -66,8 +66,9 @@ void process_command(char *arguments)
     tokenize(arguments, arg);
 
     char *token;
+    char *strptr;
     Command command;
-    token = strtok(arg, ";");
+    token = strtok_r(arg, ";", &strptr);
     while (token != NULL)
     {
         // printf("t =  %s\n", token);
@@ -111,7 +112,7 @@ void process_command(char *arguments)
                 // PerformAction(command, &token[i + 1]);
             }
         }
-        token = strtok(NULL, ";");
+        token = strtok_r(NULL, ";", &strptr);
     }
 }
 

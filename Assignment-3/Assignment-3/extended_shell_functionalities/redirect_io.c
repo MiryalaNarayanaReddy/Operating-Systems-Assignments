@@ -1,6 +1,7 @@
 #include "redirect_io.h"
 #include <fcntl.h>
 #include <wait.h>
+#include <unistd.h>
 
 void redirect_input(char *filename)
 {
@@ -45,15 +46,16 @@ void redirect_output(char *filename, bool append)
 
 void Redirection(Command command, char *cmnd, char *args)
 {
-    int sfdi = dup(STDIN_FILENO), sfdo = dup(STDOUT_FILENO);
-
+    int sfdi = dup(STDIN_FILENO);
+    int sfdo = dup(STDOUT_FILENO);
+    bool any_redirection = true;
     bool input = 0;
     bool output = 0;
     bool append = 0;
 
-    char input_file[30];
-    char output_file[30];
-    char left_over_args[30];
+    char input_file[1024];
+    char output_file[1024];
+    char left_over_args[1024];
 
     left_over_args[0] = '\0';
     int stat;
@@ -128,6 +130,7 @@ void Redirection(Command command, char *cmnd, char *args)
         //invalid cases
         // both > and >>
         // all < > >>
+        any_redirection = false;
     }
 
     if (command == __system_process)
@@ -137,7 +140,15 @@ void Redirection(Command command, char *cmnd, char *args)
     else
     {
         PerformAction(command, left_over_args);
+        // printf("redirection\n");
     }
-    dup2(sfdi, STDIN_FILENO);
-    dup2(sfdo, STDOUT_FILENO);
+
+    if (any_redirection)
+    {
+        dup2(sfdi, STDIN_FILENO);
+        dup2(sfdo, STDOUT_FILENO);
+    }
+    close(sfdi);
+    close(sfdo);
+    // printf("done\n");
 }
