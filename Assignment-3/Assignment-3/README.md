@@ -22,6 +22,7 @@ main.c
      |           -  handle_ctrl_c_signal();
      |           -  handle_ctrl_z_signal();
      |       - Handel_background_process_exit()
+     |           - get_id_of_bg_process()
      |   - init_signal()
      |   - init_history()
      |
@@ -53,7 +54,9 @@ main.c
                                        \|/
                                         - calls respective functions 
                                             - forground_process()
+                                                - push_into_jobs()
                                             - background_process()
+                                                - push_into_jobs()
                                             - parse_cmd()
                             - PerformAction() { for built_in_commands written by me }
                                         |
