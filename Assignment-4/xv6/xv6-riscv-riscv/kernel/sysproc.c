@@ -95,3 +95,13 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+uint64
+sys_trace(void)
+{
+  uint64 mask;
+  if (argaddr(0, &mask) < 0) // get the mask from agrs passed in main of strace.c
+    return -1;
+  trace(mask);
+  return 0;
+}

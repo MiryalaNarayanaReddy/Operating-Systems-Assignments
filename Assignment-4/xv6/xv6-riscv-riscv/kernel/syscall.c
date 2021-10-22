@@ -104,6 +104,7 @@ extern uint64 sys_unlink(void);
 extern uint64 sys_wait(void);
 extern uint64 sys_write(void);
 extern uint64 sys_uptime(void);
+extern uint64 sys_trace(void);
 
 static uint64 (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -127,20 +128,67 @@ static uint64 (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
+[SYS_trace]   sys_trace,
 };
 
-void
-syscall(void)
+char*name_of_syscall(int num)
 {
-  int num;
-  struct proc *p = myproc();
-
-  num = p->trapframe->a7;
-  if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
-    p->trapframe->a0 = syscalls[num]();
-  } else {
-    printf("%d %s: unknown sys call %d\n",
-            p->pid, p->name, num);
-    p->trapframe->a0 = -1;
+  switch(num)
+  {
+    case 1: return "fork";
+    case 2: return "exit";
+    case 3: return "wait";
+    case 4: return "pipe";
+    case 5: return "read";
+    case 6: return "kill";
+    case 7: return "exec";
+    case 8: return "fstat";
+    case 9: return "chdir";
+    case 10: return "dup";
+    case 11: return "getpid";
+    case 12: return "sbrk";
+    case 13: return "sleep";
+    case 14: return "uptime";
+    case 15: return "open";
+    case 16: return "write";
+    case 17: return "mknod";
+    case 18: return "unlink";
+    case 19: return "link";
+    case 20: return "mkdir";
+    case 21: return "close";
+    case 22: return "trace"; 
   }
+  return "unknown";
+}
+
+void syscall(void)
+{
+	int num;
+	struct proc *p = myproc();
+
+	num = p->trapframe->a7;
+	if (num > 0 && num < NELEM(syscalls) && syscalls[num])
+	{
+		if (p->trace_mask & (1 << num))
+		{
+			printf("%d: syscall %s ( ", p->pid, name_of_syscall(num));
+			// print args of system call
+
+			printf("pending in syscall.c"); // pending
+			
+			printf(" ) -> ");
+		}
+
+		p->trapframe->a0 = syscalls[num]();
+		if (p->trace_mask & (1 << num))
+		{
+			printf("%d\n", p->trapframe->a0); // return work
+		}
+	}
+	else
+	{
+		printf("%d %s: unknown sys call %d\n",
+			   p->pid, p->name, num);
+		p->trapframe->a0 = -1;
+	}
 }
