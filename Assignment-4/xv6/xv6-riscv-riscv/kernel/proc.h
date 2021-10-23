@@ -106,4 +106,8 @@ struct proc {
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
   uint64 trace_mask;           // mask for strace function
+  uint rtime;                  // run time of process
+  uint ctime;                  // creation time of process
+  uint etime;                  // end time of processs
+  
 };
