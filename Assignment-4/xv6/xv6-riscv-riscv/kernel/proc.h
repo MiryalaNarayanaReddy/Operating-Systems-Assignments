@@ -111,3 +111,7 @@ struct proc {
   uint etime;                  // end time of processs
   
 };
+
+#define RR 1
+#define FCFS 0
+#define MLQP 0
