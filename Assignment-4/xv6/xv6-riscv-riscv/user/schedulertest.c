@@ -36,5 +36,5 @@ int main() {
       } 
   }
   printf("Average rtime %d,  wtime %d\n", trtime / NFORK, twtime / NFORK);
-  exit(0);
+  return 0;
 }

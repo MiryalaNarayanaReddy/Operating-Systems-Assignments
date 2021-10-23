@@ -146,6 +146,8 @@ found:
   p->rtime = 0;
   p->etime = 0;
   p->ctime = ticks;
+  p->priority = 0;
+  p->schedule_freq = 0;
   return p;
 }
 
@@ -529,6 +531,7 @@ void scheduler(void)
 				acquire(&p->lock);
 				if (p->state == RUNNABLE)
 				{
+          p->schedule_freq++;
 					// Switch to chosen process.  It is the process's job
 					// to release its lock and then reacquire it
 					// before jumping back to us.
@@ -545,6 +548,8 @@ void scheduler(void)
 		}
 		else if (FCFS)
 		{
+
+
 			struct proc *first_process = 0;
 			struct proc *p = 0;
 
@@ -567,7 +572,7 @@ void scheduler(void)
 			{
 				p = first_process;
 				acquire(&p->lock);
-			
+		  	p->schedule_freq++;
 				// Switch to chosen process.  It is the process's job
 				// to release its lock and then reacquire it
 				// before jumping back to us.
@@ -577,7 +582,7 @@ void scheduler(void)
 					c->proc = p;
 					p->state = RUNNING;
 					swtch(&c->context, &p->context);
-
+          
 					// Process is done running for now.
 					// It should have changed its p->state before coming back.
 					c->proc = 0;
@@ -774,7 +779,7 @@ procdump(void)
       state = states[p->state];
     else
       state = "???";
-    printf("%d %s %s", p->pid, state, p->name);
+    printf("%d %s %s %d %d %d", p->pid, state, p->name,p->rtime,(ticks-p->ctime)-p->rtime,p->schedule_freq);
     printf("\n");
   }
 }

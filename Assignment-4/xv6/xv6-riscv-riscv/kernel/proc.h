@@ -109,9 +109,10 @@ struct proc {
   uint rtime;                  // run time of process
   uint ctime;                  // creation time of process
   uint etime;                  // end time of processs
-  
+  uint priority;               // priority of process
+  uint schedule_freq;          // number of times scheduled
 };
 
-#define RR 1
-#define FCFS 0
+#define RR 0
+#define FCFS 1
 #define MLQP 0
