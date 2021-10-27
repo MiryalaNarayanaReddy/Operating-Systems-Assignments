@@ -112,7 +112,3 @@ struct proc {
   uint priority;               // priority of process
   uint schedule_freq;          // number of times scheduled
 };
-
-#define RR 1
-#define FCFS 0
-#define MLQP 0

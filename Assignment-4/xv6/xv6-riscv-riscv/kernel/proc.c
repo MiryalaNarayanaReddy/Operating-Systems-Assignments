@@ -514,83 +514,81 @@ update_time()
 //    via swtch back to the scheduler.
 void scheduler(void)
 {
-	struct cpu *c = mycpu();
 
-	c->proc = 0;
-	for (;;)
-	{
-		// Avoid deadlock by ensuring that devices can interrupt.
-		intr_on();
+  struct cpu *c = mycpu();
 
-		if (RR)
-		{
-			struct proc *p = 0;
-		
-			for (p = proc; p < &proc[NPROC]; p++)
-			{
-				acquire(&p->lock);
-				if (p->state == RUNNABLE)
-				{
-          p->schedule_freq++;
-					// Switch to chosen process.  It is the process's job
-					// to release its lock and then reacquire it
-					// before jumping back to us.
-					p->state = RUNNING;
-					c->proc = p;
-					swtch(&c->context, &p->context);
+  c->proc = 0;
+  for (;;)
+  {
+    // Avoid deadlock by ensuring that devices can interrupt.
+    intr_on();
 
-					// Process is done running for now.
-					// It should have changed its p->state before coming back.
-					c->proc = 0;
-				}
-				release(&p->lock);
-			}
-		}
-		else if (FCFS)
-		{
+#ifdef RR
 
+    struct proc *p = 0;
 
-			struct proc *first_process = 0;
-			struct proc *p = 0;
+    for (p = proc; p < &proc[NPROC]; p++)
+    {
+      acquire(&p->lock);
+      if (p->state == RUNNABLE)
+      {
+        p->schedule_freq++;
+        // Switch to chosen process.  It is the process's job
+        // to release its lock and then reacquire it
+        // before jumping back to us.
+        p->state = RUNNING;
+        c->proc = p;
+        swtch(&c->context, &p->context);
 
-			for (p = proc; p < &proc[NPROC]; p++)
-			{
-				if (p->state == RUNNABLE)
-				{
-					if (first_process == 0)
-					{
-						first_process = p;
-					}
-					else
-					{
-						if (p->ctime < first_process->ctime)
-							first_process = p;
-					}
-				}
-			}
-			if(first_process!=0)
-			{
-				p = first_process;
-				acquire(&p->lock);
-		  	p->schedule_freq++;
-				// Switch to chosen process.  It is the process's job
-				// to release its lock and then reacquire it
-				// before jumping back to us.
+        // Process is done running for now.
+        // It should have changed its p->state before coming back.
+        c->proc = 0;
+      }
+      release(&p->lock);
+    }
+#endif
+#ifdef FCFS
+    struct proc *first_process = 0;
+    struct proc *p = 0;
 
-				if (p->state == RUNNABLE)
-				{
-					c->proc = p;
-					p->state = RUNNING;
-					swtch(&c->context, &p->context);
-          
-					// Process is done running for now.
-					// It should have changed its p->state before coming back.
-					c->proc = 0;
-				}
-				release(&p->lock);
-			}
-		}
-	}
+    for (p = proc; p < &proc[NPROC]; p++)
+    {
+      if (p->state == RUNNABLE)
+      {
+        if (first_process == 0)
+        {
+          first_process = p;
+        }
+        else
+        {
+          if (p->ctime < first_process->ctime)
+            first_process = p;
+        }
+      }
+    }
+    if (first_process != 0)
+    {
+      p = first_process;
+      acquire(&p->lock);
+      p->schedule_freq++;
+      // Switch to chosen process.  It is the process's job
+      // to release its lock and then reacquire it
+      // before jumping back to us.
+
+      if (p->state == RUNNABLE)
+      {
+        c->proc = p;
+        p->state = RUNNING;
+        swtch(&c->context, &p->context);
+
+        // Process is done running for now.
+        // It should have changed its p->state before coming back.
+        c->proc = 0;
+      }
+      release(&p->lock);
+    }
+#endif
+  }
 }
 
 // Switch to scheduler.  Must hold only p->lock
