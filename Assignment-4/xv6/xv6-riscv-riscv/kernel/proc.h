@@ -113,6 +113,6 @@ struct proc {
   uint schedule_freq;          // number of times scheduled
 };
 
-#define RR 0
-#define FCFS 1
+#define RR 1
+#define FCFS 0
 #define MLQP 0

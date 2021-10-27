@@ -133,34 +133,79 @@ static uint64 (*syscalls[])(void) = {
 [SYS_waitx]   sys_waitx
 };
 
-char*name_of_syscall(int num)
+void name_of_syscall(int num, struct proc *p)
 {
-  switch(num)
-  {
-    case 1: return "fork";
-    case 2: return "exit";
-    case 3: return "wait";
-    case 4: return "pipe";
-    case 5: return "read";
-    case 6: return "kill";
-    case 7: return "exec";
-    case 8: return "fstat";
-    case 9: return "chdir";
-    case 10: return "dup";
-    case 11: return "getpid";
-    case 12: return "sbrk";
-    case 13: return "sleep";
-    case 14: return "uptime";
-    case 15: return "open";
-    case 16: return "write";
-    case 17: return "mknod";
-    case 18: return "unlink";
-    case 19: return "link";
-    case 20: return "mkdir";
-    case 21: return "close";
-    case 22: return "trace"; 
-  }
-  return "unknown";
+	switch (num)
+	{
+	case 1:
+		printf("fork ( ) ");
+		break;
+	case 2:
+		printf("exit ( %d ) ", p->trapframe->a0);
+		break;
+	case 3:
+		printf("wait ( %d ) ", p->trapframe->a0);
+		break;
+	case 4:
+		printf("pipe ( %d ) ", p->trapframe->a0);
+		break;
+	case 5:
+		printf("read ( %d %d %d ) ", p->trapframe->a0, p->trapframe->a1, p->trapframe->a2);
+		break;
+	case 6:
+		printf("kill ( %d ) ", p->trapframe->a0);
+		break;
+	case 7:
+		printf("exec ( %d %d ) ", p->trapframe->a0, p->trapframe->a1);
+		break;
+	case 8:
+		printf("fstat ( %d %d ) ", p->trapframe->a0, p->trapframe->a1);
+		break;
+	case 9:
+		printf("chdir ( %d ) ", p->trapframe->a0);
+		break;
+	case 10:
+		printf("dup ( %d ) ", p->trapframe->a0);
+		break;
+	case 11:
+		printf("getpid ( ) ");
+		break;
+	case 12:
+		printf("sbrk ( %d ) ", p->trapframe->a0);
+		break;
+	case 13:
+		printf("sleep ( %d ) ", p->trapframe->a0);
+		break;
+	case 14:
+		printf("uptime ( ) ");
+		break;
+	case 15:
+		printf("open ( %d %d ) ", p->trapframe->a0, p->trapframe->a1);
+		break;
+	case 16:
+		printf("write ( %d %d %d ) ", p->trapframe->a0, p->trapframe->a1, p->trapframe->a2);
+		break;
+	case 17:
+		printf("mknod ( %d %d %d ) ", p->trapframe->a0, p->trapframe->a1, p->trapframe->a2);
+		break;
+	case 18:
+		printf("unlink ( %d ) ", p->trapframe->a0);
+		break;
+	case 19:
+		printf("link ( %d %d ) ", p->trapframe->a0, p->trapframe->a1);
+		break;
+	case 20:
+		printf("mkdir ( %d ) ", p->trapframe->a0);
+		break;
+	case 21:
+		printf("close ( %d ) ", p->trapframe->a0);
+		break;
+	case 22:
+		printf("waitx ( %d %d %d ) ", p->trapframe->a0, p->trapframe->a1, p->trapframe->a2);
+		break;
+	default:
+		printf("Unknown syscall :( ");
+	}
 }
 
 void syscall(void)
@@ -173,12 +218,13 @@ void syscall(void)
 	{
 		if (p->trace_mask & (1 << num))
 		{
-			printf("%d: syscall %s ( ", p->pid, name_of_syscall(num));
+			printf("%d: syscall ", p->pid);
 			// print args of system call
+			name_of_syscall(num, p);
 
-			printf("pending in syscall.c"); // pending
-			
-			printf(" ) -> ");
+			//	printf("pending in syscall.c"); // pending
+
+			printf(" -> ");
 		}
 
 		p->trapframe->a0 = syscalls[num]();
