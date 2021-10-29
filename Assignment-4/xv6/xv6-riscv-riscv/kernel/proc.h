@@ -109,6 +109,15 @@ struct proc {
   uint rtime;                  // run time of process
   uint ctime;                  // creation time of process
   uint etime;                  // end time of processs
+  uint nrun;                   // number of times scheduled
+
+  uint sleeping_time;          // time spent in sleeping 
+  uint running_time;           // time running after scheduling
   uint priority;               // priority of process
-  uint schedule_freq;          // number of times scheduled
+  uint niceness;               // default 5 set by niceness function
 };
+
+
+#ifdef PBS
+int preemption_possible(int priority,int nrun,int ctime );
+#endif

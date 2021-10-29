@@ -125,3 +125,15 @@ sys_trace(void)
   trace(mask);
   return 0;
 }
+
+uint64
+sys_set_priority(void)
+{
+  uint64 priority, pid;
+  if (argaddr(0, &priority) < 0) // get the mask from agrs passed in main of strace.c
+    return -1;
+  if (argaddr(1, &pid) < 0)
+    return -1;
+  set_priority(priority, pid);
+  return 0;
+}

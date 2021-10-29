@@ -78,14 +78,20 @@ usertrap(void)
 
   // give up the CPU if this is a timer interrupt.
 #ifdef RR
+  if (which_dev == 2)
+  {
+    yield();
+  }
+#endif
 
+#ifdef PBS
     if (which_dev == 2)
     {
-      yield();
-
+      if (preemption_possible(myproc()->priority, myproc()->nrun, myproc()->ctime))
+        yield();
     }
 #endif
-  usertrapret();
+    usertrapret();
 
 }
 
@@ -156,12 +162,20 @@ kerneltrap()
   }
 
   // give up the CPU if this is a timer interrupt.
-  #ifdef RR
+#ifdef RR
   if (which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING)
   {
+    yield();
+  }
+#endif
+
+#ifdef PBS
+  if (which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING)
+  {
+    if (preemption_possible(myproc()->priority, myproc()->nrun, myproc()->ctime))
       yield();
   }
- #endif
+#endif
 
   // the yield() may have caused some traps to occur,
   // so restore trap registers for use by kernelvec.S's sepc instruction.

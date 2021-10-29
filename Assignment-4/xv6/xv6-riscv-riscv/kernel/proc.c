@@ -147,7 +147,11 @@ found:
   p->etime = 0;
   p->ctime = ticks;
   p->priority = 0;
-  p->schedule_freq = 0;
+  p->nrun = 0;
+  p->running_time = 0;
+  p->sleeping_time = 0;
+  p->priority = 60;
+  p->niceness = 5;
   return p;
 }
 
@@ -504,6 +508,29 @@ update_time()
   }
 }
 
+void set_niceness(struct proc*p)
+{
+  if(p->sleeping_time==0&&p->running_time==0)
+  {
+    p->niceness = 5;
+    return;
+  }
+  p->niceness = (p->sleeping_time/(p->sleeping_time+p->running_time))*10;
+  p->running_time = 0;
+  p->sleeping_time = 0;
+}
+
+int Dynamic_priority(struct proc *p)
+{
+  acquire(&p->lock);
+  int x = (p->priority + 5) - p->niceness;
+ 
+  int y = x < 100 ? x : 100;
+  int z = y > 0 ? y : 0;
+  release(&p->lock);
+
+  return z;
+}
 
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
@@ -512,9 +539,90 @@ update_time()
 //  - swtch to start running that process.
 //  - eventually that process transfers control
 //    via swtch back to the scheduler.
+
+// DEFAULT ROUND ROBIN
+#ifdef RR
 void scheduler(void)
 {
+  struct proc *p;
+  struct cpu *c = mycpu();
+  
+  c->proc = 0;
+  for(;;){
+    // Avoid deadlock by ensuring that devices can interrupt.
+    intr_on();
 
+    for(p = proc; p < &proc[NPROC]; p++) {
+      acquire(&p->lock);
+      if(p->state == RUNNABLE) {
+        // Switch to chosen process.  It is the process's job
+        // to release its lock and then reacquire it
+        // before jumping back to us.
+        p->state = RUNNING;
+        p->nrun++;
+        c->proc = p;
+        swtch(&c->context, &p->context);
+
+        // Process is done running for now.
+        // It should have changed its p->state before coming back.
+        c->proc = 0;
+      }
+      release(&p->lock);
+    }
+  }
+}
+#endif
+
+// FIRST COME FIRST SERVE
+#ifdef FCFS
+void scheduler(void)
+{
+  struct proc *p;
+  struct cpu *c = mycpu();
+  int min_time ;
+  c->proc = 0;
+  for (;;)
+  {
+    // Avoid deadlock by ensuring that devices can interrupt.
+    intr_on();
+    struct proc *first_process = proc;
+     min_time = 999999999;
+    for (p = proc; p < &proc[NPROC]; p++)
+    {
+      acquire(&p->lock);
+      if (p->state == RUNNABLE && p->ctime < min_time)
+      {
+        first_process = p;
+        min_time = p->ctime;
+      }
+      release(&p->lock);
+    }
+    p = first_process;
+    acquire(&p->lock);
+    if (p->state == RUNNABLE)
+    {
+      // Switch to chosen process.  It is the process's job
+      // to release its lock and then reacquire it
+      // before jumping back to us.
+      p->state = RUNNING;
+      p->nrun++;
+      c->proc = p;
+      swtch(&c->context, &p->context);
+
+      // Process is done running for now.
+      // It should have changed its p->state before coming back.
+      c->proc = 0;
+    }
+    release(&p->lock);
+  }
+}
+#endif
+
+// PRIORITY BASED SCHEDULING
+#ifdef PBS
+void scheduler(void)
+{
+  struct proc *p;
   struct cpu *c = mycpu();
 
   c->proc = 0;
@@ -522,74 +630,61 @@ void scheduler(void)
   {
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
-
-#ifdef RR
-
-    struct proc *p = 0;
+    struct proc *hp_process = proc;
 
     for (p = proc; p < &proc[NPROC]; p++)
     {
       acquire(&p->lock);
       if (p->state == RUNNABLE)
       {
-        p->schedule_freq++;
-        // Switch to chosen process.  It is the process's job
-        // to release its lock and then reacquire it
-        // before jumping back to us.
-        p->state = RUNNING;
-        c->proc = p;
-        swtch(&c->context, &p->context);
+        set_niceness(p);
+        int x = (p->priority + 5) - p->niceness;
+        int y = x < 100 ? x : 100;
+        int z = y > 0 ? y : 0;
+      // p->priority = Dynamic_priority(p);
+        p->priority = z;
+      }
+      release(&p->lock);
+      // set_priority(Dynamic_priority(p), p->pid);
+    }
 
-        // Process is done running for now.
-        // It should have changed its p->state before coming back.
-        c->proc = 0;
+    for (p = proc; p < &proc[NPROC]; p++)
+    {
+      acquire(&p->lock);
+      if (p->state == RUNNABLE && (p->priority < hp_process->priority || (p->priority == hp_process->priority && p->nrun < hp_process->nrun) || (p->priority == hp_process->priority && p->nrun == hp_process->nrun && p->ctime < hp_process->ctime)))
+      {
+        hp_process = p;
       }
       release(&p->lock);
     }
-#endif
-#ifdef FCFS
-    struct proc *first_process = 0;
-    struct proc *p = 0;
 
-    for (p = proc; p < &proc[NPROC]; p++)
+    p = hp_process;
+    // set_niceness(p);
+    // set_priority(Dynamic_priority(p), p->pid);
+
+    acquire(&p->lock);
+    if (p->state == RUNNABLE)
     {
-      if (p->state == RUNNABLE)
-      {
-        if (first_process == 0)
-        {
-          first_process = p;
-        }
-        else
-        {
-          if (p->ctime < first_process->ctime)
-            first_process = p;
-        }
-      }
-    }
-    if (first_process != 0)
-    {
-      p = first_process;
-      acquire(&p->lock);
-      p->schedule_freq++;
       // Switch to chosen process.  It is the process's job
       // to release its lock and then reacquire it
       // before jumping back to us.
-
-      if (p->state == RUNNABLE)
-      {
-        c->proc = p;
-        p->state = RUNNING;
-        swtch(&c->context, &p->context);
-
-        // Process is done running for now.
-        // It should have changed its p->state before coming back.
-        c->proc = 0;
-      }
-      release(&p->lock);
+      p->state = RUNNING;
+      p->nrun++;
+      c->proc = p;
+      p->running_time = ticks;
+      swtch(&c->context, &p->context);
+      p->running_time = ticks - p->running_time;
+      // Process is done running for now.
+      // It should have changed its p->state before coming back.
+      c->proc = 0;
     }
-#endif
+  
+    release(&p->lock);
   }
 }
+#endif
+
+
 
 // Switch to scheduler.  Must hold only p->lock
 // and have changed proc->state. Saves and restores
@@ -625,6 +720,7 @@ yield(void)
   struct proc *p = myproc();
   acquire(&p->lock);
   p->state = RUNNABLE;
+
   sched();
   release(&p->lock);
 }
@@ -670,6 +766,7 @@ sleep(void *chan, struct spinlock *lk)
   // Go to sleep.
   p->chan = chan;
   p->state = SLEEPING;
+  p->sleeping_time = ticks;
 
   sched();
 
@@ -693,6 +790,7 @@ wakeup(void *chan)
       acquire(&p->lock);
       if(p->state == SLEEPING && p->chan == chan) {
         p->state = RUNNABLE;
+        p->sleeping_time = ticks - p->sleeping_time;
       }
       release(&p->lock);
     }
@@ -777,7 +875,7 @@ procdump(void)
       state = states[p->state];
     else
       state = "???";
-    printf("%d %s %s %d %d %d", p->pid, state, p->name,p->rtime,(ticks-p->ctime)-p->rtime,p->schedule_freq);
+    printf("%d %s %s %d %d %d %d", p->pid, state, p->name,p->rtime,(ticks-p->ctime)-p->rtime,p->nrun,p->priority);
     printf("\n");
   }
 }
@@ -788,3 +886,59 @@ trace(int mask)
   // printf("we are in pro.c trace function\n");
   myproc()->trace_mask = mask;
 }
+
+int set_priority(int new_priority, int pid)
+{
+  int old_priority=-1;
+  struct proc *p;
+  for (p = proc; p < &proc[NPROC]; p++)
+  {
+    acquire(&p->lock);
+    if (p->pid == pid)
+    {
+      old_priority = p->priority;
+      p->priority = new_priority;
+      p->niceness = 5;
+    }
+    release(&p->lock);
+  }
+  return old_priority;
+}
+
+
+#ifdef PBS
+
+int preemption_possible(int priority, int nrun, int ctime)
+{
+
+  struct proc *p;
+  for (p = proc; p < &proc[NPROC]; p++)
+  {
+    acquire(&p->lock);
+    if (p->state == RUNNABLE)
+    {
+      set_niceness(p);
+      int x = (p->priority + 5) - p->niceness;
+      int y = x < 100 ? x : 100;
+      int z = y > 0 ? y : 0;
+      // p->priority = Dynamic_priority(p);
+      p->priority = z;
+    }
+    release(&p->lock);
+    // set_priority(Dynamic_priority(p), p->pid);
+  }
+
+  for (p = proc; p < &proc[NPROC]; p++)
+  {
+    acquire(&p->lock);
+    if (p->state == RUNNABLE && (p->priority < priority || (p->priority == priority && p->nrun < nrun) || (p->priority == priority && p->nrun == nrun && p->ctime < ctime)))
+    {
+      release(&p->lock);
+      return 1;
+    }
+    release(&p->lock);
+  }
+  return 0;
+}
+
+#endif
