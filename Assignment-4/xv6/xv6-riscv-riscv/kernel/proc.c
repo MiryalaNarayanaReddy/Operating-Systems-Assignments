@@ -504,30 +504,34 @@ update_time()
     if (p->state == RUNNING) {
       p->rtime++;
     }
+    if(p->sleeping_time==SLEEPING)
+    {
+      p->sleeping_time++;
+    }
     release(&p->lock); 
   }
 }
 
 void set_niceness(struct proc*p)
-{
+{ 
   if(p->sleeping_time==0&&p->running_time==0)
   {
     p->niceness = 5;
     return;
   }
-  p->niceness = (p->sleeping_time/(p->sleeping_time+p->running_time))*10;
+  p->niceness = ((p->sleeping_time*10)/(p->sleeping_time+p->running_time));
   p->running_time = 0;
   p->sleeping_time = 0;
 }
 
 int Dynamic_priority(struct proc *p)
 {
-  acquire(&p->lock);
+  // acquire(&p->lock);
   int x = (p->priority + 5) - p->niceness;
  
   int y = x < 100 ? x : 100;
   int z = y > 0 ? y : 0;
-  release(&p->lock);
+  // release(&p->lock);
 
   return z;
 }
@@ -637,12 +641,21 @@ void scheduler(void)
       acquire(&p->lock);
       if (p->state == RUNNABLE)
       {
-        set_niceness(p);
+        //set_niceness(p);
+        if (!(p->sleeping_time == 0 && p->running_time == 0))
+        {
+          // p->niceness = ((float)p->sleeping_time /(p->sleeping_time + p->running_time)) * 10;
+          set_niceness(p);
+          p->running_time = 0;
+          p->sleeping_time = 0;
+        }
+
         int x = (p->priority + 5) - p->niceness;
         int y = x < 100 ? x : 100;
         int z = y > 0 ? y : 0;
       // p->priority = Dynamic_priority(p);
         p->priority = z;
+        p->niceness = 5;
       }
       release(&p->lock);
       // set_priority(Dynamic_priority(p), p->pid);
@@ -670,10 +683,11 @@ void scheduler(void)
       // before jumping back to us.
       p->state = RUNNING;
       p->nrun++;
-      c->proc = p;
       p->running_time = ticks;
+      c->proc = p;
+      // p->running_time = ticks;
       swtch(&c->context, &p->context);
-      p->running_time = ticks - p->running_time;
+       p->running_time = ticks - p->running_time;
       // Process is done running for now.
       // It should have changed its p->state before coming back.
       c->proc = 0;
@@ -766,7 +780,7 @@ sleep(void *chan, struct spinlock *lk)
   // Go to sleep.
   p->chan = chan;
   p->state = SLEEPING;
-  p->sleeping_time = ticks;
+  p->sleeping_time = 0;
 
   sched();
 
@@ -790,7 +804,7 @@ wakeup(void *chan)
       acquire(&p->lock);
       if(p->state == SLEEPING && p->chan == chan) {
         p->state = RUNNABLE;
-        p->sleeping_time = ticks - p->sleeping_time;
+       // p->sleeping_time = ticks - p->sleeping_time;
       }
       release(&p->lock);
     }
@@ -908,33 +922,20 @@ int set_priority(int new_priority, int pid)
 
 #ifdef PBS
 
-int preemption_possible(int priority, int nrun, int ctime)
+int preemption_possible(int priority)
 {
-
-  struct proc *p;
+  struct proc*p;
   for (p = proc; p < &proc[NPROC]; p++)
   {
     acquire(&p->lock);
-    if (p->state == RUNNABLE)
+    if(p->state == RUNNABLE&&p!=myproc())
     {
       set_niceness(p);
-      int x = (p->priority + 5) - p->niceness;
-      int y = x < 100 ? x : 100;
-      int z = y > 0 ? y : 0;
-      // p->priority = Dynamic_priority(p);
-      p->priority = z;
-    }
-    release(&p->lock);
-    // set_priority(Dynamic_priority(p), p->pid);
-  }
-
-  for (p = proc; p < &proc[NPROC]; p++)
-  {
-    acquire(&p->lock);
-    if (p->state == RUNNABLE && (p->priority < priority || (p->priority == priority && p->nrun < nrun) || (p->priority == priority && p->nrun == nrun && p->ctime < ctime)))
-    {
-      release(&p->lock);
-      return 1;
+      if (Dynamic_priority(p) < priority)
+      {
+        release(&p->lock);
+        return 1;
+      }
     }
     release(&p->lock);
   }

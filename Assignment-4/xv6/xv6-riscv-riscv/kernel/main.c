@@ -16,6 +16,9 @@ main()
 #ifdef FCFS
 printf("FCFS is defined\n");
 #endif
+#ifdef PBS
+printf("PBS is defined\n");
+#endif
   if(cpuid() == 0){
     consoleinit();
     printfinit();

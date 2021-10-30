@@ -85,14 +85,17 @@ usertrap(void)
 #endif
 
 #ifdef PBS
-    if (which_dev == 2)
-    {
-      if (preemption_possible(myproc()->priority, myproc()->nrun, myproc()->ctime))
-        yield();
-    }
+  if (which_dev == 2)
+  {
+    int x = (myproc()->priority + 5);
+    int y = x < 100 ? x : 100;
+    int z = y > 0 ? y : 0;
+    set_priority(z,myproc()->pid);
+    if (preemption_possible(z))
+      yield();
+  }
 #endif
     usertrapret();
-
 }
 
 //
@@ -162,6 +165,7 @@ kerneltrap()
   }
 
   // give up the CPU if this is a timer interrupt.
+
 #ifdef RR
   if (which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING)
   {
@@ -172,7 +176,11 @@ kerneltrap()
 #ifdef PBS
   if (which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING)
   {
-    if (preemption_possible(myproc()->priority, myproc()->nrun, myproc()->ctime))
+    int x = (myproc()->priority + 5);
+    int y = x < 100 ? x : 100;
+    int z = y > 0 ? y : 0;
+    set_priority(z,myproc()->pid);
+    if (preemption_possible(z))
       yield();
   }
 #endif

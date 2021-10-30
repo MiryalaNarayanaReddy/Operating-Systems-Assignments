@@ -108,6 +108,8 @@ void            procdump(void);
 void            trace(int mask);
 void            update_time(void);
 int             set_priority(int new_priority,int pid);
+void            set_niceness(struct proc*p);
+int             Dynamic_priority(struct proc *p);
 
 // swtch.S
 void            swtch(struct context*, struct context*);

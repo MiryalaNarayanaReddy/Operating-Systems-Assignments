@@ -119,5 +119,7 @@ struct proc {
 
 
 #ifdef PBS
-int preemption_possible(int priority,int nrun,int ctime );
+void set_niceness(struct proc*p);
+int Dynamic_priority(struct proc *p);
+int preemption_possible(int priority);
 #endif
