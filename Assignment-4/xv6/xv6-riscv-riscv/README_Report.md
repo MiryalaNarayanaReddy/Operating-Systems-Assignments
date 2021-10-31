@@ -86,3 +86,11 @@
         - q0 to q4 are printed showing time spent in each
 
 
+# Performace comparisons
+- when I ran **time schedulertest** I got the following waiting and running times
+RR - waiting 0 running 200
+FCFS -waiting 0 running 200
+PBS - waiting 2 running 200
+MLFQ - waiting  0 running 200
+
+Hence I don't see much difference here but Algorithmically there is diffrence if there are more number of processes.
