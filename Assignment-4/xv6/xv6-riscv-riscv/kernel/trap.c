@@ -98,7 +98,14 @@ usertrap(void)
   if (which_dev == 2)
   {
     if (myproc()->running_time >= time_slice2[myproc()->priority_queue_number])
+    {
+
+     if (myproc()->priority_queue_number != 4)
+      {
+        myproc()->priority_queue_number++;
+      }
       yield();
+    }
   }
 
 #endif
@@ -192,8 +199,15 @@ kerneltrap()
 #ifdef MLFQ
   if (which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING)
   {
-    if (myproc()->running_time >= time_slice2[myproc()->priority_queue_number])
+   if (myproc()->running_time >= time_slice2[myproc()->priority_queue_number])
+    {
+
+      if (myproc()->priority_queue_number != 4)
+      {
+        myproc()->priority_queue_number++;
+      }
       yield();
+    }
   }
 #endif
 

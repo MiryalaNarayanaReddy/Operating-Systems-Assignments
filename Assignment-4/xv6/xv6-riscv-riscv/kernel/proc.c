@@ -710,9 +710,30 @@ void scheduler(void)
 
   for (;;)
   {
+    best_process[0] = 0;
+    best_process[1] = 0;
+    best_process[2] = 0;
+    best_process[3] = 0;
+    best_process[4] = 0;
+    p = 0;
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
-
+  // for (p = proc; p < &proc[NPROC]; p++)
+  //   {
+  //     acquire(&p->lock);
+  //     if (p->state == RUNNABLE)
+  //     {
+  //       if ((ticks - p->last_enque_time) >= AGING)
+  //       {
+  //         if (p->priority_queue_number != 0)
+  //         {
+  //           p->priority_queue_number--;
+  //           p->last_enque_time = ticks;
+  //         }
+  //       }
+  //     }
+  //     release(&p->lock);
+  //   }
     for (p = proc; p < &proc[NPROC]; p++)
     {
       acquire(&p->lock);
@@ -725,16 +746,17 @@ void scheduler(void)
         }
         else
         {
-          if (best_process[p->priority_queue_number]->last_enque_time < p->last_enque_time||(best_process[p->priority_queue_number]->last_enque_time == p->last_enque_time&&best_process[p->priority_queue_number]->ctime<p->ctime))
+          if (best_process[p->priority_queue_number]->last_enque_time > p->last_enque_time)
           {
             best_process[p->priority_queue_number] = p;
           }
         }
       }
-
       release(&p->lock);
     }
 
+  //  printf("%d %d %d %d %d\n", best_process[0]->pid,best_process[1]->pid,best_process[2]->pid,best_process[3]->pid,best_process[4]->pid);
+    
     if (best_process[0] == 0)
     {
       if (best_process[1] == 0)
@@ -745,7 +767,8 @@ void scheduler(void)
           {
             if (best_process[4] == 0)
             {
-              printf("Something is terrably wrong....Did I find no process to run..???\n");
+              p = proc;
+             // printf("Something is terrably wrong....Did I find no process to run..???\n");
               // init will be there always running
             }
             else
@@ -791,6 +814,8 @@ void scheduler(void)
       c->proc = 0;
     }
     release(&p->lock);
+    // int i = ticks;
+   // while(ticks<i+10);
   }
 }
 #endif
@@ -829,15 +854,6 @@ yield(void)
   struct proc *p = myproc();
   acquire(&p->lock);
   p->state = RUNNABLE;
-  #ifdef MLFQ
-  if(p->running_time >= time_slice[p->priority_queue_number])
-  {
-    if (p->priority_queue_number != 4)
-    {
-      p->priority_queue_number++;
-    }
-  }
-  #endif
   sched();
   release(&p->lock);
 }
@@ -998,7 +1014,7 @@ procdump(void)
 #endif
 
 #ifdef MLFQ
-  printf("Pid\t Priority\t State\t rtime\t wtime\t nrun q0\t q1\t q2\t q3\t q4\t"); // priority is queue number
+  printf("Pid\t Priority\t State\t rtime\t wtime\t nrun\t q0\t q1\t q2\t q3\t q4\t"); // priority is queue number
 #endif
 
 
