@@ -155,7 +155,7 @@ found:
   p->priority = 60;
   p->niceness = 5;
   p->priority_queue_number = 0;
-  p->last_enque_time = ticks;
+  p->enque_time = ticks;
   p->priority_queue[0] = 0;
   p->priority_queue[1] = 0;
   p->priority_queue[2] = 0;
@@ -723,12 +723,12 @@ void scheduler(void)
       acquire(&p->lock);
       if (p->state == RUNNABLE)
       {
-        if ((ticks - p->last_enque_time) >= AGING)
+        if ((ticks - p->enque_time) >= AGING)
         {
           if (p->priority_queue_number != 0)
           {
             p->priority_queue_number--;
-            p->last_enque_time = ticks;
+            p->enque_time = ticks;
           }
         }
       }
@@ -746,7 +746,7 @@ void scheduler(void)
         }
         else
         {
-          if (best_process[p->priority_queue_number]->last_enque_time > p->last_enque_time)
+          if (best_process[p->priority_queue_number]->enque_time > p->enque_time)
           {
             best_process[p->priority_queue_number] = p;
           }
@@ -854,7 +854,7 @@ yield(void)
   struct proc *p = myproc();
   acquire(&p->lock);
   p->state = RUNNABLE;
-  p->last_enque_time=ticks;
+  p->enque_time=ticks;
   sched();
   release(&p->lock);
 }
@@ -925,7 +925,6 @@ wakeup(void *chan)
       if(p->state == SLEEPING && p->chan == chan) {
         p->state = RUNNABLE;
         p->sleeping_time = ticks - p->sleeping_time;
-        p->last_enque_time = ticks; // putting at the back of queue
       }
       release(&p->lock);
     }
