@@ -87,11 +87,7 @@ usertrap(void)
 #ifdef PBS
   if (which_dev == 2)
   {
-    int x = (myproc()->priority + 5);
-    int y = x < 100 ? x : 100;
-    int z = y > 0 ? y : 0;
-    set_priority(z,myproc()->pid);
-    if (preemption_possible(z))
+    if (preemption_possible())
       yield();
   }
 #endif
@@ -176,11 +172,7 @@ kerneltrap()
 #ifdef PBS
   if (which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING)
   {
-    int x = (myproc()->priority + 5);
-    int y = x < 100 ? x : 100;
-    int z = y > 0 ? y : 0;
-    set_priority(z,myproc()->pid);
-    if (preemption_possible(z))
+    if (preemption_possible())
       yield();
   }
 #endif

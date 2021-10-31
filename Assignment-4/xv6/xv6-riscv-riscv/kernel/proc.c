@@ -503,35 +503,32 @@ update_time()
     acquire(&p->lock);
     if (p->state == RUNNING) {
       p->rtime++;
+      p->running_time++;
     }
-    if(p->sleeping_time==SLEEPING)
-    {
-      p->sleeping_time++;
-    }
+    // else if(p->state==SLEEPING)
+    // {
+    //   p->sleeping_time++;
+    // }
     release(&p->lock); 
   }
 }
 
-void set_niceness(struct proc*p)
-{ 
-  if(p->sleeping_time==0&&p->running_time==0)
+int compute_niceness(int sleeping_time, int running_time)
+{
+  int niceness = 5;
+  if (!(sleeping_time == 0 && running_time == 0))
   {
-    p->niceness = 5;
-    return;
+    niceness = ((sleeping_time * 10) / (sleeping_time + running_time));
   }
-  p->niceness = ((p->sleeping_time*10)/(p->sleeping_time+p->running_time));
-  p->running_time = 0;
-  p->sleeping_time = 0;
+  return niceness;
 }
 
-int Dynamic_priority(struct proc *p)
+int Dynamic_priority(int static_priority,int niceness)
 {
-  // acquire(&p->lock);
-  int x = (p->priority + 5) - p->niceness;
+  int x = (static_priority + 5) - niceness;
  
   int y = x < 100 ? x : 100;
   int z = y > 0 ? y : 0;
-  // release(&p->lock);
 
   return z;
 }
@@ -629,75 +626,66 @@ void scheduler(void)
   struct proc *p;
   struct cpu *c = mycpu();
 
+  struct proc *hp_process = 0;
+  int hp_dp = 100;
+  int p_dp = 100;
   c->proc = 0;
+
   for (;;)
   {
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
-    struct proc *hp_process = proc;
+    hp_process = 0;
+    hp_dp = 100;
+    p_dp = 100;
 
     for (p = proc; p < &proc[NPROC]; p++)
     {
       acquire(&p->lock);
       if (p->state == RUNNABLE)
       {
-        //set_niceness(p);
-        if (!(p->sleeping_time == 0 && p->running_time == 0))
+        if (hp_process == 0)
         {
-          // p->niceness = ((float)p->sleeping_time /(p->sleeping_time + p->running_time)) * 10;
-          set_niceness(p);
-          p->running_time = 0;
-          p->sleeping_time = 0;
+          hp_process = p;
+          hp_dp = Dynamic_priority(p->priority, compute_niceness(p->sleeping_time, p->running_time));
         }
-
-        int x = (p->priority + 5) - p->niceness;
-        int y = x < 100 ? x : 100;
-        int z = y > 0 ? y : 0;
-      // p->priority = Dynamic_priority(p);
-        p->priority = z;
-        p->niceness = 5;
-      }
-      release(&p->lock);
-      // set_priority(Dynamic_priority(p), p->pid);
-    }
-
-    for (p = proc; p < &proc[NPROC]; p++)
-    {
-      acquire(&p->lock);
-      if (p->state == RUNNABLE && (p->priority < hp_process->priority || (p->priority == hp_process->priority && p->nrun < hp_process->nrun) || (p->priority == hp_process->priority && p->nrun == hp_process->nrun && p->ctime < hp_process->ctime)))
-      {
-        hp_process = p;
+        else
+        {
+          p_dp = Dynamic_priority(p->priority, compute_niceness(p->sleeping_time, p->running_time));
+          if (p_dp < hp_dp || (p_dp == hp_dp && p->nrun < hp_process->nrun) || (p_dp == hp_dp && p->nrun == hp_process->nrun && p->ctime < hp_process->ctime))
+          {
+            hp_process = p;
+            hp_dp = p_dp;
+          }
+        }
       }
       release(&p->lock);
     }
-
-    p = hp_process;
-    // set_niceness(p);
-    // set_priority(Dynamic_priority(p), p->pid);
-
-    acquire(&p->lock);
-    if (p->state == RUNNABLE)
+    // set_priority(hp_dp,hp_process->pid); // set the selected process priority
+    if(hp_process==0)
+    continue;
+    acquire(&hp_process->lock);
+    if (hp_process->state == RUNNABLE)
     {
       // Switch to chosen process.  It is the process's job
       // to release its lock and then reacquire it
       // before jumping back to us.
-      p->state = RUNNING;
-      p->nrun++;
-      p->running_time = ticks;
-      c->proc = p;
+
+      hp_process->state = RUNNING;
+      hp_process->nrun++;
+      hp_process->running_time = 0;
+      hp_process->sleeping_time = 0;
+      c->proc = hp_process;
       // p->running_time = ticks;
-      swtch(&c->context, &p->context);
-       p->running_time = ticks - p->running_time;
+      swtch(&c->context, &hp_process->context);
       // Process is done running for now.
       // It should have changed its p->state before coming back.
       c->proc = 0;
     }
-  
-    release(&p->lock);
+    release(&hp_process->lock);
   }
 }
 #endif
-
 
 
 // Switch to scheduler.  Must hold only p->lock
@@ -780,7 +768,7 @@ sleep(void *chan, struct spinlock *lk)
   // Go to sleep.
   p->chan = chan;
   p->state = SLEEPING;
-  p->sleeping_time = 0;
+  p->sleeping_time = ticks;
 
   sched();
 
@@ -804,7 +792,7 @@ wakeup(void *chan)
       acquire(&p->lock);
       if(p->state == SLEEPING && p->chan == chan) {
         p->state = RUNNABLE;
-       // p->sleeping_time = ticks - p->sleeping_time;
+        p->sleeping_time = ticks - p->sleeping_time;
       }
       release(&p->lock);
     }
@@ -880,7 +868,7 @@ procdump(void)
   };
   struct proc *p;
   char *state;
-
+  printf("pid\t state\t rtime\t running_time\t sleeping_time\t nrun\t priority\t name");
   printf("\n");
   for(p = proc; p < &proc[NPROC]; p++){
     if(p->state == UNUSED)
@@ -889,7 +877,7 @@ procdump(void)
       state = states[p->state];
     else
       state = "???";
-    printf("%d %s %s %d %d %d %d", p->pid, state, p->name,p->rtime,(ticks-p->ctime)-p->rtime,p->nrun,p->priority);
+    printf("%d\t %s\t %d\t %d\t\t %d\t\t %d\t %d\t\t %s", p->pid, state,p->rtime,p->running_time,p->sleeping_time,p->nrun,p->priority,p->name);
     printf("\n");
   }
 }
@@ -922,18 +910,24 @@ int set_priority(int new_priority, int pid)
 
 #ifdef PBS
 
-int preemption_possible(int priority)
+int preemption_possible()
 {
-  struct proc*p;
+  struct proc *p;
+  p = myproc();
+  int pid = p->pid;
+  int dp = Dynamic_priority(p->priority, compute_niceness(p->sleeping_time, p->running_time));
+  int nrun = p->nrun;
+  int ctime = p->ctime;
+
+  int p_dp;
   for (p = proc; p < &proc[NPROC]; p++)
   {
     acquire(&p->lock);
-    if(p->state == RUNNABLE&&p!=myproc())
+    if (p->state == RUNNABLE && p->pid != pid)
     {
-      set_niceness(p);
-      if (Dynamic_priority(p) < priority)
+      p_dp = Dynamic_priority(p->priority, compute_niceness(p->sleeping_time, p->running_time));
+      if (p_dp < dp || (p_dp == dp && p->nrun < nrun) || (p_dp == dp && p->nrun == nrun && p->ctime < ctime))
       {
-        release(&p->lock);
         return 1;
       }
     }
