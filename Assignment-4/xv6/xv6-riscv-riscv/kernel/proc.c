@@ -1098,6 +1098,7 @@ int preemption_possible()
       p_dp = Dynamic_priority(p->priority, compute_niceness(p->sleeping_time, p->running_time));
       if (p_dp < dp || (p_dp == dp && p->nrun < nrun) || (p_dp == dp && p->nrun == nrun && p->ctime < ctime))
       {
+         release(&p->lock);
         return 1;
       }
     }

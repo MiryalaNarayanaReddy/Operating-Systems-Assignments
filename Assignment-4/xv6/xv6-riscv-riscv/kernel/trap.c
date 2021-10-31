@@ -86,13 +86,13 @@ usertrap(void)
   }
 #endif
 
-// #ifdef PBS
-//   if (which_dev == 2)
-//   {
-//     if (preemption_possible())
-//       yield();
-//   }
-// #endif
+#ifdef PBS
+  if (which_dev == 2)
+  {
+    if (preemption_possible())
+      yield();
+  }
+#endif
 
 #ifdef MLFQ
   if (which_dev == 2)
@@ -183,13 +183,13 @@ kerneltrap()
   }
 #endif
 
-// #ifdef PBS
-//   if (which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING)
-//   {
-//     if (preemption_possible())
-//       yield();
-//   }
-// #endif
+#ifdef PBS
+  if (which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING)
+  {
+    if (preemption_possible())
+      yield();
+  }
+#endif
 
 #ifdef MLFQ
   if (which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING)

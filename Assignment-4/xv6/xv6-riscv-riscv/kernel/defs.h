@@ -105,13 +105,14 @@ void            yield(void);
 int             either_copyout(int user_dst, uint64 dst, void *src, uint64 len);
 int             either_copyin(void *dst, int user_src, uint64 src, uint64 len);
 void            procdump(void);
-void            trace(int mask);
-void            update_time(void);
-int             set_priority(int new_priority,int pid);
-int             compute_niceness(int sleeping_time, int running_time);
-int             Dynamic_priority(int static_priority, int niceness);
-int             preemption_possible();
-int crossed_time_slice();
+void            trace(int mask);  // tracing syscalls
+void            update_time(void); // updating running time
+int             set_priority(int new_priority,int pid);     // pbs
+int             compute_niceness(int sleeping_time, int running_time); // pbs
+int             Dynamic_priority(int static_priority, int niceness); // pbs
+int             preemption_possible(); // pbs
+int             crossed_time_slice();  // mlfq
+
 // swtch.S
 void            swtch(struct context*, struct context*);
 
