@@ -13,12 +13,19 @@ main()
 #ifdef RR
   printf("RR is defined\n");
 #endif
+
 #ifdef FCFS
 printf("FCFS is defined\n");
 #endif
+
 #ifdef PBS
 printf("PBS is defined\n");
 #endif
+
+#ifdef MLFQ
+printf("MLFQ is defined\n");
+#endif
+
   if(cpuid() == 0){
     consoleinit();
     printfinit();

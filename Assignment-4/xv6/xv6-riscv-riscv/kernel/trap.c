@@ -6,6 +6,8 @@
 #include "proc.h"
 #include "defs.h"
 
+int time_slice2[] = {1, 2, 4, 8, 16};
+
 struct spinlock tickslock;
 uint ticks;
 
@@ -84,13 +86,23 @@ usertrap(void)
   }
 #endif
 
-#ifdef PBS
+// #ifdef PBS
+//   if (which_dev == 2)
+//   {
+//     if (preemption_possible())
+//       yield();
+//   }
+// #endif
+
+#ifdef MLFQ
   if (which_dev == 2)
   {
-    if (preemption_possible())
+    if (myproc()->running_time >= time_slice2[myproc()->priority_queue_number])
       yield();
   }
+
 #endif
+
     usertrapret();
 }
 
@@ -169,10 +181,18 @@ kerneltrap()
   }
 #endif
 
-#ifdef PBS
+// #ifdef PBS
+//   if (which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING)
+//   {
+//     if (preemption_possible())
+//       yield();
+//   }
+// #endif
+
+#ifdef MLFQ
   if (which_dev == 2 && myproc() != 0 && myproc()->state == RUNNING)
   {
-    if (preemption_possible())
+    if (myproc()->running_time >= time_slice2[myproc()->priority_queue_number])
       yield();
   }
 #endif

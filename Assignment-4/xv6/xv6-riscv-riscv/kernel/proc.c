@@ -6,6 +6,8 @@
 #include "proc.h"
 #include "defs.h"
 
+int time_slice[] = {1, 2, 4, 8, 16};
+
 struct cpu cpus[NCPU];
 
 struct proc proc[NPROC];
@@ -152,6 +154,13 @@ found:
   p->sleeping_time = 0;
   p->priority = 60;
   p->niceness = 5;
+  p->priority_queue_number = 0;
+  p->last_enque_time = ticks;
+  p->priority_queue[0] = 0;
+  p->priority_queue[1] = 0;
+  p->priority_queue[2] = 0;
+  p->priority_queue[3] = 0;
+  p->priority_queue[4] = 0;
   return p;
 }
 
@@ -387,6 +396,7 @@ exit(int status)
   p->xstate = status;
   p->state = ZOMBIE;
   p->etime = ticks;
+  p->priority_queue_number = -1;
 
   release(&wait_lock);
 
@@ -509,6 +519,7 @@ update_time()
     // {
     //   p->sleeping_time++;
     // }
+    p->priority_queue[p->priority_queue_number]++; // increament time in queue
     release(&p->lock); 
   }
 }
@@ -688,6 +699,102 @@ void scheduler(void)
 #endif
 
 
+// MULTI LEVEL FEEDBACK QUEUE SCHEDULING
+#ifdef MLFQ
+void scheduler(void)
+{
+  struct proc *p;
+  struct cpu *c = mycpu();
+  struct proc *best_process[5];
+  c->proc = 0;
+
+  for (;;)
+  {
+    // Avoid deadlock by ensuring that devices can interrupt.
+    intr_on();
+
+    for (p = proc; p < &proc[NPROC]; p++)
+    {
+      acquire(&p->lock);
+
+      if (p->state == RUNNABLE)
+      {
+        if (best_process[p->priority_queue_number] == 0)
+        {
+          best_process[p->priority_queue_number] = p;
+        }
+        else
+        {
+          if (best_process[p->priority_queue_number]->last_enque_time < p->last_enque_time||(best_process[p->priority_queue_number]->last_enque_time == p->last_enque_time&&best_process[p->priority_queue_number]->ctime<p->ctime))
+          {
+            best_process[p->priority_queue_number] = p;
+          }
+        }
+      }
+
+      release(&p->lock);
+    }
+
+    if (best_process[0] == 0)
+    {
+      if (best_process[1] == 0)
+      {
+        if (best_process[2] == 0)
+        {
+          if (best_process[3] == 0)
+          {
+            if (best_process[4] == 0)
+            {
+              printf("Something is terrably wrong....Did I find no process to run..???\n");
+              // init will be there always running
+            }
+            else
+            {
+              p = best_process[4];
+            }
+          }
+          else
+          {
+            p = best_process[3];
+          }
+        }
+        else
+        {
+          p = best_process[2];
+        }
+      }
+      else
+      {
+        p = best_process[1];
+      }
+    }
+    else
+    {
+      p = best_process[0];
+    }
+
+    acquire(&p->lock);
+    if (p->state == RUNNABLE)
+    {
+      // Switch to chosen process.  It is the process's job
+      // to release its lock and then reacquire it
+      // before jumping back to us.
+      p->state = RUNNING;
+      p->nrun++;
+      p->running_time = 0;
+      p->sleeping_time = 0;
+      c->proc = p;
+      swtch(&c->context, &p->context);
+
+      // Process is done running for now.
+      // It should have changed its p->state before coming back.
+      c->proc = 0;
+    }
+    release(&p->lock);
+  }
+}
+#endif
+
 // Switch to scheduler.  Must hold only p->lock
 // and have changed proc->state. Saves and restores
 // intena because intena is a property of this
@@ -722,7 +829,15 @@ yield(void)
   struct proc *p = myproc();
   acquire(&p->lock);
   p->state = RUNNABLE;
-
+  #ifdef MLFQ
+  if(p->running_time >= time_slice[p->priority_queue_number])
+  {
+    if (p->priority_queue_number != 4)
+    {
+      p->priority_queue_number++;
+    }
+  }
+  #endif
   sched();
   release(&p->lock);
 }
@@ -793,6 +908,7 @@ wakeup(void *chan)
       if(p->state == SLEEPING && p->chan == chan) {
         p->state = RUNNABLE;
         p->sleeping_time = ticks - p->sleeping_time;
+        p->last_enque_time = ticks; // putting at the back of queue
       }
       release(&p->lock);
     }
@@ -868,17 +984,54 @@ procdump(void)
   };
   struct proc *p;
   char *state;
-  printf("pid\t state\t rtime\t running_time\t sleeping_time\t nrun\t priority\t name");
+
+#ifdef RR
+ printf("Pid\t State\t Name\t");
+#endif
+
+#ifdef FCFS
+ printf("Pid\t State\t Name\t");
+#endif
+
+#ifdef PBS
+  printf("Pid\t Priority\t State\t rtime\t wtime\t nrun");
+#endif
+
+#ifdef MLFQ
+  printf("Pid\t Priority\t State\t rtime\t wtime\t nrun q0\t q1\t q2\t q3\t q4\t"); // priority is queue number
+#endif
+
+
   printf("\n");
-  for(p = proc; p < &proc[NPROC]; p++){
-    if(p->state == UNUSED)
+  for (p = proc; p < &proc[NPROC]; p++)
+  {
+    if (p->state == UNUSED)
       continue;
-    if(p->state >= 0 && p->state < NELEM(states) && states[p->state])
+    if (p->state >= 0 && p->state < NELEM(states) && states[p->state])
       state = states[p->state];
     else
       state = "???";
-    printf("%d\t %s\t %d\t %d\t\t %d\t\t %d\t %d\t\t %s", p->pid, state,p->rtime,p->running_time,p->sleeping_time,p->nrun,p->priority,p->name);
-    printf("\n");
+
+#ifdef RR
+ printf("%d\t %s\t %s\t", p->pid, state, p->name);
+#endif
+
+#ifdef FCFS
+ printf("%d\t %s\t %s\t", p->pid, state, p->name);
+#endif
+
+#ifdef PBS
+    int priority = Dynamic_priority(p->priority, compute_niceness(p->sleeping_time, p->running_time));
+    printf("%d\t %d\t\t %s\t %d\t %d\t %d", p->pid, priority, state, p->rtime, (ticks - p->ctime) - p->rtime, p->nrun);
+#endif
+
+#ifdef MLFQ
+    // int priority = -1; // queue number
+    int priority  = p->priority_queue_number;
+    printf("%d\t %d\t\t %s\t %d\t %d\t %d\t %d\t %d\t %d\t %d\t %d", p->pid, priority, state, p->rtime, (ticks - p->ctime) - p->rtime, p->nrun, p->priority_queue[0],p->priority_queue[1],p->priority_queue[2],p->priority_queue[3],p->priority_queue[4] );
+#endif
+
+  printf("\n");
   }
 }
 

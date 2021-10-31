@@ -115,6 +115,9 @@ struct proc {
   uint running_time;           // time running after scheduling
   uint priority;               // priority of process
   uint niceness;               // default 5 set by niceness function
+  int priority_queue_number ;       // for mlfq
+  int priority_queue[5];
+  int last_enque_time;          // keeping track of time (like pushing at the end of queue)
 };
 
 
