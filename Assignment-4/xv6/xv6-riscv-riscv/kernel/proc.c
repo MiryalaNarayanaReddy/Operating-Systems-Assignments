@@ -718,22 +718,22 @@ void scheduler(void)
     p = 0;
     // Avoid deadlock by ensuring that devices can interrupt.
     intr_on();
-  // for (p = proc; p < &proc[NPROC]; p++)
-  //   {
-  //     acquire(&p->lock);
-  //     if (p->state == RUNNABLE)
-  //     {
-  //       if ((ticks - p->last_enque_time) >= AGING)
-  //       {
-  //         if (p->priority_queue_number != 0)
-  //         {
-  //           p->priority_queue_number--;
-  //           p->last_enque_time = ticks;
-  //         }
-  //       }
-  //     }
-  //     release(&p->lock);
-  //   }
+    for (p = proc; p < &proc[NPROC]; p++)
+    {
+      acquire(&p->lock);
+      if (p->state == RUNNABLE)
+      {
+        if ((ticks - p->last_enque_time) >= AGING)
+        {
+          if (p->priority_queue_number != 0)
+          {
+            p->priority_queue_number--;
+            p->last_enque_time = ticks;
+          }
+        }
+      }
+      release(&p->lock);
+    }
     for (p = proc; p < &proc[NPROC]; p++)
     {
       acquire(&p->lock);
@@ -768,7 +768,7 @@ void scheduler(void)
             if (best_process[4] == 0)
             {
               p = proc;
-             // printf("Something is terrably wrong....Did I find no process to run..???\n");
+              // printf("Something is terribly wrong....Did I find no process to run..???\n");
               // init will be there always running
             }
             else
@@ -854,6 +854,7 @@ yield(void)
   struct proc *p = myproc();
   acquire(&p->lock);
   p->state = RUNNABLE;
+  p->last_enque_time=ticks;
   sched();
   release(&p->lock);
 }
@@ -1105,4 +1106,23 @@ int preemption_possible()
   return 0;
 }
 
+#endif
+
+#ifdef MLFQ
+int crossed_time_slice()
+{
+  struct proc*p = myproc();
+  acquire(&p->lock);
+  if (p->running_time >= time_slice[p->priority_queue_number])
+  {
+    if (p->priority_queue_number != 4)
+    {
+      p->priority_queue_number++;
+    }
+    release(&p->lock);
+    return 1;
+  }
+   release(&p->lock);
+  return 0;
+}
 #endif

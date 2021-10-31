@@ -126,3 +126,7 @@ int compute_niceness(int sleeping_time, int running_time);
 int Dynamic_priority(int static_priority,int niceness);
 int preemption_possible();
 #endif
+
+#ifdef MLFQ
+#define AGING 100
+#endif

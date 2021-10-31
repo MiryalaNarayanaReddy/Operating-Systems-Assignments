@@ -111,7 +111,7 @@ int             set_priority(int new_priority,int pid);
 int             compute_niceness(int sleeping_time, int running_time);
 int             Dynamic_priority(int static_priority, int niceness);
 int             preemption_possible();
-
+int crossed_time_slice();
 // swtch.S
 void            swtch(struct context*, struct context*);
 
