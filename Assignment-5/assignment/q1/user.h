@@ -12,6 +12,11 @@
 #include "student.h"
 #include "course.h"
 #include "lab.h"
+#include "stimer.h"
+
+extern int stimer;
+extern pthread_mutex_t stimer_lock;
+extern pthread_cond_t stimer_cond;
 
 void Bold(bool status);
 void Color_On(int color, bool bold);

@@ -1,5 +1,5 @@
-a.out:main.o course.o student.o lab.o user.o
-	gcc main.o course.o student.o lab.o user.o -o a.out -pthread
+a.out:main.o course.o student.o lab.o user.o stimer.o
+	gcc main.o course.o student.o lab.o user.o stimer.o -o a.out -pthread
 
 main.o: main.c
 	gcc -c main.c
@@ -15,6 +15,9 @@ lab.o : lab.c
 
 user.o: user.c
 	gcc -c user.c
-	
+
+stimer.o:stimer.c
+	gcc -c stimer.c
+
 clean:
 	rm *.o

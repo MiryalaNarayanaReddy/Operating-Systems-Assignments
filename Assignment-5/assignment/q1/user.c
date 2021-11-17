@@ -4,7 +4,6 @@ void Bold(bool status)
 {
     if (status)
     {
-
         printf("\e[1m");
     }
     else
@@ -88,4 +87,7 @@ void init_all_threads()
     {
         pthread_join(lab_thread_ids[i], NULL);
     }
+
+
+    
 }

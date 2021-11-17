@@ -22,6 +22,11 @@ struct lab
 typedef struct lab lab;
 int num_labs;
 
+
+extern int stimer;
+extern pthread_mutex_t stimer_lock;
+extern pthread_cond_t stimer_cond;
+
 void *simulate_lab(void *lab_details);
 
 #endif

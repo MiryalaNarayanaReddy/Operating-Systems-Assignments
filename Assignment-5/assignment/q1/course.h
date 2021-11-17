@@ -15,6 +15,10 @@ typedef struct course course;
 
 int num_courses;
 
+extern int stimer;
+extern pthread_mutex_t stimer_lock;
+extern pthread_cond_t stimer_cond;
+
 void *simulate_course(void *course_details);
 
 #endif

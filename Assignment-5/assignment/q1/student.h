@@ -19,6 +19,10 @@ typedef struct student student;
 
 int num_students;
 
+extern int stimer;
+extern pthread_mutex_t stimer_lock;
+extern pthread_cond_t stimer_cond;
+
 void* simulate_student(void*student_details);
 
 #endif
