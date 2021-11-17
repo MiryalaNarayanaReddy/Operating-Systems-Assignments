@@ -7,13 +7,13 @@ void *simulate_student(void *student_details)
     // register for course
     // wait
 
-    pthread_mutex_lock(&stimer_lock);
+    // pthread_mutex_lock(&stimer_lock);
     while (stimer != student_x->time)
     {
-        printf("student %d time  = %d\n",student_x->number,stimer);
-        pthread_cond_wait(&stimer_cond, &stimer_lock);
+        // printf("student %d time  = %d\n",student_x->number,stimer);
+        // pthread_cond_wait(&stimer_cond, &stimer_lock);
     }
-    pthread_mutex_unlock(&stimer_lock);
+    // pthread_mutex_unlock(&stimer_lock);
 
     printf("Student %d filled in preferences for course registration\n", student_x->number);
     // printf("student %d %f %d %d %d %d\n", student_x->number, student_x->calibre,\
