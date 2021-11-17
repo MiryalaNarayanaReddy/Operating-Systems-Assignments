@@ -1,22 +1,26 @@
 #include "user.h"
+#include <signal.h>
 
 int timer = -1;
-pthread_mutex_t timer_lock;
 
-void *increment_timer(void *arg)
+void increament_timer(int arg)
 {
-    pthread_mutex_lock(&timer_lock);
     timer++;
-    pthread_mutex_unlock(&timer_lock);
-    return NULL;
+    printf("timer  = %d\n",timer);
+}
+
+void start_simulation()
+{
+    signal(SIGALRM, increament_timer);
+    while (true)
+    {
+        alarm(1);
+        pause();
+    }
 }
 
 int main()
 {
-    pthread_mutex_init(&timer_lock,NULL);
-
-
-    
-    pthread_mutex_destroy(&timer_lock);
-
+    init_all_threads();
+    // start_simulation();
 }

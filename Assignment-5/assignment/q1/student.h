@@ -1,6 +1,8 @@
 #ifndef __STUDENT_H__
 #define __STUDENT_H__
 
+#include "user.h"
+
 struct student
 {
     int number;
@@ -14,5 +16,9 @@ struct student
 };
 
 typedef struct student student;
+
+int num_students;
+
+void* simulate_student(void*student_details);
 
 #endif

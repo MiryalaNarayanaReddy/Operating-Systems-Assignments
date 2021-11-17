@@ -1,6 +1,8 @@
 #ifndef __COURSE_H__
 #define __COURSE_H__
 
+#include "user.h"
+
 struct course{
     char name[100];
     double interest;
@@ -13,5 +15,6 @@ typedef struct course course;
 
 int num_courses;
 
+void *simulate_course(void *course_details);
 
 #endif

@@ -1,5 +1,5 @@
 a.out:main.o course.o student.o lab.o user.o
-	gcc main.o course.o student.o lab.o user.o -o a.out
+	gcc main.o course.o student.o lab.o user.o -o a.out -pthread
 
 main.o: main.c
 	gcc -c main.c

@@ -9,8 +9,14 @@
 #include <unistd.h>
 #include <stdbool.h>
 
+#include "student.h"
+#include "course.h"
+#include "lab.h"
+
 void Bold(bool status);
 void Color_On(int color, bool bold);
 void Color_Off();
+
+void init_all_threads();
 
 #endif
