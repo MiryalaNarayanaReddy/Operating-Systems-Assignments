@@ -3,8 +3,7 @@
 
 #include "user.h"
 
-
-#define MIN_PROB_OF_LIKING_COURSE 0.30
+#define MIN_PROB_OF_LIKING_COURSE 0.25
 
 struct student
 {

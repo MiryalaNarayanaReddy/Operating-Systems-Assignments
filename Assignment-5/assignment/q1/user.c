@@ -1,34 +1,5 @@
 #include "user.h"
 
-void Bold(bool status)
-{
-    if (status)
-    {
-        printf("\e[1m");
-    }
-    else
-    {
-        printf("\e[0m");
-    }
-}
-
-void Color_On(int color, bool bold)
-{
-    if (bold)
-    {
-        printf("\033[231;%dm\e[1m", color);
-    }
-    else
-    {
-        printf("\033[231;%dm", color);
-    }
-}
-
-void Color_Off()
-{
-    printf("\033[m");
-}
-
 void init_all_threads()
 {
     scanf("%d %d %d", &num_students, &num_labs, &num_courses);
@@ -41,7 +12,8 @@ void init_all_threads()
     {
         pthread_mutex_init(&course_list[i].student_cnt_lock, NULL);
         pthread_cond_init(&course_list[i].student_cnt_cond, NULL);
-
+        pthread_mutex_init(&course_list[i].tutorial_lock, NULL);
+        pthread_cond_init(&course_list[i].tutorial_cond, NULL);
         scanf("%s %lf %d %d", course_list[i].name, &course_list[i].interest, &course_list[i].course_max_slot, &course_list[i].num_labs);
         for (int j = 0; j < course_list[i].num_labs; j++)
         {
@@ -69,7 +41,7 @@ void init_all_threads()
         }
     }
 
-    simulate_timer(num_students+1);
+    simulate_timer(num_students + 1);
 
     for (int i = 0; i < num_courses; i++)
     {
@@ -79,5 +51,4 @@ void init_all_threads()
     {
         pthread_join(student_list[i].tid, NULL);
     }
-
 }

@@ -1,0 +1,63 @@
+Student 0 has filled in preferences for course registration
+Student 2 has filled in preferences for course registration
+Student 9 has filled in preferences for course registration
+Student 8 has filled in preferences for course registration
+TA 0 from lab PRECOG has been allocated to course SMAI for his 1st TA ship
+TA 1 from lab CVIT has been allocated to course CV for his 1st TA ship
+TA 1 from lab PRECOG has been allocated to course NLP for his 1st TA ship
+Course CV has been allocated 2 seats
+Course SMAI has been allocated 2 seats
+Student 7 has filled in preferences for course registration
+Student 3 has filled in preferences for course registration
+Student 5 has filled in preferences for course registration
+Course NLP has been allocated 4 seats
+Student 3 has been allocated a seat in course NLP
+Student 0 has been allocated a seat in course SMAI
+Student 8 has been allocated a seat in course NLP
+Student 7 has been allocated a seat in course SMAI
+Student 2 has been allocated a seat in course CV
+Tutorial has started for Course SMAI with 2 seats filled out of 2
+Student 5 has been allocated a seat for course NLP
+Tutorial has started for course CV with 1 seat filled out of 2
+Student 4 has filled in preferences for course registration
+Student 6 has filled in preferences for course registrationTA 0 from lab PRECOG has completed the tutorial for course SMAI
+Student 7 has withdrawn from course SMAI
+Student 0 has selected the course SMAI permanently
+Student 7 has changed current preference from SMAI (priority 1) to DSA (priority 2)
+TA 0 from lab RRC has been allocated to course DSA for his 1st TA ship
+Tutorial has started for course NLP with 3 seats filled out of 4
+TA 2 from lab PRECOG has been allocated to course SMAI for his 1st TA ship
+Lab PRECOG no longer has students available for TA ship
+Student 2 has selected the course CV permanently
+Course SMAI has been allocated 3 seats
+Student 9 has been allocated a seat in course SMAI
+Course DSA has been allocated 3 slots.
+TA 1 from lab PRECOG has completed the tutorial for the course NLP
+Student 4 has been allocated a seat in course SMAI
+Student 3 has selected the course NLP permanently
+Student 1 has been allocated a seat in course DSA
+Student 5 has selected the course NLP permanently
+Tutorial has started for course SMAI with 2 slots filled out of 3
+Student 8 has selected the course NLP permanently
+Course NLP does not have any TA mentors eligible and is removed from course offerings
+Student 6 has been allocated a seat in course DSA
+Student 7 has been allocated a slot in the course DSA
+Tutorial has started for course DSA with 3 slots filled out of 3
+TA 2 from lab PRECOG has completed the tutorial for the course SMAI
+Student 4 has selected the course SMAI permanently
+Student 9 has withdrawn from the course SMAI
+TA 0 from lab RRC has completed the tutorial for the course DSA
+Student 9 has changed current preference from SMAI (priority 1) to NLP (priority 2)
+Student 6 has selected the course DSA permanently
+Student 7 has withdrawn from the course DSA
+Student 9 has changed current preference from NLP(priority 2) to CV(priority 3)
+Student 1 has selected the course DSA permanently
+Student 7 has changed current preference from DSA(priority 2) to NLP(priority 3)
+Student 7 could not get any of his preferred courses
+TA 0 from lab RRC has been allocated to course CV for his 2nd TA ship
+Course CV has been allocated TA 0 from lab RRC
+Course CV has been allocated 2 slots
+Student 9 has been allocated a slot in course CV
+Tutorial has started for course CV with 1 slots filled out of 2
+TA 0 from lab RRC has completed the tutorial for the course CV
+Student 9 has selected the course CV permanently

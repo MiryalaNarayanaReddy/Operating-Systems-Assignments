@@ -13,6 +13,10 @@ struct course
     pthread_t tid;
     pthread_mutex_t student_cnt_lock;
     pthread_cond_t student_cnt_cond;
+    int tutorial;
+    pthread_mutex_t tutorial_lock;
+    pthread_cond_t tutorial_cond;
+
     int student_cnt;
     bool in_simulation;
 };

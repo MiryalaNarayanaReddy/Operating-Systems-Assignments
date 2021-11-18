@@ -1,0 +1,91 @@
+timer  = 0
+Course DSA has been allocated 5 seats
+Course SMAI has been allocated 3 seats
+Course CV has been allocated 2 seats
+Course NLP has been allocated 4 seats
+Student 9 filled in preferences for course registration
+Student 9 has been allocated a seat in course SMAI
+Student 2 filled in preferences for course registration
+Student 2 has been allocated a seat in course CV
+TA 0 from lab PRECOG has been allocated to course SMAI for his TA ship number  1
+TA 0 from lab CVIT has been allocated to course SMAI for his TA ship number  1
+Tutorial has started for Course SMAI with 1 seats filled out of 3
+timer  = 1
+TA 1 from lab PRECOG has been allocated to course CV for his TA ship number  1
+TA 1 from lab CVIT has been allocated to course CV for his TA ship number  1
+Student 0 filled in preferences for course registration
+Student 0 has been allocated a seat in course SMAI
+Tutorial has started for Course CV with 1 seats filled out of 2
+Student 8 filled in preferences for course registration
+Student 8 has been allocated a seat in course NLP
+TA 2 from lab PRECOG has been allocated to course NLP for his TA ship number  1
+Tutorial has started for Course NLP with 1 seats filled out of 4
+timer  = 2
+TA 2 from lab PRECOG has completed the tutorial for the course NLP
+Course NLP does not have any TA mentors eligible and is removed from course offerings
+Student 3 filled in preferences for course registration
+Student 3 has been allocated a seat in course NLP
+Student 3 has selected course NLP permanently
+TA 1 from lab CVIT has completed the tutorial for the course CV
+TA 0 from lab CVIT has been allocated to course CV for his TA ship number  2
+Tutorial has started for Course CV with 1 seats filled out of 2
+Student 5 filled in preferences for course registration
+Student 5 has been allocated a seat in course NLP
+Student 5 has selected course NLP permanently
+Student 8 has selected course NLP permanently
+TA 0 from lab CVIT has completed the tutorial for the course SMAI
+TA 1 from lab CVIT has been allocated to course SMAI for his TA ship number  2
+Student 7 filled in preferences for course registration
+Student 7 has been allocated a seat in course SMAI
+Student 2 has selected course CV permanently
+Student 0 has selected course SMAI permanently
+Student 9 has withdrawn from course SMAI
+Student 9 has been allocated a seat in course NLP
+Student 9 has withdrawn from course NLP
+Student 9 has been allocated a seat in course CV
+Tutorial has started for Course SMAI with 2 seats filled out of 3
+timer  = 3
+Student 1 filled in preferences for course registration
+Student 1 has been allocated a seat in course DSA
+TA 2 from lab CVIT has been allocated to course DSA for his TA ship number  1
+TA 0 from lab RRC has been allocated to course DSA for his TA ship number  1
+Tutorial has started for Course DSA with 1 seats filled out of 5
+Student 6 filled in preferences for course registration
+Student 6 has been allocated a seat in course DSA
+Student 4 filled in preferences for course registration
+Student 4 couldn’t get any of his preferred courses
+TA 0 from lab CVIT has completed the tutorial for the course CV
+TA 3 from lab CVIT has been allocated to course CV for his TA ship number  1
+Tutorial has started for Course CV with 2 seats filled out of 2
+TA 1 from lab CVIT has completed the tutorial for the course SMAI
+Course SMAI does not have any TA mentors eligible and is removed from course offerings
+Student 7 has withdrawn from course SMAI
+Student 7 has been allocated a seat in course DSA
+timer  = 4
+TA 0 from lab RRC has completed the tutorial for the course DSA
+TA 0 from lab RRC has been allocated to course DSA for his TA ship number  2
+Tutorial has started for Course DSA with 3 seats filled out of 5
+TA 3 from lab CVIT has completed the tutorial for the course CV
+TA 3 from lab CVIT has been allocated to course CV for his TA ship number  2
+Tutorial has started for Course CV with 2 seats filled out of 2
+timer  = 5
+TA 0 from lab RRC has completed the tutorial for the course DSA
+TA 0 from lab RRC has been allocated to course DSA for his TA ship number  3
+Tutorial has started for Course DSA with 3 seats filled out of 5
+TA 3 from lab CVIT has completed the tutorial for the course CV
+Course CV does not have any TA mentors eligible and is removed from course offerings
+Student 9 has withdrawn from course CV
+Student 9 couldn’t get any of his preferred courses
+timer  = 6
+TA 0 from lab RRC has completed the tutorial for the course DSA
+Course DSA does not have any TA mentors eligible and is removed from course offerings
+Student 7 has withdrawn from course DSA
+Student 7 couldn’t get any of his preferred courses
+Student 1 has selected course DSA permanently
+Student 6 has selected course DSA permanently
+timer  = 7
+timer  = 8
+timer  = 9
+timer  = 10
+timer  = 11
+timer  = 12
