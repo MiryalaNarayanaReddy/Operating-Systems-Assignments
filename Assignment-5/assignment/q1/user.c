@@ -33,68 +33,51 @@ void init_all_threads()
 {
     scanf("%d %d %d", &num_students, &num_labs, &num_courses);
 
-    pthread_t course_thread_ids[num_courses];
-    pthread_t student_thread_ids[num_students];
-    pthread_t lab_thread_ids[num_labs];
+    course_list = (course *)(malloc(sizeof(course) * num_courses));
+    student_list = (student *)(malloc(sizeof(student) * num_students));
+    lab_list = (lab *)(malloc(sizeof(lab) * num_labs));
 
     for (int i = 0; i < num_courses; i++)
     {
-        pthread_t current_course_tid;
-        course *current_course = (course *)(malloc(sizeof(course)));
-        scanf("%s %lf %d %d", current_course->name, &current_course->interest, &current_course->course_max_slot, &current_course->num_labs);
-        for (int j = 0; j < current_course->num_labs; j++)
+        pthread_mutex_init(&course_list[i].student_cnt_lock, NULL);
+        pthread_cond_init(&course_list[i].student_cnt_cond, NULL);
+
+        scanf("%s %lf %d %d", course_list[i].name, &course_list[i].interest, &course_list[i].course_max_slot, &course_list[i].num_labs);
+        for (int j = 0; j < course_list[i].num_labs; j++)
         {
-            scanf("%d", &current_course->lab_ids[j]);
+            scanf("%d", &course_list[i].lab_ids[j]);
         }
-        pthread_create(&current_course_tid, NULL, simulate_course, (void *)(current_course));
-        course_thread_ids[i] = current_course_tid;
+        pthread_create(&course_list[i].tid, NULL, simulate_course, (void *)(&course_list[i]));
     }
 
     for (int i = 0; i < num_students; i++)
     {
-        pthread_t current_student_tid;
-        student *current_student = (student *)(malloc(sizeof(student)));
-        scanf("%lf %d %d %d %d", &current_student->calibre, &current_student->preference_course_1, &current_student->preference_course_2, &current_student->preference_course_3, &current_student->time);
-        current_student->number = i;
-        pthread_create(&current_student_tid, NULL, simulate_student, (void *)(current_student));
-        student_thread_ids[i] = current_student_tid;
+        scanf("%lf %d %d %d %d", &student_list[i].calibre, &student_list[i].preference_course_1, &student_list[i].preference_course_2, &student_list[i].preference_course_3, &student_list[i].time);
+        student_list[i].number = i;
+        pthread_create(&student_list[i].tid, NULL, simulate_student, (void *)(&student_list[i]));
     }
 
     for (int i = 0; i < num_labs; i++)
     {
-        pthread_t current_lab_tid;
-        lab *current_lab = (lab *)malloc(sizeof(lab));
-        scanf("%s %d %d", current_lab->name, &current_lab->num_students, &current_lab->num_of_times_TA_limit);
+        scanf("%s %d %d", lab_list[i].name, &lab_list[i].num_students, &lab_list[i].num_of_times_TA_limit);
 
-        current_lab->student_ta = (ta *)malloc(sizeof(ta) * current_lab->num_students);
-        for (int j = 0; j < current_lab->num_students; j++)
+        lab_list[i].student_ta = (ta *)malloc(sizeof(ta) * lab_list[i].num_students);
+        for (int j = 0; j < lab_list[i].num_students; j++)
         {
-            current_lab->student_ta[j].num_courses = 0;
+            lab_list[i].student_ta[j].num_courses = 0;
+            lab_list[i].student_ta[j].is_free = true;
         }
-        pthread_create(&current_lab_tid, NULL, simulate_lab, (void *)(current_lab));
-        lab_thread_ids[i] = current_lab_tid;
     }
-    
-    // pthread_mutex_lock(&start_clock_lock);
-    // start_clock = true;
-    // pthread_cond_signal(&start_clock_cond);
-    // pthread_mutex_unlock(&start_clock_lock);
-    simulate_timer(5);
 
-
+    simulate_timer(num_students+1);
 
     for (int i = 0; i < num_courses; i++)
     {
-        pthread_join(course_thread_ids[i], NULL);
+        pthread_join(course_list[i].tid, NULL);
     }
     for (int i = 0; i < num_students; i++)
     {
-        pthread_join(student_thread_ids[i], NULL);
-    }
-    for (int i = 0; i < num_labs; i++)
-    {
-        pthread_join(lab_thread_ids[i], NULL);
+        pthread_join(student_list[i].tid, NULL);
     }
 
-    exit(0);
 }

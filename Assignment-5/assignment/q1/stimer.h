@@ -11,7 +11,6 @@ extern bool start_clock;
 extern pthread_mutex_t start_clock_lock;
 extern pthread_cond_t start_clock_cond;
 
-
 void increament_timer(int arg);
 void simulate_timer(int time);
 

@@ -3,6 +3,9 @@
 
 #include "user.h"
 
+
+#define MIN_PROB_OF_LIKING_COURSE 0.30
+
 struct student
 {
     int number;
@@ -13,6 +16,11 @@ struct student
     int preference_course_3;
     double prob;
     int current_preference;
+    pthread_t tid;
+    bool in_simulation;
+    int preference;
+    pthread_mutex_t preference_lock;
+    pthread_cond_t preference_cond;
 };
 
 typedef struct student student;
@@ -23,6 +31,6 @@ extern int stimer;
 extern pthread_mutex_t stimer_lock;
 extern pthread_cond_t stimer_cond;
 
-void* simulate_student(void*student_details);
+void *simulate_student(void *student_details);
 
 #endif

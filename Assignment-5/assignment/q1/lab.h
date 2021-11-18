@@ -6,6 +6,7 @@
 struct ta
 {
     int num_courses;
+    bool is_free;
 };
 
 typedef struct ta ta;
@@ -26,7 +27,5 @@ int num_labs;
 extern int stimer;
 extern pthread_mutex_t stimer_lock;
 extern pthread_cond_t stimer_cond;
-
-void *simulate_lab(void *lab_details);
 
 #endif

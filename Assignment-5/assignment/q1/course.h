@@ -3,12 +3,18 @@
 
 #include "user.h"
 
-struct course{
+struct course
+{
     char name[100];
     double interest;
     int num_labs;
     int lab_ids[50];
     int course_max_slot;
+    pthread_t tid;
+    pthread_mutex_t student_cnt_lock;
+    pthread_cond_t student_cnt_cond;
+    int student_cnt;
+    bool in_simulation;
 };
 
 typedef struct course course;
@@ -20,5 +26,6 @@ extern pthread_mutex_t stimer_lock;
 extern pthread_cond_t stimer_cond;
 
 void *simulate_course(void *course_details);
+bool registered_for_course(int i);
 
 #endif

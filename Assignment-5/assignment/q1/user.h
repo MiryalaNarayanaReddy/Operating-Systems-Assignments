@@ -17,6 +17,9 @@
 extern int stimer;
 extern pthread_mutex_t stimer_lock;
 extern pthread_cond_t stimer_cond;
+struct course *course_list;
+struct student *student_list;
+struct lab *lab_list;
 
 void Bold(bool status);
 void Color_On(int color, bool bold);
