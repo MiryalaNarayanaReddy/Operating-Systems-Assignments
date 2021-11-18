@@ -74,7 +74,15 @@ void init_all_threads()
         pthread_create(&current_lab_tid, NULL, simulate_lab, (void *)(current_lab));
         lab_thread_ids[i] = current_lab_tid;
     }
-    simulate_timer();
+    
+    // pthread_mutex_lock(&start_clock_lock);
+    // start_clock = true;
+    // pthread_cond_signal(&start_clock_cond);
+    // pthread_mutex_unlock(&start_clock_lock);
+    simulate_timer(5);
+
+
+
     for (int i = 0; i < num_courses; i++)
     {
         pthread_join(course_thread_ids[i], NULL);
@@ -87,7 +95,6 @@ void init_all_threads()
     {
         pthread_join(lab_thread_ids[i], NULL);
     }
-
 
     exit(0);
 }

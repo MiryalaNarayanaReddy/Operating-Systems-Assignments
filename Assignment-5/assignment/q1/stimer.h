@@ -4,9 +4,15 @@
 #include "user.h"
 
 
-pthread_mutex_t stimer_lock;
-pthread_cond_t stimer_cond;
+extern pthread_mutex_t stimer_lock ;
+extern pthread_cond_t stimer_cond;
+
+extern bool start_clock;
+extern pthread_mutex_t start_clock_lock;
+extern pthread_cond_t start_clock_cond;
+
+
 void increament_timer(int arg);
-void simulate_timer();
+void simulate_timer(int time);
 
 #endif
