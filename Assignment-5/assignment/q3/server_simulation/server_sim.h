@@ -17,6 +17,10 @@
 #include <iostream>
 #include <assert.h>
 #include <tuple>
+#include <map>
+#include <pthread.h>
+#include <queue>
+
 using namespace std;
 
 #define BBLACK      "\e[1;30m"
@@ -44,10 +48,20 @@ const int initial_msg_len = 256;
 
 const ll buff_sz = 1048576;
 ///////////////////////////////////////////////////
+typedef struct client
+{
+    int socket_fd;
 
+} client;
 
+extern queue<client> q;
+extern pthread_mutex_t q_lock;
+extern pthread_cond_t q_cond ;
+///////////////////////////////////////////
 pair<string, int> read_string_from_socket(const int &fd, int bytes);
 int send_string_on_socket(int fd, const string &s);
+
+// void *handle_connection(void *arg);
 void handle_connection(int client_socket_fd);
 
 

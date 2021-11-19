@@ -1,5 +1,5 @@
 a.out: main.o server_sim.o
-	g++ main.o server_sim.o -o a.out
+	g++ main.o server_sim.o -o a.out -pthread
 
 main.o : main.cpp
 	g++ -c main.cpp

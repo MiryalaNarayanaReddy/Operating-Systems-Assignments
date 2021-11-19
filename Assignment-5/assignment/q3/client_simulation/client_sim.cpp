@@ -99,4 +99,5 @@ void *send_msg(void *arg)
     tie(output_msg, num_bytes_read) = read_string_from_socket(SOCKET_FD, buff_sz);
     cout << BRED << client_x->indx << " : " << RESET_COLOR << BGREEN << output_msg << RESET_COLOR << "\n";
     // part;
+    return NULL;
 }

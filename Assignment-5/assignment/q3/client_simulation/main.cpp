@@ -26,7 +26,7 @@ int main()
         client_list[i].msg.erase(0, 1);
         cout << "-" << client_list[i].msg << "-\n";
         pthread_create(&client_list[i].tid, NULL, send_msg, (void *)&client_list[i]);
-        // sleep(1);
+        // sleep(3);
     }
     cout << "Starting the Simulation of clients...\n";
     simulate_timer(client_list[m - 1].time);

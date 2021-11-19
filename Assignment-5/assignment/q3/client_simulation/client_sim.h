@@ -28,13 +28,13 @@ using namespace std;
 
 /////////////////////////////
 
-#define BBLACK      "\e[1;30m"
-#define BRED        "\e[1;31m"
-#define BGREEN      "\e[1;32m"
-#define BYELLOW     "\e[1;33m"
-#define BBLUE       "\e[1;34m"
-#define BMAGNETA    "\e[1;35m"
-#define BCYAN       "\e[1;36m"
+#define BBLACK "\e[1;30m"
+#define BRED "\e[1;31m"
+#define BGREEN "\e[1;32m"
+#define BYELLOW "\e[1;33m"
+#define BBLUE "\e[1;34m"
+#define BMAGNETA "\e[1;35m"
+#define BCYAN "\e[1;36m"
 #define RESET_COLOR "\x1b[0m"
 
 typedef long long ll;
@@ -58,10 +58,12 @@ typedef struct client
     int time;
     string msg;
     pthread_t tid;
+    int socket_fd;
 } client;
 
 pair<string, int> read_string_from_socket(int fd, int bytes);
 int send_string_on_socket(int fd, const string &s);
+// int get_socket_fd(struct sockaddr_in *ptr, int port_num);
 int get_socket_fd(struct sockaddr_in *ptr);
 void *send_msg(void *arg);
 
