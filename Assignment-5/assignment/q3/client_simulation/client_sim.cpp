@@ -1,5 +1,6 @@
 #include "client_sim.h"
 
+////////////////////////// START OF TUTORIAL CODE ////////////////////////////
 pair<string, int> read_string_from_socket(int fd, int bytes)
 {
     std::string output;
@@ -76,28 +77,26 @@ int get_socket_fd(struct sockaddr_in *ptr)
     // part;
     return socket_fd;
 }
-////////////////////////////////////////////////////////
+////////////////////////// END OF TUTORIAL CODE ///////////////////////////////
 
-void begin_process()
+void *send_msg(void *arg)
 {
-    struct sockaddr_in server_obj;
-    int socket_fd = get_socket_fd(&server_obj);
 
+    client *client_x = (client *)arg;
+    // cout << "Connection to server successful" << endl;
+    // cout << "Enter msg: ";
 
-    cout << "Connection to server successful" << endl;
-    
-    while (true)
+    pthread_mutex_lock(&stimer_lock);
+    while (stimer != client_x->time)
     {
-        string to_send;
-        cout << "Enter msg: ";
-        getline(cin, to_send);
-        send_string_on_socket(socket_fd, to_send);
-        int num_bytes_read;
-        string output_msg;
-        tie(output_msg, num_bytes_read) = read_string_from_socket(socket_fd, buff_sz);
-        cout << "Received: " << output_msg << endl;
-        cout << "====" << endl;
+        pthread_cond_wait(&stimer_cond, &stimer_lock);
     }
+    pthread_mutex_unlock(&stimer_lock);
+
+    send_string_on_socket(SOCKET_FD, client_x->msg);
+    int num_bytes_read;
+    string output_msg;
+    tie(output_msg, num_bytes_read) = read_string_from_socket(SOCKET_FD, buff_sz);
+    cout << BRED << client_x->indx << " : " << RESET_COLOR << BGREEN << output_msg << RESET_COLOR << "\n";
     // part;
 }
-
