@@ -61,6 +61,9 @@ typedef struct client
     int socket_fd;
 } client;
 
+extern sem_t read_mutex;
+extern sem_t write_mutex;
+
 pair<string, int> read_string_from_socket(int fd, int bytes);
 int send_string_on_socket(int fd, const string &s);
 // int get_socket_fd(struct sockaddr_in *ptr, int port_num);

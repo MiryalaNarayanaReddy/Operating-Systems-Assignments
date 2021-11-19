@@ -20,6 +20,8 @@
 #include <map>
 #include <pthread.h>
 #include <queue>
+#include <ctype.h>
+#include <string>
 
 using namespace std;
 
@@ -54,15 +56,18 @@ typedef struct client
 
 } client;
 
-extern queue<client> q;
+extern map<int, string> dictionary;
+extern queue<client*> q;
 extern pthread_mutex_t q_lock;
 extern pthread_cond_t q_cond ;
+extern pthread_mutex_t dict_lock;
+extern pthread_cond_t dict_cond ;
 ///////////////////////////////////////////
 pair<string, int> read_string_from_socket(const int &fd, int bytes);
 int send_string_on_socket(int fd, const string &s);
 
-// void *handle_connection(void *arg);
-void handle_connection(int client_socket_fd);
+void *handle_connection(void *arg);
+// void handle_connection(int client_socket_fd);
 
 
 #endif

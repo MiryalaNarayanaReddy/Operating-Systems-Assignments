@@ -3,6 +3,7 @@
 ////////////////////////// START OF TUTORIAL CODE ////////////////////////////
 pair<string, int> read_string_from_socket(int fd, int bytes)
 {
+    sem_wait(&read_mutex);
     std::string output;
     output.resize(bytes);
 
@@ -18,12 +19,14 @@ pair<string, int> read_string_from_socket(int fd, int bytes)
     // debug(output);
     output[bytes_received] = 0;
     output.resize(bytes_received);
-
+    sem_post(&read_mutex);
     return {output, bytes_received};
 }
 
 int send_string_on_socket(int fd, const string &s)
 {
+
+    sem_wait(&write_mutex);
     // cout << "We are sending " << s << endl;
     int bytes_sent = write(fd, s.c_str(), s.length());
     // debug(bytes_sent);
@@ -34,7 +37,7 @@ int send_string_on_socket(int fd, const string &s)
         // return "
         exit(-1);
     }
-
+    sem_post(&write_mutex);
     return bytes_sent;
 }
 
