@@ -1,5 +1,5 @@
-a.out:main.o stimer.o user.o person.o zone.o group.o
-	gcc main.o stimer.o user.o person.o zone.o group.o -o a.out -pthread
+a.out:main.o stimer.o user.o person.o zone.o group.o goal.o 
+	gcc main.o stimer.o user.o person.o zone.o group.o goal.o -o a.out -pthread
 
 main.o: main.c
 	gcc -c main.c
@@ -18,6 +18,9 @@ zone.o: zone.c
 
 group.o: group.c 
 	gcc -c group.c
+
+goal.o : goal.c
+	gcc -c goal.c 
 
 clean:
 	rm *.o

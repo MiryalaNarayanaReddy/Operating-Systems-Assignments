@@ -17,6 +17,8 @@ int num_persons_zone_N;
 pthread_mutex_t zone_N_cnt_lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t zone_N_cnt_cond =  PTHREAD_COND_INITIALIZER;
 
+int number_of_goal_chances;
+
 int stimer = -1;
 int SPECTATING_TIME_X;
 int NUMBER_OF_GROUPS;

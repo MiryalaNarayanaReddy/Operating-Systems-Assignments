@@ -14,6 +14,7 @@
 #include "zone.h"
 #include "person.h"
 #include "group.h"
+#include "goal.h"
 
 #define RED_COLOR "\x1b[31m"
 #define GREEN_COLOR "\x1b[32m"
@@ -45,6 +46,8 @@ extern pthread_cond_t zone_A_cnt_cond ;
 extern int num_persons_zone_N;
 extern pthread_mutex_t zone_N_cnt_lock;
 extern pthread_cond_t zone_N_cnt_cond ;
+
+extern int number_of_goal_chances;
 
 void init_all_threads();
 
