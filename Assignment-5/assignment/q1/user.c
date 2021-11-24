@@ -21,12 +21,16 @@ void init_all_threads()
         }
         pthread_create(&course_list[i].tid, NULL, simulate_course, (void *)(&course_list[i]));
     }
-
+    int max_time = 0;
     for (int i = 0; i < num_students; i++)
     {
         scanf("%lf %d %d %d %d", &student_list[i].calibre, &student_list[i].preference_course_1, &student_list[i].preference_course_2, &student_list[i].preference_course_3, &student_list[i].time);
         student_list[i].number = i;
         pthread_create(&student_list[i].tid, NULL, simulate_student, (void *)(&student_list[i]));
+        if (max_time < student_list[i].time)
+        {
+            max_time = student_list[i].time;
+        }
     }
 
     for (int i = 0; i < num_labs; i++)
@@ -41,14 +45,15 @@ void init_all_threads()
         }
     }
 
-    simulate_timer(num_students + 1);
-
-    for (int i = 0; i < num_courses; i++)
-    {
-        pthread_join(course_list[i].tid, NULL);
-    }
-    for (int i = 0; i < num_students; i++)
-    {
-        pthread_join(student_list[i].tid, NULL);
-    }
+    simulate_timer(max_time*1.5);
+    printf(GREEN_COLOR "exiting simulation...\n" RESET_COLOR);
+    raise(SIGINT);
+    // for (int i = 0; i < num_courses; i++)
+    // {
+    //     pthread_join(course_list[i].tid, NULL);
+    // }
+    // for (int i = 0; i < num_students; i++)
+    // {
+    //     pthread_join(student_list[i].tid, NULL);
+    // }
 }
