@@ -9,5 +9,7 @@ void *simulate_person(void *arg)
         pthread_cond_wait(&stimer_cond, &stimer_lock);
     }
     pthread_mutex_unlock(&stimer_lock);
-    printf(BLUE_COLOR "person time = %d\n" RESET_COLOR, person_x->time);
+    // printf(BLUE_COLOR "person time = %d\n" RESET_COLOR, person_x->time);
+    printf(RED_COLOR"t=%d: %s has reached the stadium\n"RESET_COLOR,stimer,person_x->name);
+
 }
