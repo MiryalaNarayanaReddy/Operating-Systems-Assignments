@@ -49,6 +49,9 @@ extern pthread_cond_t zone_N_cnt_cond ;
 
 extern int number_of_goal_chances;
 
+extern int home_team_score;
+extern int away_team_score;
+
 void init_all_threads();
 
 #endif

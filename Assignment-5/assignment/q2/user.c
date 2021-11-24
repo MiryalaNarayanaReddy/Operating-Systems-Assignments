@@ -18,6 +18,9 @@ int encode_zone(char ch)
 
 void init_all_threads()
 {
+    int max_time = 0;
+    home_team_score = 0;
+    away_team_score = 0;
     // printf("--\n");
     scanf("%d %d %d", &zone_H_limit, &zone_A_limit, &zone_N_limit);
     // printf("%d %d %d", zone_H_limit,zone_A_limit, zone_N_limit);
@@ -44,15 +47,22 @@ void init_all_threads()
             // printf("%s %c %d %d %d\n", group_list[i].people[j].name, ch, group_list[i].people[j].time, group_list[i].people[j].patience, group_list[i].people[j].num_goals_to_enrage);
             group_list[i].people[j].fan_type = encode_zone(ch);
             pthread_create(&group_list[i].people[j].tid, NULL, simulate_person, &group_list[i].people[j]);
+            if (group_list[i].people[j].time > max_time)
+            {
+                max_time = group_list[i].people[j].time;
+            }
         }
     }
-    scanf("%d", &number_of_goal_chances);
+    scanf("%d\n", &number_of_goal_chances);
+    //  printf("num  goals = %d\n",number_of_goal_chances);
     goal_list = (goal *)malloc(sizeof(goal) * number_of_goal_chances);
     for (int i = 0; i < number_of_goal_chances; i++)
     {
-        scanf("%c %d %f", &goal_list[i].team, &goal_list[i].time, &goal_list[i].probability);
+        scanf("%c %d %f\n", &goal_list[i].team, &goal_list[i].time, &goal_list[i].probability);
+        //  printf("%c %d %f\n", goal_list[i].team, goal_list[i].time, goal_list[i].probability);
         // simulate goals
+        pthread_create(&goal_list[i].tid, NULL, simulate_goal, &goal_list[i]);
     }
     // printf("done-\n");
-    simulate_timer(5);
+    simulate_timer(max_time+5);
 }

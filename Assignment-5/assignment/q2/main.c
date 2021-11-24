@@ -25,9 +25,11 @@ int NUMBER_OF_GROUPS;
 pthread_mutex_t stimer_lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t stimer_cond = PTHREAD_COND_INITIALIZER;
  int number_of_groups;
+int home_team_score;
+int away_team_score;
 
 int main()
 {
-    printf("hello\n");
+    // printf("hello\n");
     init_all_threads();
 }
