@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
             exit(-1);
         }
 
-        printf(BGREEN "New client connected from port number %d and IP %s \n" RESET_COLOR, ntohs(client_addr_obj.sin_port), inet_ntoa(client_addr_obj.sin_addr));
+        printf(BGREEN "New client connected from port number %d and IP %s \n" RESET_COLOR, ntohs(client_x.client_addr_obj.sin_port), inet_ntoa(client_x.client_addr_obj.sin_addr));
 
         pthread_mutex_lock(&q_lock);
         q.push(client_x);

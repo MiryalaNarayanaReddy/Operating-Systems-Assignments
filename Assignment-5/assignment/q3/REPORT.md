@@ -100,3 +100,9 @@ This has the following functions:
 
 
 -----------
+
+Output when code is run with `i.txt` input
+
+![alt text](img/1.png)
+![alt text](img/2.png)
+![alt text](img/3.png)
