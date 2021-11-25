@@ -58,4 +58,6 @@ void *simulate_person(void *arg)
             printf(GREEN_COLOR "%s watched the match for %d seconds and is leaving\n" RESET_COLOR, person_x->name, SPECTATING_TIME_X);
         }
     }
+
+    printf(GREEN_COLOR "%s is leaving for dinner\n" RESET_COLOR, person_x->name);
 }

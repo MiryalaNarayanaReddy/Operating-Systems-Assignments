@@ -10,7 +10,7 @@ void *simulate_goal(void *arg)
     }
     pthread_mutex_unlock(&stimer_lock);
 
-    if (goal_x->probability > GOAL_PROBABILITY)
+    if (goal_x->probability >= GOAL_PROBABILITY)
     {
         if (goal_x->team == 'H')
         {
@@ -23,6 +23,9 @@ void *simulate_goal(void *arg)
             printf("Team %c has scored their goal number %d\n", goal_x->team, away_team_score);
         }
         // check for enraged spectators
-
+    }
+    else
+    {
+        printf("Team %c missed the chance to score their goal number %d\n", goal_x->team, (goal_x->team == 'H' ? home_team_score : away_team_score) + 1);
     }
 }

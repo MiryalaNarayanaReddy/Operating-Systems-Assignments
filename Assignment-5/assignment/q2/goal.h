@@ -3,7 +3,7 @@
 
 #include "user.h"
 
-#define GOAL_PROBABILITY 0.2
+#define GOAL_PROBABILITY 0.5
 
 struct goal
 {
