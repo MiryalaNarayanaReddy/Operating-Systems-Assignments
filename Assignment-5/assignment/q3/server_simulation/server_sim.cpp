@@ -1,7 +1,9 @@
 #include "server_sim.h"
 
+////////////////////////// START OF TUTORIAL CODE WITH ADDITION OF MUTEX LOCKS ////////////////////////////
 pair<string, int> read_string_from_socket(const int &fd, int bytes)
 {
+    pthread_mutex_lock(&read_lock);
     std::string output;
     output.resize(bytes);
 
@@ -15,22 +17,24 @@ pair<string, int> read_string_from_socket(const int &fd, int bytes)
     output[bytes_received] = 0;
     output.resize(bytes_received);
     // debug(output);
+    pthread_mutex_unlock(&read_lock);
     return {output, bytes_received};
 }
 
 int send_string_on_socket(int fd, const string &s)
 {
+    pthread_mutex_lock(&write_lock);
     // debug(s.length());
     int bytes_sent = write(fd, s.c_str(), s.length());
     if (bytes_sent < 0)
     {
         cerr << "Failed to SEND DATA via socket.\n";
     }
-
+    pthread_mutex_unlock(&write_lock);
     return bytes_sent;
 }
 
-///////////////////////////////
+////////////////////////// END OF TUTORIAL CODE ///////////////////////////////
 
 void *handle_connection(void *arg)
 {
@@ -49,8 +53,7 @@ void *handle_connection(void *arg)
         {
             pthread_cond_wait(&q_cond, &q_lock);
         }
-        client_socket_fd = q.front()->socket_fd;
-        free(q.front());
+        client_socket_fd = q.front().client_socket_fd;
         q.pop();
         pthread_mutex_unlock(&q_lock);
 
@@ -81,7 +84,7 @@ void *handle_connection(void *arg)
             if (cmd1 == "insert")
             {
                 string cmd2 = cmd.substr(i + 1);
-                cout<<cmd2<<"\n";
+                cout << cmd2 << "\n";
                 int j = cmd2.find(' ');
                 string k = cmd2.substr(0, j);
                 string v = cmd2.substr(j + 1);

@@ -1,7 +1,8 @@
 #include "server_sim.h"
 
 map<int, string> dictionary;
-queue<client *> q;
+queue<client> q;
+int MAX_CLIENTS;
 
 pthread_mutex_t q_lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t q_cond = PTHREAD_COND_INITIALIZER;
@@ -9,10 +10,16 @@ pthread_cond_t q_cond = PTHREAD_COND_INITIALIZER;
 pthread_mutex_t dict_lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t dict_cond = PTHREAD_COND_INITIALIZER;
 
+pthread_mutex_t read_lock = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t read_cond = PTHREAD_COND_INITIALIZER;
+
+pthread_mutex_t write_lock = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t write_cond = PTHREAD_COND_INITIALIZER;
+
 int main(int argc, char *argv[])
 {
-
     int num_worker_threads = atoi(argv[1]);
+    MAX_CLIENTS = num_worker_threads;
     printf("%s\n", argv[1]);
     cout << num_worker_threads << "\n";
     // make handle threads
@@ -76,7 +83,7 @@ int main(int argc, char *argv[])
     listen(wel_socket_fd, MAX_CLIENTS);
     cout << "Server has started listening on the LISTEN PORT" << endl;
     clilen = sizeof(client_addr_obj);
-
+    client client_x;
     while (1)
     {
         /* accept a new request, create a client_socket_fd */
@@ -86,10 +93,10 @@ int main(int argc, char *argv[])
         more precisely, a new socket that is dedicated to that particular client.
         */
         //accept is a blocking call
-        client *client_x = (client *)malloc(sizeof(client));
+
         printf("Waiting for a new client to request for a connection\n");
-        client_socket_fd = accept(wel_socket_fd, (struct sockaddr *)&client_addr_obj, &clilen);
-        if (client_socket_fd < 0)
+        client_x.client_socket_fd = accept(wel_socket_fd, (struct sockaddr *)&client_x.client_addr_obj, &clilen);
+        if (client_x.client_socket_fd < 0)
         {
             perror("ERROR while accept() system call occurred in SERVER");
             exit(-1);
@@ -97,15 +104,13 @@ int main(int argc, char *argv[])
 
         printf(BGREEN "New client connected from port number %d and IP %s \n" RESET_COLOR, ntohs(client_addr_obj.sin_port), inet_ntoa(client_addr_obj.sin_addr));
 
-        client_x->socket_fd = client_socket_fd;
-
         pthread_mutex_lock(&q_lock);
         q.push(client_x);
         pthread_cond_signal(&q_cond);
         pthread_mutex_unlock(&q_lock);
         // sleep(2);
         // handle_connection(client_socket_fd);
-        cout << "client---\n";
+        // cout << "client---\n";
     }
 
     close(wel_socket_fd);

@@ -104,5 +104,6 @@ void *simulate_client(void *arg)
     tie(output_msg, num_bytes_read) = read_string_from_socket(client_x->socket_fd, buff_sz);
     cout << BRED << client_x->indx << " : " << RESET_COLOR << BGREEN << output_msg << RESET_COLOR << "\n";
     // part;
+    send_string_on_socket(client_x->socket_fd, "exit");
     return NULL;
 }
