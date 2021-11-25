@@ -1,5 +1,6 @@
 #include "lab.h"
 
+// not used
 void *simulate_lab(void *lab_details)
 {
     lab *lab_x = (lab *)lab_details;

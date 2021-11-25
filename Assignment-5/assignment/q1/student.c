@@ -25,14 +25,14 @@ void *simulate_student(void *student_details)
         pthread_mutex_lock(&course_list[student_x->preference_course_1].tutorial_lock);
         while (course_list[student_x->preference_course_1].tutorial == false)
             pthread_cond_wait(&course_list[student_x->preference_course_1].tutorial_cond, &course_list[student_x->preference_course_1].tutorial_lock);
-        while (course_list[student_x->preference_course_1].tutorial == false)
-            pthread_cond_wait(&course_list[student_x->preference_course_1].tutorial_cond, &course_list[student_x->preference_course_1].tutorial_lock);
         pthread_mutex_unlock(&course_list[student_x->preference_course_1].tutorial_lock);
         // end of tut
 
         student_x->prob = student_x->calibre * course_list[student_x->preference_course_1].interest;
         if (student_x->prob < MIN_PROB_OF_LIKING_COURSE)
         {
+            // update course count
+            withdrawn_from_course(student_x->preference_course_1);
             printf(BLUE_COLOR "Student %d has withdrawn from course %s\n" RESET_COLOR, student_x->number, course_list[student_x->preference_course_1].name);
         }
         else
@@ -43,7 +43,7 @@ void *simulate_student(void *student_details)
             pthread_mutex_lock(&course_list[student_x->preference_course_1].course_exit_lock);
             pthread_cond_wait(&course_list[student_x->preference_course_1].course_exit_cond, &course_list[student_x->preference_course_1].course_exit_lock);
             pthread_mutex_unlock(&course_list[student_x->preference_course_1].course_exit_lock);
-            printf(CYAN_COLOR"Student %d has changed current preference from %s (priority 1) to %s (priority 2)\n"RESET_COLOR,student_x->number, course_list[student_x->preference_course_1].name,course_list[ student_x->preference_course_2].name);
+            printf(CYAN_COLOR "Student %d has changed current preference from %s (priority 1) to %s (priority 2)\n" RESET_COLOR, student_x->number, course_list[student_x->preference_course_1].name, course_list[student_x->preference_course_2].name);
             selected_permanently = false;
         }
     }
@@ -57,13 +57,12 @@ void *simulate_student(void *student_details)
             pthread_mutex_lock(&course_list[student_x->preference_course_2].tutorial_lock);
             while (course_list[student_x->preference_course_2].tutorial == false)
                 pthread_cond_wait(&course_list[student_x->preference_course_2].tutorial_cond, &course_list[student_x->preference_course_2].tutorial_lock);
-            while (course_list[student_x->preference_course_2].tutorial == false)
-                pthread_cond_wait(&course_list[student_x->preference_course_2].tutorial_cond, &course_list[student_x->preference_course_2].tutorial_lock);
             pthread_mutex_unlock(&course_list[student_x->preference_course_2].tutorial_lock);
             // end of tut
             student_x->prob = student_x->calibre * course_list[student_x->preference_course_2].interest;
             if (student_x->prob < MIN_PROB_OF_LIKING_COURSE)
             {
+                withdrawn_from_course(student_x->preference_course_2);
                 printf(BLUE_COLOR "Student %d has withdrawn from course %s\n" RESET_COLOR, student_x->number, course_list[student_x->preference_course_2].name);
             }
             else
@@ -74,7 +73,7 @@ void *simulate_student(void *student_details)
                 pthread_mutex_lock(&course_list[student_x->preference_course_2].course_exit_lock);
                 pthread_cond_wait(&course_list[student_x->preference_course_2].course_exit_cond, &course_list[student_x->preference_course_2].course_exit_lock);
                 pthread_mutex_unlock(&course_list[student_x->preference_course_2].course_exit_lock);
-                printf(CYAN_COLOR"Student %d has changed current preference from %s (priority 2) to %s (priority 3)\n"RESET_COLOR,student_x->number,course_list[student_x->preference_course_2].name, course_list[student_x->preference_course_3].name);
+                printf(CYAN_COLOR "Student %d has changed current preference from %s (priority 2) to %s (priority 3)\n" RESET_COLOR, student_x->number, course_list[student_x->preference_course_2].name, course_list[student_x->preference_course_3].name);
                 selected_permanently = false;
             }
         }
@@ -89,13 +88,12 @@ void *simulate_student(void *student_details)
             pthread_mutex_lock(&course_list[student_x->preference_course_3].tutorial_lock);
             while (course_list[student_x->preference_course_3].tutorial == false)
                 pthread_cond_wait(&course_list[student_x->preference_course_3].tutorial_cond, &course_list[student_x->preference_course_3].tutorial_lock);
-            while (course_list[student_x->preference_course_3].tutorial == false)
-                pthread_cond_wait(&course_list[student_x->preference_course_3].tutorial_cond, &course_list[student_x->preference_course_3].tutorial_lock);
             pthread_mutex_unlock(&course_list[student_x->preference_course_3].tutorial_lock);
             // end of tut
             student_x->prob = student_x->calibre * course_list[student_x->preference_course_3].interest;
             if (student_x->prob < MIN_PROB_OF_LIKING_COURSE)
             {
+                withdrawn_from_course(student_x->preference_course_3);
                 printf(BLUE_COLOR "Student %d has withdrawn from course %s\n" RESET_COLOR, student_x->number, course_list[student_x->preference_course_3].name);
             }
             else
@@ -118,4 +116,5 @@ void *simulate_student(void *student_details)
     // printf("student %d %f %d %d %d %d\n"RESET_COLOR, student_x->number, student_x->calibre,\
     //  student_x->preference_course_1, student_x->preference_course_2, student_x->preference_course_3,\
     //   student_x->time);
+    return NULL;
 }

@@ -40,6 +40,8 @@ void init_all_threads()
         lab_list[i].student_ta = (ta *)malloc(sizeof(ta) * lab_list[i].num_students);
         for (int j = 0; j < lab_list[i].num_students; j++)
         {
+            pthread_mutex_init(&lab_list[i].student_ta[j].ta_lock,NULL);
+            pthread_cond_init(&lab_list[i].student_ta[j].ta_cond,NULL);
             lab_list[i].student_ta[j].num_courses = 0;
             lab_list[i].student_ta[j].is_free = true;
         }

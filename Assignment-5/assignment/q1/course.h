@@ -37,5 +37,6 @@ extern pthread_cond_t stimer_cond;
 
 void *simulate_course(void *course_details);
 bool registered_for_course(int i);
+void withdrawn_from_course(int i);
 
 #endif

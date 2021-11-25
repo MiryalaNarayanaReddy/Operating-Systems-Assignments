@@ -14,6 +14,17 @@ bool registered_for_course(int i)
     return flag;
 }
 
+void withdrawn_from_course(int i)
+{
+    pthread_mutex_lock(&course_list[i].student_cnt_lock);
+    if (course_list[i].student_cnt > 0)
+    {
+        course_list[i].student_cnt--;
+        pthread_cond_signal(&course_list[i].student_cnt_cond);
+    }
+    pthread_mutex_unlock(&course_list[i].student_cnt_lock);
+}
+
 void *simulate_course(void *course_details)
 {
     course *course_x = (course *)course_details;
@@ -27,8 +38,13 @@ void *simulate_course(void *course_details)
 
     printf(GREEN_COLOR "Course %s has been allocated %d seats\n" RESET_COLOR, course_x->name, course_x->course_max_slot);
 
+    pthread_mutex_lock(&course_x->student_cnt_lock);
     while (course_x->student_cnt == 0)
-        ;
+    {
+        pthread_cond_wait(&course_x->student_cnt_cond, &course_x->student_cnt_lock);
+    }
+    pthread_mutex_unlock(&course_x->student_cnt_lock);
+
     // look for TAs
     int ta_num;
     int ta_lab;
@@ -43,7 +59,8 @@ void *simulate_course(void *course_details)
             lab *lab_x = &lab_list[i];
             for (int j = 0; j < lab_x->num_students; j++)
             {
-                // use semaphore to update the ta allocation
+                // use semaphore / mutex locks or thread to update the ta allocation
+                pthread_mutex_lock(&lab_x->student_ta[j].ta_lock);
                 if (lab_x->student_ta[j].is_free && (lab_x->student_ta[j].num_courses < lab_x->num_of_times_TA_limit))
                 {
                     lab_x->student_ta[j].is_free = false;
@@ -54,13 +71,14 @@ void *simulate_course(void *course_details)
                     printf(PINK_COLOR "TA %d from lab %s has been allocated to course %s for his TA ship number  %d\n" RESET_COLOR, j, lab_x->name, course_x->name, lab_x->student_ta[j].num_courses);
                     break;
                 }
+                pthread_mutex_unlock(&lab_x->student_ta[j].ta_lock);
             }
         }
         if (!found_ta)
         {
             // have to do some more work.....
             course_x->in_simulation = false;
-            printf(RED_COLOR"Course %s does not have any TA mentors eligible and is removed from course offerings\n" RESET_COLOR, course_x->name);
+            printf(RED_COLOR "Course %s does not have any TA mentors eligible and is removed from course offerings\n" RESET_COLOR, course_x->name);
             pthread_mutex_lock(&course_x->course_exit_lock);
             pthread_cond_broadcast(&course_x->course_exit_cond);
             pthread_mutex_unlock(&course_x->course_exit_lock);

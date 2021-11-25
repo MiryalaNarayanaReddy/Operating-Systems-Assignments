@@ -7,6 +7,8 @@ struct ta
 {
     int num_courses;
     bool is_free;
+    pthread_mutex_t ta_lock;
+    pthread_cond_t ta_cond;
 };
 
 typedef struct ta ta;
@@ -22,7 +24,6 @@ struct lab
 
 typedef struct lab lab;
 int num_labs;
-
 
 extern int stimer;
 extern pthread_mutex_t stimer_lock;
