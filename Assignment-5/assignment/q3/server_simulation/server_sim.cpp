@@ -93,7 +93,7 @@ void *handle_connection(void *arg)
                 pthread_mutex_lock(&dict_lock);
                 if (dictionary.find(key) == dictionary.end())
                 {
-                    res = "Insertion successfull";
+                    res = "Insertion successful";
                     dictionary[key] = v;
                 }
                 else
@@ -145,7 +145,7 @@ void *handle_connection(void *arg)
                 string k2 = cmd2.substr(j + 1);
                 int key1 = stoi(k1);
                 int key2 = stoi(k2);
-
+                // printf("concat Keys %d %d\n", key1, key2);
                 pthread_mutex_lock(&dict_lock);
                 if (dictionary.find(key1) == dictionary.end() || dictionary.find(key2) == dictionary.end())
                 {
@@ -177,7 +177,7 @@ void *handle_connection(void *arg)
             }
             // wait for 2 second
             sleep(2);
-            string msg_to_send_back = "Ack: " + to_string(pthread_self()) + " " + res;
+            string msg_to_send_back = to_string(pthread_self()) + " " + res;
 
             ////////////////////////////////////////
             // "If the server write a message on the socket and then close it before the client's read. Will the client be able to read the message?"
