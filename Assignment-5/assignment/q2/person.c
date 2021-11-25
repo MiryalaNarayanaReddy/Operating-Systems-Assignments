@@ -11,6 +11,7 @@ void *simulate_person(void *arg)
         pthread_cond_wait(&stimer_cond, &stimer_lock);
     }
     pthread_mutex_unlock(&stimer_lock);
+
     // printf(BLUE_COLOR "person time = %d\n" RESET_COLOR, person_x->time);
     printf(RED_COLOR "%s has reached the stadium\n" RESET_COLOR, person_x->name);
 
@@ -42,6 +43,7 @@ void *simulate_person(void *arg)
     increament_zone_cnt(person_x);
     if (person_x->got_seat)
     {
+        person_x->in_stadium = true;
         // printf("watching\n");
         person_x->start = stimer;
         person_x->end = person_x->start + SPECTATING_TIME_X;
@@ -50,6 +52,7 @@ void *simulate_person(void *arg)
         {
             pthread_cond_wait(&stimer_cond, &stimer_lock);
         }
+        person_x->in_stadium = false;
         pthread_mutex_unlock(&stimer_lock);
         if (!person_x->at_exit_gate)
         {
