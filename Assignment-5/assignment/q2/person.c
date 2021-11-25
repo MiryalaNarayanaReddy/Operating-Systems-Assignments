@@ -1,6 +1,4 @@
 #include "person.h"
-#include <sys/time.h>
-#include <errno.h>
 
 void *simulate_person(void *arg)
 {
@@ -62,5 +60,11 @@ void *simulate_person(void *arg)
         }
     }
 
-    printf(GREEN_COLOR "%s is leaving for dinner\n" RESET_COLOR, person_x->name);
+    //*************** BONUS PART
+    // wait for others
+    printf(BLUE_COLOR "%s is waiting for their friends at the exit\n" RESET_COLOR, person_x->name);
+    increament_exiting_cnt(person_x->group);
+    //**************** BONUS
+
+    // printf(GREEN_COLOR "%s is leaving for dinner\n" RESET_COLOR, person_x->name);
 }

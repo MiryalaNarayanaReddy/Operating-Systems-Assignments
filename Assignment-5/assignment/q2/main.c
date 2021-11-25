@@ -25,6 +25,9 @@ int away_team_score;
 pthread_mutex_t zone_lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t zone_cond = PTHREAD_COND_INITIALIZER;
 
+pthread_mutex_t group_lock = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t group_cond = PTHREAD_COND_INITIALIZER;
+
 int main()
 {
     // printf("hello\n");

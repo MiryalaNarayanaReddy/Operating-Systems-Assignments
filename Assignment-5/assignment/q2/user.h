@@ -47,6 +47,8 @@ extern int away_team_score;
 
 extern pthread_mutex_t zone_lock ;
 extern pthread_cond_t zone_cond;
+extern pthread_mutex_t group_lock ;
+extern pthread_cond_t group_cond ;
 
 void init_all_threads();
 
