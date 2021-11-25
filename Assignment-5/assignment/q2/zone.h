@@ -28,5 +28,6 @@ enum
 };
 typedef struct person person;
 void increament_zone_cnt(person *p);
+void decreament_zone_cnt(person *p);
 
 #endif

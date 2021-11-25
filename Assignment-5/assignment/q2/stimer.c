@@ -7,7 +7,7 @@ void increament_timer(int arg)
     stimer++;
     pthread_cond_broadcast(&stimer_cond);
     pthread_mutex_unlock(&stimer_lock);
-    // printf("timer  = %d\n", stimer);
+    printf("timer  = %d\n", stimer);
 }
 
 void simulate_timer(int time)

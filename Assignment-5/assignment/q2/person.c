@@ -12,7 +12,7 @@ void *simulate_person(void *arg)
     }
     pthread_mutex_unlock(&stimer_lock);
     // printf(BLUE_COLOR "person time = %d\n" RESET_COLOR, person_x->time);
-    printf(RED_COLOR "t=%d: %s has reached the stadium\n" RESET_COLOR, stimer, person_x->name);
+    printf(RED_COLOR "%s has reached the stadium\n" RESET_COLOR, person_x->name);
 
     // // waiting time part near ticket counter
     // struct timespec abs_time;
@@ -30,19 +30,32 @@ void *simulate_person(void *arg)
     // }
     // if (error == ETIMEDOUT)
     // {
-    //     printf(PINK_COLOR "t=%d: Person %s could not get a seat\n" RESET_COLOR, person_x->zone_x, person_x->name);
+    //     printf(PINK_COLOR "Person %s could not get a seat\n" RESET_COLOR, person_x->zone_x, person_x->name);
     // }
     // else
     // {
     //     pthread_mutex_unlock(&person_x->zone_lock);
-    //     printf(PINK_COLOR "t=%d: %s has got a seat in zone %c\n" RESET_COLOR, person_x->zone_x, person_x->name, person_x->zone_x);
+    //     printf(PINK_COLOR "%s has got a seat in zone %c\n" RESET_COLOR, person_x->zone_x, person_x->name, person_x->zone_x);
     // }
 
     person_x->start = stimer;
     increament_zone_cnt(person_x);
     if (person_x->got_seat)
     {
-       // printf("watching\n");
-
+        // printf("watching\n");
+        person_x->start = stimer;
+        person_x->end = person_x->start + SPECTATING_TIME_X;
+        pthread_mutex_lock(&stimer_lock);
+        while (stimer != person_x->end && !person_x->at_exit_gate)
+        {
+            pthread_cond_wait(&stimer_cond, &stimer_lock);
+        }
+        pthread_mutex_unlock(&stimer_lock);
+        if (!person_x->at_exit_gate)
+        {
+            decreament_zone_cnt(person_x);
+            person_x->at_exit_gate = true;
+            printf(GREEN_COLOR "%s watched the match for %d seconds and is leaving\n" RESET_COLOR, person_x->name, SPECTATING_TIME_X);
+        }
     }
 }

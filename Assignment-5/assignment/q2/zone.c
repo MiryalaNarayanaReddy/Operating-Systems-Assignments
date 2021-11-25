@@ -51,7 +51,7 @@ void increament_zone_cnt(person *p) // use first come first serve
     if (p->zone_x != 'X' && (p->end - p->start) <= p->patience)
     {
         p->got_seat = true;
-        printf(PINK_COLOR "t=%d: %s has got a seat in zone %c\n" RESET_COLOR, stimer, p->name, p->zone_x);
+        printf(PINK_COLOR "%s has got a seat in zone %c\n" RESET_COLOR, p->name, p->zone_x);
     }
     else
     {
@@ -67,7 +67,7 @@ void increament_zone_cnt(person *p) // use first come first serve
         {
             num_persons_zone_N--;
         }
-        printf(PINK_COLOR "t=%d: Person %s could not get a seat\n" RESET_COLOR, stimer, p->name);
+        printf(PINK_COLOR "%s could not get a seat\n" RESET_COLOR, p->name);
     }
     pthread_mutex_unlock(&p->zone_lock);
     pthread_mutex_unlock(&zone_lock);

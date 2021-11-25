@@ -18,6 +18,7 @@ struct person
     clock_t start;
     clock_t end;
     bool got_seat;
+    bool at_exit_gate;
 };
 
 typedef struct person person;

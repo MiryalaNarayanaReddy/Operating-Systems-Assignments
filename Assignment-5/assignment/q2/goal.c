@@ -15,12 +15,14 @@ void *simulate_goal(void *arg)
         if (goal_x->team == 'H')
         {
             home_team_score++;
-            printf("t=%d: Team %c has scored their goal number %d\n", stimer, goal_x->team, home_team_score);
+            printf("Team %c has scored their goal number %d\n", goal_x->team, home_team_score);
         }
         else
         { // goal_x->team == 'A'
             away_team_score++;
-            printf("t=%d: Team %c has scored their goal number %d\n", stimer, goal_x->team, away_team_score);
+            printf("Team %c has scored their goal number %d\n", goal_x->team, away_team_score);
         }
+        // check for enraged spectators
+
     }
 }

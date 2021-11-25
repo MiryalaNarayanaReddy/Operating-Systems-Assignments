@@ -45,6 +45,7 @@ void init_all_threads()
             pthread_mutex_init(&group_list[i].people->zone_lock, NULL);
             pthread_cond_init(&group_list[i].people->zone_cond, NULL);
             group_list[i].people[j].zone_x = 'X';
+            group_list[i].people[j].at_exit_gate=false ;
             // printf("done-%d\n", j);
             scanf("%s %c %d %d %d", group_list[i].people[j].name, &ch, &group_list[i].people[j].time, &group_list[i].people[j].patience, &group_list[i].people[j].num_goals_to_enrage);
             // printf("%s %c %d %d %d\n", group_list[i].people[j].name, ch, group_list[i].people[j].time, group_list[i].people[j].patience, group_list[i].people[j].num_goals_to_enrage);
