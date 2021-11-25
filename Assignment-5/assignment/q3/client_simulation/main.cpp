@@ -28,9 +28,9 @@ int main()
     for (int i = 0; i < m; i++)
     {
         client_list[i].indx = i;
-        cin >> client_list[i].time;
+        cin >> client_list[i].time; // time
         getline(cin, client_list[i].msg);
-        client_list[i].msg.erase(0, 1);
+        client_list[i].msg.erase(0, 1); // remove the space at the begining
         // cout << "-" << client_list[i].msg << "-\n";
         pthread_create(&client_list[i].tid, NULL, simulate_client, (void *)&client_list[i]);
         // sleep(3);
@@ -40,7 +40,7 @@ int main()
     simulate_timer(client_list[m - 1].time + 2);
     for (int i = 0; i < m; i++)
     {
-        pthread_tryjoin_np(client_list[i].tid, NULL);
+        pthread_join(client_list[i].tid, NULL);
     }
 
     return 0;
