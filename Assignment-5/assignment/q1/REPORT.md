@@ -84,3 +84,11 @@ folder structure
     - **struct ta**
     - **lab_list**
 
+
+## **stimer.c**
+- **`simulate_timer()`**
+    - for every one second **SIGALARM** is raised by **alarm(1)** and it is handled by a function **increament_timer()** function
+- **`increament_timer()`**
+    - increaments **stimer** by 1.
+    - sends a broadcast signal to all threads waiting on **stimer_cond**.
+

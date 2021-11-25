@@ -50,6 +50,14 @@ This has the following functions:
         - recieve message  ( using `read_string_from_socket()` )
         - send exit message 
 
+
+## **stimer.cpp**
+- **`simulate_timer()`**
+    - for every one second **SIGALARM** is raised by **alarm(1)** and it is handled by a function **increament_timer()** function
+- **`increament_timer()`**
+    - increaments **stimer** by 1.
+    - sends a broadcast signal to all threads waiting on **stimer_cond**.
+
 ---------
 
 ## ***Server simulation***
