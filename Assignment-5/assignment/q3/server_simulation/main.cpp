@@ -1,7 +1,7 @@
 #include "server_sim.h"
 
 map<int, string> dictionary;
-queue<client*> q;
+queue<client *> q;
 
 pthread_mutex_t q_lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t q_cond = PTHREAD_COND_INITIALIZER;
@@ -13,14 +13,14 @@ int main(int argc, char *argv[])
 {
 
     int num_worker_threads = atoi(argv[1]);
-printf("%s\n",argv[1]);
-cout<<num_worker_threads<<"\n";
+    printf("%s\n", argv[1]);
+    cout << num_worker_threads << "\n";
     // make handle threads
     pthread_t worker_tid[num_worker_threads];
     for (int i = 0; i < num_worker_threads; i++)
     {
         pthread_create(&worker_tid[i], NULL, handle_connection, NULL);
-        cout<<worker_tid[i]<<"\n";
+        cout << worker_tid[i] << "\n";
     }
 
     int i, j, k, t, n;
@@ -86,8 +86,8 @@ cout<<num_worker_threads<<"\n";
         more precisely, a new socket that is dedicated to that particular client.
         */
         //accept is a blocking call
-        client *client_x=(client*)malloc(sizeof(client));
-          printf("Waiting for a new client to request for a connection\n");
+        client *client_x = (client *)malloc(sizeof(client));
+        printf("Waiting for a new client to request for a connection\n");
         client_socket_fd = accept(wel_socket_fd, (struct sockaddr *)&client_addr_obj, &clilen);
         if (client_socket_fd < 0)
         {
@@ -105,7 +105,7 @@ cout<<num_worker_threads<<"\n";
         pthread_mutex_unlock(&q_lock);
         // sleep(2);
         // handle_connection(client_socket_fd);
-        cout<<"client---\n";
+        cout << "client---\n";
     }
 
     close(wel_socket_fd);
@@ -125,7 +125,7 @@ cout<<num_worker_threads<<"\n";
 //     /* create socket */
 //     /*
 //     The server program must have a special door—more precisely,
-//     a special socket—that welcomes some initial contact 
+//     a special socket—that welcomes some initial contact
 //     from a client process running on an arbitrary host
 //     */
 //     //get welcoming socket
@@ -175,7 +175,7 @@ cout<<num_worker_threads<<"\n";
 //         /*
 //         During the three-way handshake, the client process knocks on the welcoming door
 // of the server process. When the server “hears” the knocking, it creates a new door—
-// more precisely, a new socket that is dedicated to that particular client. 
+// more precisely, a new socket that is dedicated to that particular client.
 //         */
 //         //accept is a blocking call
 //         printf("Waiting for a new client to request for a connection\n");

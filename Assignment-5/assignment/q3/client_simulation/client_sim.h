@@ -50,8 +50,6 @@ const ll MOD = 1000000007;
 const ll buff_sz = 1048576;
 ///////////////////////////////////////////////////
 
-extern int SOCKET_FD;
-
 typedef struct client
 {
     int indx;
@@ -59,15 +57,25 @@ typedef struct client
     string msg;
     pthread_t tid;
     int socket_fd;
+    struct sockaddr_in server_obj;
 } client;
 
 extern sem_t read_mutex;
 extern sem_t write_mutex;
 
+extern pthread_mutex_t get_fd_lock;
+extern pthread_cond_t get_fd_cond;
+
+extern pthread_mutex_t read_lock;
+extern pthread_cond_t read_cond;
+
+extern pthread_mutex_t write_lock;
+extern pthread_cond_t write_cond;
+
 pair<string, int> read_string_from_socket(int fd, int bytes);
 int send_string_on_socket(int fd, const string &s);
 // int get_socket_fd(struct sockaddr_in *ptr, int port_num);
 int get_socket_fd(struct sockaddr_in *ptr);
-void *send_msg(void *arg);
+void *simulate_client(void *arg);
 
 #endif
