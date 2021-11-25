@@ -10,9 +10,10 @@
 #include <stdbool.h>
 #include <signal.h>
 
+
 #include "stimer.h"
-#include "zone.h"
 #include "person.h"
+#include "zone.h"
 #include "group.h"
 #include "goal.h"
 
@@ -36,21 +37,16 @@ extern int zone_A_limit;
 extern int zone_N_limit;
 
 extern int num_persons_zone_H;
-extern pthread_mutex_t zone_H_cnt_lock;
-extern pthread_cond_t zone_H_cnt_cond ;
-
 extern int num_persons_zone_A;
-extern pthread_mutex_t zone_A_cnt_lock;
-extern pthread_cond_t zone_A_cnt_cond ;
-
 extern int num_persons_zone_N;
-extern pthread_mutex_t zone_N_cnt_lock;
-extern pthread_cond_t zone_N_cnt_cond ;
 
 extern int number_of_goal_chances;
 
 extern int home_team_score;
 extern int away_team_score;
+
+extern pthread_mutex_t zone_lock ;
+extern pthread_cond_t zone_cond;
 
 void init_all_threads();
 

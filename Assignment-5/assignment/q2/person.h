@@ -12,7 +12,12 @@ struct person
     int patience;
     int num_goals_to_enrage;
     pthread_t tid;
-
+    char zone_x;
+    pthread_mutex_t zone_lock;
+    pthread_cond_t zone_cond;
+    clock_t start;
+    clock_t end;
+    bool got_seat;
 };
 
 typedef struct person person;

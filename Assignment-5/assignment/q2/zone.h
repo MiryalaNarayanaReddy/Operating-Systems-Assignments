@@ -1,8 +1,8 @@
 #ifndef _ZONE_H_
 #define _ZONE_H_
 
-
 #include "user.h"
+#include "person.h"
 
 extern int zone_H_limit;
 extern int zone_A_limit;
@@ -26,5 +26,7 @@ enum
     ZONE_A,
     ZONE_N
 };
+typedef struct person person;
+void increament_zone_cnt(person *p);
 
 #endif
