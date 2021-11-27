@@ -40,11 +40,13 @@ void *simulate_student(void *student_details)
             printf(BLUE_COLOR "Student %d has selected course %s permanently\n" RESET_COLOR, student_x->number, course_list[student_x->preference_course_1].name);
             student_x->preference = student_x->preference_course_1;
             selected_permanently = true;
+            student_x->selected_permanently = true;
             pthread_mutex_lock(&course_list[student_x->preference_course_1].course_exit_lock);
             pthread_cond_wait(&course_list[student_x->preference_course_1].course_exit_cond, &course_list[student_x->preference_course_1].course_exit_lock);
             pthread_mutex_unlock(&course_list[student_x->preference_course_1].course_exit_lock);
             printf(CYAN_COLOR "Student %d has changed current preference from %s (priority 1) to %s (priority 2)\n" RESET_COLOR, student_x->number, course_list[student_x->preference_course_1].name, course_list[student_x->preference_course_2].name);
             selected_permanently = false;
+            student_x->selected_permanently = false;
         }
     }
 
@@ -70,11 +72,13 @@ void *simulate_student(void *student_details)
                 printf(BLUE_COLOR "Student %d has selected course %s permanently\n" RESET_COLOR, student_x->number, course_list[student_x->preference_course_2].name);
                 student_x->preference = student_x->preference_course_2;
                 selected_permanently = true;
+                student_x->selected_permanently = true;
                 pthread_mutex_lock(&course_list[student_x->preference_course_2].course_exit_lock);
                 pthread_cond_wait(&course_list[student_x->preference_course_2].course_exit_cond, &course_list[student_x->preference_course_2].course_exit_lock);
                 pthread_mutex_unlock(&course_list[student_x->preference_course_2].course_exit_lock);
                 printf(CYAN_COLOR "Student %d has changed current preference from %s (priority 2) to %s (priority 3)\n" RESET_COLOR, student_x->number, course_list[student_x->preference_course_2].name, course_list[student_x->preference_course_3].name);
                 selected_permanently = false;
+                student_x->selected_permanently = false;
             }
         }
     }
@@ -101,16 +105,19 @@ void *simulate_student(void *student_details)
                 printf(BLUE_COLOR "Student %d has selected course %s permanently\n" RESET_COLOR, student_x->number, course_list[student_x->preference_course_3].name);
                 student_x->preference = student_x->preference_course_3;
                 selected_permanently = true;
+                student_x->selected_permanently = true;
                 pthread_mutex_lock(&course_list[student_x->preference_course_3].course_exit_lock);
                 pthread_cond_wait(&course_list[student_x->preference_course_3].course_exit_cond, &course_list[student_x->preference_course_3].course_exit_lock);
                 pthread_mutex_unlock(&course_list[student_x->preference_course_3].course_exit_lock);
                 selected_permanently = false;
+                student_x->selected_permanently = false;
                 // Student i has changed current preference from course_x (priority k) to course_y (priority k+1
             }
         }
     }
     if (!selected_permanently)
     {
+        student_x->in_simulation = false;
         printf(BLUE_COLOR "Student %d couldn’t get any of his preferred courses\n" RESET_COLOR, student_x->number);
     }
     // printf("student %d %f %d %d %d %d\n"RESET_COLOR, student_x->number, student_x->calibre,\

@@ -18,6 +18,7 @@ struct student
     pthread_t tid;
     bool in_simulation;
     int preference;
+    bool selected_permanently;
     pthread_mutex_t preference_lock;
     pthread_cond_t preference_cond;
 };

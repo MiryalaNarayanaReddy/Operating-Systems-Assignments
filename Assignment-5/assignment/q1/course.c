@@ -69,6 +69,7 @@ void *simulate_course(void *course_details)
                     ta_num = j;
                     ta_lab = i;
                     printf(PINK_COLOR "TA %d from lab %s has been allocated to course %s for his TA ship number  %d\n" RESET_COLOR, j, lab_x->name, course_x->name, lab_x->student_ta[j].num_courses);
+                    pthread_mutex_unlock(&lab_x->student_ta[j].ta_lock);
                     break;
                 }
                 pthread_mutex_unlock(&lab_x->student_ta[j].ta_lock);

@@ -88,7 +88,10 @@ folder structure
 ## **stimer.c**
 - **`simulate_timer()`**
     - for every one second **SIGALARM** is raised by **alarm(1)** and it is handled by a function **increament_timer()** function
+    - also exits if all students are allocated one of their preference or out of simulation.
 - **`increament_timer()`**
     - increaments **stimer** by 1.
     - sends a broadcast signal to all threads waiting on **stimer_cond**.
 
+![alt text](img/1.png)
+![alt text](img/2.png)

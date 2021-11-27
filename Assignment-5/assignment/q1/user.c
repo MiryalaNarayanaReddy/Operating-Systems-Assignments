@@ -26,6 +26,8 @@ void init_all_threads()
     {
         scanf("%lf %d %d %d %d", &student_list[i].calibre, &student_list[i].preference_course_1, &student_list[i].preference_course_2, &student_list[i].preference_course_3, &student_list[i].time);
         student_list[i].number = i;
+        student_list[i].in_simulation = true;
+        student_list[i].selected_permanently = false;
         pthread_create(&student_list[i].tid, NULL, simulate_student, (void *)(&student_list[i]));
         if (max_time < student_list[i].time)
         {
