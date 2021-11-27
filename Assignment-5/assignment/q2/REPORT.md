@@ -1,4 +1,4 @@
-# An alternate course allocation Portal
+# The Clasico Experience
 
 folder structure
 
