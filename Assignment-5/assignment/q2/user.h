@@ -44,7 +44,10 @@ extern int number_of_goal_chances;
 
 extern int home_team_score;
 extern int away_team_score;
+extern int num_exited_groups;
 
+extern pthread_mutex_t num_exited_group_lock ;
+extern pthread_cond_t num_exited_group_cond ;
 extern pthread_mutex_t zone_lock ;
 extern pthread_cond_t zone_cond;
 extern pthread_mutex_t group_lock ;

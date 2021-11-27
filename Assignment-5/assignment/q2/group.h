@@ -21,5 +21,6 @@ group *group_list;
 
 void *simulate_group(void *arg);
 void increament_exiting_cnt(int group_number);
+void increament_group_exit_cnt();
 
 #endif

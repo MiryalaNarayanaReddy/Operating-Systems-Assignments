@@ -1,6 +1,13 @@
 #include "group.h"
 
 //********************* BONUS PART
+void increament_group_exit_cnt()
+{
+    pthread_mutex_lock(&num_exited_group_lock);
+    num_exited_groups++;
+    pthread_mutex_unlock(&num_exited_group_lock);
+}
+
 void increament_exiting_cnt(int group_number)
 {
     pthread_mutex_lock(&group_lock);
@@ -15,7 +22,7 @@ void *simulate_group(void *arg)
 {
     group *group_x = (group *)arg;
     pthread_mutex_lock(&stimer_lock);
-    while (stimer ==-1)
+    while (stimer == -1)
     {
         pthread_cond_wait(&stimer_cond, &stimer_lock);
     }
@@ -27,7 +34,8 @@ void *simulate_group(void *arg)
         pthread_cond_wait(&group_x->wait_exit_cond, &group_x->wait_exit_lock);
     }
     pthread_mutex_unlock(&group_x->wait_exit_lock);
-    printf(BLUE_COLOR "Group %d leaving for dinner\n" RESET_COLOR, group_x->number+1);
+    printf(BLUE_COLOR "Group %d leaving for dinner\n" RESET_COLOR, group_x->number + 1);
+    increament_group_exit_cnt();
 }
 
 //************ BONUS

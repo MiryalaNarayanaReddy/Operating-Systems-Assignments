@@ -21,6 +21,10 @@ pthread_cond_t stimer_cond = PTHREAD_COND_INITIALIZER;
 int number_of_groups;
 int home_team_score;
 int away_team_score;
+int num_exited_groups;
+
+pthread_mutex_t num_exited_group_lock = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t num_exited_group_cond = PTHREAD_COND_INITIALIZER;
 
 pthread_mutex_t zone_lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t zone_cond = PTHREAD_COND_INITIALIZER;

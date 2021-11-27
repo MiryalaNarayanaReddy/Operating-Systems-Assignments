@@ -21,6 +21,7 @@ void init_all_threads()
     int max_time = 0;
     home_team_score = 0;
     away_team_score = 0;
+    num_exited_groups = 0;
     // printf("--\n");
     scanf("%d %d %d", &zone_H_limit, &zone_A_limit, &zone_N_limit);
     // printf("%d %d %d", zone_H_limit,zone_A_limit, zone_N_limit);
@@ -79,5 +80,6 @@ void init_all_threads()
         pthread_create(&goal_list[i].tid, NULL, simulate_goal, &goal_list[i]);
     }
     // printf("done-\n");
-    simulate_timer(max_time + 5);
+    simulate_timer(); // last persons arrival time and should be  chosen by cpu to run in +5 sec
+    printf(GREEN_COLOR "exiting...\n" RESET_COLOR);
 }

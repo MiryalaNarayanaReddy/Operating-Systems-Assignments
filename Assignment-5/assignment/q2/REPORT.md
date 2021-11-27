@@ -3,7 +3,7 @@
 folder structure
 
 ```
-   q1
+   q2
     |
     |______ main.c 
     |
@@ -49,7 +49,7 @@ folder structure
     - called by person exiting the zone to exit gate
 - **`simulate_group()`**
     - wait till time = 0
-    - condition wait on till whole group is at exit gate
+    - conditional wait on till whole group is at exit gate
     - group exits simulation.
 
 
@@ -92,6 +92,9 @@ folder structure
 ## **stimer.c**
 - **`simulate_timer()`**
     - for every one second **SIGALARM** is raised by **alarm(1)** and it is handled by a function **increament_timer()** function
+    - stops simulation when all groups have exited.
 - **`increament_timer()`**
     - increaments **stimer** by 1.
     - sends a broadcast signal to all threads waiting on **stimer_cond**.
+
+![alt text](/1.png)
